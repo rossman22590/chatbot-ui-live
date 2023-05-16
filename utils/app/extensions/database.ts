@@ -1,8 +1,11 @@
+import { getSession } from 'next-auth/react';
+
 import { Database } from '@chatbot-ui/core';
-import { LocalDatabase } from '@chatbot-ui/local-storage';
+import { ClientDatabase } from '@chatbot-ui/supabase/client-side';
 
 export const getDatabase = async () => {
-  const database: Database = new LocalDatabase();
-  await database.connect();
+  const session = await getSession();
+  const database: Database = new ClientDatabase();
+  await database.connect({ supabaseAccessToken: session?.customAccessToken });
   return database;
 };
