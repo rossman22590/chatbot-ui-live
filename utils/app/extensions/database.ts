@@ -1,11 +1,17 @@
-import { getSession } from 'next-auth/react';
+import { AUTH_ENABLED } from '@chatbot-ui/core/utils/const';
 
+import { getClientSession } from '../auth/helpers';
+
+import { ChatConfig } from '@/chat.config';
 import { Database } from '@chatbot-ui/core';
-import { ClientDatabase } from '@chatbot-ui/supabase/client-side';
 
 export const getDatabase = async () => {
-  const session = await getSession();
-  const database: Database = new ClientDatabase();
-  await database.connect({ supabaseAccessToken: session?.customAccessToken });
+  const database: Database = new ChatConfig.database();
+  let customAccessToken: string | undefined = undefined;
+  if (AUTH_ENABLED) {
+    const session = await getClientSession();
+    customAccessToken = session?.customAccessToken;
+  }
+  await database.connect({ customAccessToken: customAccessToken });
   return database;
 };
