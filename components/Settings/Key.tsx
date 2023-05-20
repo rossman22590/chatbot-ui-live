@@ -3,7 +3,7 @@ import { FC, KeyboardEvent, useEffect, useRef, useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
-import { SidebarButton } from '../Sidebar/SidebarButton';
+import { SidebarButton } from '../Common/Sidebar/SidebarButton';
 
 interface Props {
   apiKey: string;

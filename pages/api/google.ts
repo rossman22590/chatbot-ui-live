@@ -8,7 +8,6 @@ import { GoogleBody, GoogleSource } from '@/types/google';
 import { Readability } from '@mozilla/readability';
 import endent from 'endent';
 import jsdom, { JSDOM } from 'jsdom';
-import { v4 as uuidv4 } from 'uuid';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   try {

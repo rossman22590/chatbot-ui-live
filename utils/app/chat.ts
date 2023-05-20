@@ -1,13 +1,8 @@
-import { Plugin, PluginKey } from '@/types/plugin';
 import { ChatBody, Conversation } from '@chatbot-ui/core/types/chat';
-
-import { getEndpoint } from './api';
 
 export const sendChatRequest = async (
   conversation: Conversation,
-  plugin: Plugin | null,
   apiKey: string,
-  pluginKeys: PluginKey[],
 ) => {
   const chatBody: ChatBody = {
     model: conversation.model,
@@ -16,23 +11,9 @@ export const sendChatRequest = async (
     prompt: conversation.prompt,
     temperature: conversation.temperature,
   };
-  const endpoint = getEndpoint(plugin);
-  let body;
-  if (!plugin) {
-    body = JSON.stringify(chatBody);
-  } else {
-    body = JSON.stringify({
-      ...chatBody,
-      googleAPIKey: pluginKeys
-        .find((key) => key.pluginId === 'google-search')
-        ?.requiredKeys.find((key) => key.key === 'GOOGLE_API_KEY')?.value,
-      googleCSEId: pluginKeys
-        .find((key) => key.pluginId === 'google-search')
-        ?.requiredKeys.find((key) => key.key === 'GOOGLE_CSE_ID')?.value,
-    });
-  }
+  let body = JSON.stringify(chatBody);
   const controller = new AbortController();
-  const response = await fetch(endpoint, {
+  const response = await fetch('api/chat', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

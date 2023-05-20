@@ -1,0 +1,23 @@
+{
+  "id": "com.jmenjivar.python",
+  "version": "1.0.0",
+  "homepage": "/plugins/python/README.md",
+  "schema_version": "v1",
+  "name_for_model": "python interpreter plugin",
+  "name_for_human": "Python Interpreter",
+  "description_for_model": "Plugin for executing python code. Use it whenever a user asks you to execute python code.",
+  "description_for_human": "Run python code from the chat.",
+  "auth": {
+    "type": "user_http",
+    "authorization_type": "bearer"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "/plugins/python/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "author": "Jorge Menjivar",
+  "logo_url": "/plugins/python/logo.png",
+  "contact_email": "jorgemenjivar1997@gmail.com",
+  "tags": "python, interpreter"
+}

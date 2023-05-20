@@ -11,11 +11,11 @@ export const localSaveShowPromptBar = (user: User, show: boolean) => {
 };
 
 export const localGetShowChatBar = (user: User) => {
-  const itemName = `showChatbar-${user.email}`;
+  const itemName = `showPrimaryMenu-${user.email}`;
   return JSON.parse(localStorage.getItem(itemName) || '[]') as boolean;
 };
 
-export const localSaveShowChatBar = (user: User, show: boolean) => {
-  const itemName = `showChatbar-${user.email}`;
+export const localSaveShowPrimaryMenu = (user: User, show: boolean) => {
+  const itemName = `showPrimaryMenu-${user.email}`;
   localStorage.setItem(itemName, JSON.stringify(show));
 };

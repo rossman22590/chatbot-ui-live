@@ -15,7 +15,12 @@ import {
   cleanConversationHistory,
   cleanSelectedConversation,
 } from '@/utils/app/clean';
-import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
+import {
+  DEFAULT_SYSTEM_PROMPT,
+  DEFAULT_TEMPERATURE,
+  MARKETPLACE_URL,
+} from '@/utils/app/const';
+import { getManifest, getPluginApi } from '@/utils/app/plugins/marketplace';
 import {
   storageCreateConversation,
   storageUpdateConversation,
@@ -35,6 +40,11 @@ import {
   localGetAPIKey,
 } from '@/utils/app/storage/local/apiKey';
 import { localGetPluginKeys } from '@/utils/app/storage/local/pluginKeys';
+import {
+  localAddInstalledPlugin,
+  localDeleteInstalledPlugin,
+  localGetInstalledPlugins,
+} from '@/utils/app/storage/local/plugins';
 import {
   localGetShowChatBar,
   localGetShowPromptBar,
@@ -62,20 +72,24 @@ import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
 
 import { KeyValuePair } from '@/types/data';
 import { OpenAIModelID, OpenAIModels, fallbackModelID } from '@/types/openai';
+import {
+  InstalledPlugin,
+  PluginManifest,
+  QuickViewPlugin,
+} from '@/types/plugin';
 import { Settings } from '@/types/settings';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { FolderType } from '@chatbot-ui/core/types/folder';
 import { Prompt } from '@chatbot-ui/core/types/prompt';
 import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
-import { Chat } from '@/components/Chat/Chat';
-import { Chatbar } from '@/components/Chatbar/Chatbar';
-import { Navbar } from '@/components/Mobile/Navbar';
-import Promptbar from '@/components/Promptbar';
+import { ChatZone } from '@/components/ChatZone/ChatZone';
+import { PrimaryMenu } from '@/components/PrimaryMenu/PrimaryMenu';
 
 import HomeContext from './home.context';
 import { HomeInitialState, initialState } from './home.state';
 
+import * as yaml from 'js-yaml';
 import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
@@ -110,11 +124,10 @@ const Home = ({
       systemPrompts,
       defaultSystemPromptId,
       user,
+      installedPlugins,
     },
     dispatch,
   } = contextValue;
-
-  const stopConversationRef = useRef<boolean>(false);
 
   const { data, error, refetch } = useQuery(
     ['GetModels', apiKey, serverSideApiKeyIsSet],
@@ -371,7 +384,7 @@ const Home = ({
 
   useEffect(() => {
     if (window.innerWidth < 640) {
-      dispatch({ field: 'showChatbar', value: false });
+      dispatch({ field: 'showPrimaryMenu', value: false });
     }
   }, [dispatch, selectedConversation]);
 
@@ -414,6 +427,11 @@ const Home = ({
       });
     }
 
+    dispatch({
+      field: 'installedPlugins',
+      value: localGetInstalledPlugins(user),
+    });
+
     const apiKey = localGetAPIKey(user);
 
     if (serverSideApiKeyIsSet) {
@@ -434,13 +452,13 @@ const Home = ({
     }
 
     if (window.innerWidth < 640) {
-      dispatch({ field: 'showChatbar', value: false });
+      dispatch({ field: 'showPrimaryMenu', value: false });
       dispatch({ field: 'showPromptbar', value: false });
     }
 
-    const showChatbar = localGetShowChatBar(user);
-    if (showChatbar) {
-      dispatch({ field: 'showChatbar', value: showChatbar });
+    const showPrimaryMenu = localGetShowChatBar(user);
+    if (showPrimaryMenu) {
+      dispatch({ field: 'showPrimaryMenu', value: showPrimaryMenu });
     }
 
     const showPromptbar = localGetShowPromptBar(user);
@@ -540,21 +558,10 @@ const Home = ({
         <main
           className={`flex h-screen w-screen flex-col text-sm text-white dark:text-white ${lightMode}`}
         >
-          <div className="fixed top-0 w-full sm:hidden">
-            <Navbar
-              selectedConversation={selectedConversation}
-              onNewConversation={handleNewConversation}
-            />
-          </div>
+          <div className="flex h-full w-full pt-0">
+            <PrimaryMenu />
 
-          <div className="flex h-full w-full pt-[48px] sm:pt-0">
-            <Chatbar />
-
-            <div className="flex flex-1">
-              <Chat stopConversationRef={stopConversationRef} />
-            </div>
-
-            <Promptbar />
+            <ChatZone />
           </div>
         </main>
       )}

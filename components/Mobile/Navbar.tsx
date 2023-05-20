@@ -16,7 +16,7 @@ export const Navbar: FC<Props> = ({
     <nav className="flex w-full justify-between bg-[#202123] py-3 px-4">
       <div className="mr-4"></div>
 
-      <div className="max-w-[240px] overflow-hidden text-ellipsis whitespace-nowrap">
+      <div className="left-[100px] max-w-[280px] overflow-hidden text-ellipsis whitespace-nowrap">
         {selectedConversation.name}
       </div>
 

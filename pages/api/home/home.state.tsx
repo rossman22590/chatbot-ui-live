@@ -3,7 +3,7 @@ import { getDatabase } from '@/utils/app/extensions/database';
 
 import { ErrorMessage } from '@/types/error';
 import { OpenAIModel, OpenAIModelID } from '@/types/openai';
-import { PluginKey } from '@/types/plugin';
+import { InstalledPlugin, PluginKey, QuickViewPlugin } from '@/types/plugin';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { FolderInterface } from '@chatbot-ui/core/types/folder';
@@ -27,7 +27,7 @@ export interface HomeInitialState {
   currentMessage: Message | undefined;
   prompts: Prompt[];
   temperature: number;
-  showChatbar: boolean;
+  showPrimaryMenu: boolean;
   showPromptbar: boolean;
   currentFolder: FolderInterface | undefined;
   messageError: boolean;
@@ -38,6 +38,8 @@ export interface HomeInitialState {
   systemPrompts: SystemPrompt[];
   defaultSystemPromptId: string;
   user: User;
+  selectedPlugin: QuickViewPlugin | null;
+  installedPlugins: InstalledPlugin[];
 }
 
 export const initialState: HomeInitialState = {
@@ -56,7 +58,7 @@ export const initialState: HomeInitialState = {
   prompts: [],
   temperature: 1,
   showPromptbar: true,
-  showChatbar: true,
+  showPrimaryMenu: true,
   currentFolder: undefined,
   messageError: false,
   searchTerm: '',
@@ -66,4 +68,6 @@ export const initialState: HomeInitialState = {
   systemPrompts: [],
   defaultSystemPromptId: '0',
   user: await getUser(),
+  selectedPlugin: null,
+  installedPlugins: [],
 };

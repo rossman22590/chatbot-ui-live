@@ -1,0 +1,87 @@
+openapi: 3.0.2
+info:
+  title: Google Search
+  description: A plugin for doing Google searches automatically
+  author: Jorge Menjivar
+  version: 1.0.0
+  servers:
+    - url: /api
+
+paths:
+  /search:
+    post:
+      summary: Search Google
+      description: Does a google search.
+      operationId: search
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+
+  /image_search:
+    post:
+      summary: Search Google Images
+      description: Does a google image search.
+      operationId: image_search
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+
+components:
+  schemas:
+    QueryRequest:
+      title: Query
+      required:
+        - query
+      type: object
+      properties:
+        query: string
+
+settings:
+  ApiKey:
+    name: API Key
+    description: Google API Key
+    type: text
+  CseId:
+    name: CSE ID
+    description: Google CSE ID
+    type: text
+
+examples:
+  /search:
+    post:
+      - input: What's the weather in San Francisco today?
+        output: It's 65 degrees and sunny in San Francisco today. [[1]](https://www.google.com/search?q=weather+san+francisco)
+      - input: How's the weather in San Francisco for tomorrow?
+        output: It's going to be 70 degrees and sunny in San Francisco tomorrow. [[1]](https://www.google.com/search?q=weather+san+francisco)
