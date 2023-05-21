@@ -20,6 +20,7 @@ import { CodeBlock } from '@/components/Markdown/CodeBlock';
 import { MemoizedReactMarkdown } from '@/components/Markdown/MemoizedReactMarkdown';
 
 import rehypeMathjax from 'rehype-mathjax';
+import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 
@@ -226,7 +227,7 @@ export const ChatMessage: FC<Props> = memo(
                 <MemoizedReactMarkdown
                   className="prose dark:prose-invert flex-1"
                   remarkPlugins={[remarkGfm, remarkMath]}
-                  rehypePlugins={[rehypeMathjax]}
+                  rehypePlugins={[rehypeMathjax, rehypeRaw]}
                   components={{
                     code({ node, inline, className, children, ...props }) {
                       if (children.length) {
@@ -285,6 +286,17 @@ export const ChatMessage: FC<Props> = memo(
                         <a {...props} target="_blank">
                           {children}
                         </a>
+                      );
+                    },
+                    img({ src, alt, width, height }) {
+                      return (
+                        <img
+                          src={src}
+                          alt={alt}
+                          width={width}
+                          height={height}
+                          className="m-1"
+                        />
                       );
                     },
                   }}

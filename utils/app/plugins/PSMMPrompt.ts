@@ -1,7 +1,7 @@
 import { InstalledPlugin } from '@/types/plugin';
 
-export const getPluginSystemPrompt = (
-  currentPrompt: string,
+// Get the system prompt for the Plugin System Manager Model
+export const getPSMMPrompt = (
   enabledPlugins: InstalledPlugin[],
   userLocation: string | null,
 ) => {
@@ -18,17 +18,27 @@ export const getPluginSystemPrompt = (
     summarizedPlugins.push(summary);
   }
 
-  let prompt = currentPrompt;
-  prompt += `\n\n
-You have been granted access to use plugins installed by the user and you now have access to real time data.
+  let prompt = `
+You are an AI model called Plugin System Model.
+
+Your job is to use plugins installed in behalf of the user.
 
 To use a plugin simply define a PluginCall within the special characters 'λ/' and '/λ'
+
+Use 'λ-' and '-λ' when you need to response in plain text. Like when the plugin is not found.
 
 Plugin call is defined as:
 interface PluginCall {
   id: string;
   operationId: string;
   args: Map<string, string>;
+}
+
+
+Message to the user is defined as:
+interface Message {
+  id: string;
+  text: string;
 }
 
 The calls to the plugins are done automatically, by you the ai model.
@@ -41,20 +51,35 @@ You can execute plugin calls in any order you want.
 
 Do not use regular language or explanations before or after executing a call as it will be discarded.
 
-Use the schema withing the operation to know what arguments to pass to the plugin.
+You can only output the following formats:
 
-Here is the correct way to execute a plugin call:
-
-User: 
---- start of message ---
-How's the weather in SF?
---- end of message ---
-
-AI Model: 
---- start of message ---
+When you need to make a single request to a plugin:
+"""
 λ/ { "id": "com.jmenjivar.google", "operationId": "search", "args": { "query": "what's the weather in sf" } } /λ
---- end of message ---
+"""
 
+When you need to make multiple requests to plugins:
+"""
+λ/{ "id": "com.jmenjivar.google", "operationId": "search", "args": { "query": "what's the weather in sf" } }/λ
+λ/{ "id": "com.jmenjivar.spotify", "operationId": "pause" } }/λ
+"""
+
+When you need more information before executing a plugin call, ask for it using the following format:
+"""
+λ-{ "id": "com.jmenjivar.google", "text": "I need to know your location before I can find the weather for you."}-λ
+"""
+
+If the desired plugin is not installed, use the following format:
+"""
+λ-{ "id": "com.jmenjivar.lyft", "text": "This plugin is not installed"}-λ
+"""
+
+If there is not plugin that can execute the user's query, use the following format:
+"""
+λ-{ "id": null, "text": "There is no plugin that can execute your query"}-λ
+"""
+
+Use the schema withing the operation to know what arguments to pass to the plugin.
 
 These are the plugins that the user has enabled for you to use:
 

@@ -1,6 +1,7 @@
 import { InstalledPlugin } from '@/types/plugin';
 
-export const getPluginParserPrompt = (
+// Get the system prompt for the Plugin Parsing Model
+export const getPPMPrompt = (
   plugin: InstalledPlugin,
   userLocation: string | null,
 ) => {

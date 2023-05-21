@@ -46,6 +46,11 @@ export interface PluginCall {
   args: Map<string, string>;
 }
 
+export interface PSMMMessage {
+  id: string;
+  text: string;
+}
+
 export interface PluginAuthentication {
   type: string;
   authorization_type: string;

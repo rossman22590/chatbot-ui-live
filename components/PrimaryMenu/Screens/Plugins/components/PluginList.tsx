@@ -21,7 +21,6 @@ export const PluginList = ({ plugins }: Props) => {
   };
 
   const isInstalled = (pluginId: string) => {
-    console.log('installedPlugins', installedPlugins);
     const matchedList = installedPlugins.find(
       (plugin) => plugin.manifest.id === pluginId,
     );

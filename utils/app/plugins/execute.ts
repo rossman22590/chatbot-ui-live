@@ -1,31 +1,10 @@
 import { InstalledPlugin, PluginCall, PluginOperation } from '@/types/plugin';
 
-export async function executeAll(
-  pluginCalls: PluginCall[],
-  enabledPlugins: InstalledPlugin[],
-  authToken?: string,
-) {
-  const results = [];
-  for (const call of pluginCalls) {
-    const result = await execute(call, enabledPlugins, authToken);
-    results.push({ operationId: call.operationId, result: result });
-  }
-  return results;
-}
-
-async function execute(
+export async function execute(
   call: PluginCall,
-  enabledPlugins: InstalledPlugin[],
+  plugin: InstalledPlugin,
   authToken?: string,
 ) {
-  const plugin = enabledPlugins.find(
-    (plugin) => plugin.manifest.id === call.id,
-  );
-  if (!plugin) {
-    console.log('Plugin not enabled:', call.id);
-    return null;
-  }
-
   let authHeader = '';
 
   const pluginPaths = plugin.api.paths;
@@ -71,5 +50,8 @@ async function execute(
   });
 
   const resultJson = await response.json();
-  return resultJson;
+  return {
+    plugin: plugin,
+    result: resultJson,
+  };
 }

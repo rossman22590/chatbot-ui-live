@@ -3,15 +3,14 @@ import { MutableRefObject } from 'react';
 import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
 
 import { InstalledPlugin } from '@/types/plugin';
-import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { OpenAIModels } from '@chatbot-ui/core/types/openai';
 
 import { sendChatRequest } from '../chat';
-import { getPluginParserPrompt } from '../plugins/pluginParserPrompt';
+import { getPPMPrompt } from './PPMPrompt';
 
-export const handlePluginParse = async (
-  user: User,
+// Invoke the Plugin Parser Model
+export const invokePPM = async (
   operationId: string,
   operationResult: any,
   conversation: Conversation,
@@ -20,7 +19,8 @@ export const handlePluginParse = async (
   apiKey: string,
   homeDispatch: React.Dispatch<any>,
 ) => {
-  const systemPrompt = getPluginParserPrompt(plugin, null);
+  // Get the prompt for the Plugin Parser Model
+  const systemPrompt = getPPMPrompt(plugin, null);
 
   const completeLog = `
   Calling ${operationId}.
@@ -41,7 +41,7 @@ export const handlePluginParse = async (
 
   const customConversation: Conversation = {
     id: conversation.id,
-    model: OpenAIModels['gpt-3.5-turbo'],
+    model: OpenAIModels['gpt-4'],
     name: 'Plugin Parser',
     temperature: 0.1,
     messages: messages,
@@ -68,7 +68,7 @@ export const handlePluginParse = async (
   const reader = data.getReader();
   const decoder = new TextDecoder();
   let done = false;
-  let text = '';
+  let text = conversation.messages[length - 1].content;
 
   while (!done) {
     if (stopConversationRef.current === true) {
