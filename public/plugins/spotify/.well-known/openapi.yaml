@@ -1,0 +1,186 @@
+openapi: 3.0.2
+info:
+  title: Spotify
+  description: A plugin for managing your music
+  author: Jorge Menjivar
+  version: 1.0.0
+  servers:
+    - url: /api/spotify
+
+paths:
+  /play:
+    post:
+      summary: Play a song or album.
+      description: Play a song given its name and artist. Or play an album given its name and artist.
+      operationId: spotify_play
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayResponse'
+        '404':
+          description: Unable to find song or album
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayResponse'
+
+  /pause:
+    get:
+      summary: Pause the music.
+      description: Pause the music if it is currently playing. If it is already paused, do nothing.
+      operationId: spotify_pause
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PauseRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PauseResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PauseResponse'
+
+  /device:
+    get:
+      summary: Get the list of devices available to play music on.
+      description: Get the list of devices that spotify can play music on. This is useful for later switching devices.
+      operationId: spotify_get_devices
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDevicesResponse'
+        '404':
+          description: Device not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDevicesResponse'
+
+    post:
+      summary: Switch the device being used to play music on.
+      description: Switch the device that spotify is playing music on. Pass in the name of the device you want to switch to.
+      operationId: spotify_switch_device
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SwitchDeviceRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SwitchDeviceResponse'
+        '404':
+          description: Device not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SwitchDeviceResponse'
+
+components:
+  schemas:
+    PlayRequest:
+      title: Play Request
+      type: object
+      properties:
+        song:
+          title: Song
+          type: string
+        artist:
+          title: Artist
+          type: string
+        album:
+          title: Album
+          type: string
+
+    PlayResponse:
+      title: Play Response
+      required:
+        - success
+      type: object
+      properties:
+        success:
+          title: Success
+          type: bool
+
+    PauseResponse:
+      title: Pause Response
+      required:
+        - success
+      type: object
+      properties:
+        success:
+          title: Success
+          type: bool
+
+    GetDevicesResponse:
+      title: Get-Devices Response
+      required:
+        - devices
+      type: object
+      properties:
+        devices:
+          title: Devices
+          type: array
+
+    SwitchDeviceRequest:
+      title: Switch-Device Request
+      type: object
+      properties:
+        device:
+          title: Device
+          type: string
+
+    SwitchDeviceResponse:
+      title: Switch-Device Response
+      required:
+        - success
+      type: object
+      properties:
+        success:
+          title: Success
+          type: bool
+
+examples:
+  /play:
+    post:
+      - input: Play the song "I'm Yours" by Jason Mraz.
+        output: Now playing "I'm Yours" by Jason Mraz. [[1]](https://open.spotify.com/track/3S0OXQeoh0w6AY8WQVckRW?si=8e9e9e9e9e9e9e9e)
+
+  /pause:
+    get:
+      - input: Pause the music.
+        output: The music has been paused.
+
+  /device:
+    get:
+      - input: What spotify devices are available.
+        output: "The following devices are available: 'my laptop', 'playstation 5', 'iPhone', 'Samsung Soundbar'"
+
+    post:
+      - input: Switch to playing music on my laptop.
+        output: Now playing music on my laptop.

@@ -9,8 +9,6 @@ export async function autoExecute(
 ) {
   const rawCalls = text.match(/(?<=λ\/)[^]*(?=\/λ)/g);
 
-  console.log('text:', text);
-  console.log('rawCalls:', rawCalls);
   if (!rawCalls) return null;
 
   const enabledIds = enabledPlugins.map((plugin) => plugin.manifest.id);

@@ -280,6 +280,13 @@ export const ChatMessage: FC<Props> = memo(
                         </td>
                       );
                     },
+                    a({ children, ...props }) {
+                      return (
+                        <a {...props} target="_blank">
+                          {children}
+                        </a>
+                      );
+                    },
                   }}
                 >
                   {`${message.content}${

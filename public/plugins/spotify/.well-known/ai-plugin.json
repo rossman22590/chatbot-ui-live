@@ -1,0 +1,22 @@
+{
+  "id": "com.jmenjivar.spotify",
+  "homepage": "/plugins/spotify/README.md",
+  "schema_version": "v1",
+  "name_for_model": "spotify plugin",
+  "name_for_human": "Spotify",
+  "description_for_model": "Plugin for managing music with Spotify. Use it whenever a user asks you to play a song. You can also use it to get the lyrics of a song.",
+  "description_for_human": "Control your music and view lyrics with Spotify.",
+  "auth": {
+    "type": "user_http",
+    "authorization_type": "bearer"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "/plugins/spotify/.well-known/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "author": "Spotify",
+  "logo_url": "/plugins/spotify/.well-known/logo.png",
+  "contact_email": "jorgemenjivar1997@gmail.com",
+  "tags": "music, songs"
+}

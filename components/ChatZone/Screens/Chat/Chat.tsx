@@ -302,6 +302,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                       // discard edited message and the ones that come after then resend
                       handleEdit(
                         user,
+                        enabledPlugins,
                         editedMessage,
                         index,
                         stopConversationRef,

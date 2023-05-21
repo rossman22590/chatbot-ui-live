@@ -12,6 +12,7 @@ import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 
 import { sendChatRequest } from '../chat';
 import { autoExecute } from '../plugins/autoExecutor';
+import { findPluginInChat } from '../plugins/finder';
 import { handlePluginParse } from './PluginParser';
 
 import { Database } from '@chatbot-ui/core';
@@ -117,7 +118,15 @@ export const sendHandlerFunction = async (
 
       // This is a plugin call
       if (text.includes('λ/')) {
-        updatedConversation.messages[length - 1].content = 'Using plugin';
+        const plugin = findPluginInChat(text, enabledPlugins);
+
+        if (plugin) {
+          updatedConversation.messages[
+            length - 1
+          ].content = `![${plugin.manifest.name_for_human}-logo](${plugin.manifest.logo_url}) \n Using ${plugin.manifest.name_for_human}...`;
+        } else {
+          updatedConversation.messages[length - 1].content = 'Using plugin...';
+        }
 
         homeDispatch({
           field: 'selectedConversation',

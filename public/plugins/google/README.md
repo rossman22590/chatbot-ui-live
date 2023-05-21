@@ -1,16 +1,26 @@
 # Google Plugin
 
-The Google plugin allows you to do google searches straight from the chat.
+The Google Search Plugin allows you to perform quick and accurate Google searches without leaving your chat window.
 
-## Usage Examples
+## Features
 
-### Search for a term
+1. **Web Search**: Search for web pages, articles, or information related to any topic.
+2. **Image Search**: Find images related to a specific search query.
 
-#### Prompt
+## Installation
 
-How is the weather in London?
+To install the Google Search Plugin, follow these simple steps:
 
-#### Response
+1. Download the plugin from the official plugin repository.
+2. Enable the plugin in your conversation.
 
-The weather in London is 15°C (59°F).
-[Sources](https://www.google.com/search?q=weather+in+London)
+## Usage
+
+To use the Google Search Plugin, simply ask the chatbot any query that you would typically search for on Google. The plugin will fetch the most relevant results based on your search criteria.
+
+For example:
+
+- `Search for the main tourist attractions in Paris`
+- `Find images of cute sloths`
+- `Show me the latest news about space exploration`
+- `Find research papers on machine learning algorithms`

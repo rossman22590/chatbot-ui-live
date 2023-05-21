@@ -1,9 +1,4 @@
-import {
-  IconCheck,
-  IconMessage,
-  IconPuzzle2,
-  IconX,
-} from '@tabler/icons-react';
+import { IconCheck, IconX } from '@tabler/icons-react';
 import { MouseEventHandler, useContext, useState } from 'react';
 
 import { QuickViewPlugin } from '@/types/plugin';
