@@ -15,6 +15,7 @@ import HomeContext from '@/pages/api/home/home.context';
 import {
   CloseSidebarButton,
   OpenSidebarButton,
+  PrimaryMenuOpener,
 } from '../Common/Sidebar/components/OpenCloseButton';
 import ActivityBar from './components/ActivityBar/ActivityBar';
 import Menu from './components/Menu/Menu';
@@ -53,13 +54,14 @@ export const PrimaryMenu = () => {
     <PluginCatalog key={2} />,
   ];
 
-  return showPrimaryMenu ? (
+  return (
     <PrimaryMenuContext.Provider value={chatBarContextValue}>
       <ActivityBar icons={icons}></ActivityBar>
       <Menu screens={screens}></Menu>
-      <CloseSidebarButton onClick={handleShowPrimaryMenu} side={'left'} />
+      <PrimaryMenuOpener
+        onClick={handleShowPrimaryMenu}
+        open={showPrimaryMenu}
+      />
     </PrimaryMenuContext.Provider>
-  ) : (
-    <OpenSidebarButton onClick={handleShowPrimaryMenu} side={'left'} />
   );
 };

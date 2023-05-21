@@ -72,11 +72,6 @@ import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
 
 import { KeyValuePair } from '@/types/data';
 import { OpenAIModelID, OpenAIModels, fallbackModelID } from '@/types/openai';
-import {
-  InstalledPlugin,
-  PluginManifest,
-  QuickViewPlugin,
-} from '@/types/plugin';
 import { Settings } from '@/types/settings';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { FolderType } from '@chatbot-ui/core/types/folder';
@@ -89,7 +84,6 @@ import { PrimaryMenu } from '@/components/PrimaryMenu/PrimaryMenu';
 import HomeContext from './home.context';
 import { HomeInitialState, initialState } from './home.state';
 
-import * as yaml from 'js-yaml';
 import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
@@ -550,7 +544,7 @@ const Home = ({
         <meta name="description" content="ChatGPT but better." />
         <meta
           name="viewport"
-          content="height=device-height ,width=device-width, initial-scale=1, user-scalable=no"
+          content="height=device-height, width=device-width, initial-scale=1, user-scalable=no"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

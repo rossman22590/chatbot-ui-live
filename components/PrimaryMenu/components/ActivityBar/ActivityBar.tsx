@@ -12,7 +12,6 @@ import HomeContext from '@/pages/api/home/home.context';
 
 import { ActivityBarButton } from './components/ActivityBarButton';
 import { ActivityBarTab } from './components/ActivityBarTab';
-import { SidebarButton } from '@/components/Common/Sidebar/SidebarButton';
 import { SettingDialog } from '@/components/Settings/SettingDialog';
 
 import PrimaryMenuContext from '../../PrimaryMenu.context';
@@ -21,23 +20,31 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
   const [isSettingDialogOpen, setIsSettingDialog] = useState<boolean>(false);
 
   const {
-    state: { user, database },
+    state: { user, database, showPrimaryMenu },
+    dispatch: homeDispatch,
   } = useContext(HomeContext);
 
   const {
     state: { selectedIndex },
-    dispatch: homeDispatch,
+    dispatch: primaryMenuDispatch,
   } = useContext(PrimaryMenuContext);
 
   const handleSelect = (index: number) => {
-    homeDispatch({ field: 'selectedIndex', value: index });
+    if (selectedIndex === index) {
+      homeDispatch({ field: 'showPrimaryMenu', value: !showPrimaryMenu });
+    }
+
+    if (!showPrimaryMenu) {
+      homeDispatch({ field: 'showPrimaryMenu', value: !showPrimaryMenu });
+    }
+    primaryMenuDispatch({ field: 'selectedIndex', value: index });
   };
 
   const handleSignOut = () => {
     if (database.name !== 'local') {
       deleteSelectedConversation(user);
-      localDeleteAPIKey(user);
-      localDeletePluginKeys(user);
+      // localDeleteAPIKey(user);
+      // localDeletePluginKeys(user);
     }
 
     signOut();
@@ -46,9 +53,11 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
   // VS Code Activity Bar with tabs at the top and setting button at the bottom
   return (
     <div
-      className="fixed border-r border-[#121314] top-0 z-50 flex h-full w-[50px] flex-none flex-col
-          space-y-6 bg-[#363739] items-center align-middle py-4 text-[14px] transition-all sm:relative sm:top-0
-          justify-between"
+      className={`fixed border-r border-[#121314] top-0 z-50 flex h-full w-[50px] flex-none flex-col
+          ${showPrimaryMenu ? 'left-[0] ' : 'left-[-55px]'}
+          space-y-6 bg-[#363739] items-center align-middle py-4 text-[14px] transition-all sm:fixed sm:top-0
+          sm:left-[0]
+          justify-between`}
     >
       {/* Tabs aligns to top */}
       <div className="flex flex-col items-center space-y-6">
