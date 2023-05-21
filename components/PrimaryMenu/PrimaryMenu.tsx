@@ -1,7 +1,7 @@
 import {
   IconApps,
+  IconBrain,
   IconBulb,
-  IconFolderPlus,
   IconMessages,
 } from '@tabler/icons-react';
 import { useContext } from 'react';
@@ -44,7 +44,7 @@ export const PrimaryMenu = () => {
     <IconMessages size={30} key={0} />,
     <IconBulb size={30} key={1} />,
     <IconApps size={30} key={2} />,
-    <IconFolderPlus size={30} key={3} />,
+    <IconBrain size={30} key={3} />,
   ];
 
   const screens = [
