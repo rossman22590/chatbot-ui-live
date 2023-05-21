@@ -13,6 +13,7 @@ import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { sendChatRequest } from '../chat';
 import { autoExecute } from '../plugins/autoExecutor';
 import { findPluginInChat } from '../plugins/finder';
+import { getPluginSystemPrompt } from '../plugins/pluginSystemPrompt';
 import { handlePluginParse } from './PluginParser';
 
 import { Database } from '@chatbot-ui/core';
@@ -35,6 +36,12 @@ export const sendHandlerFunction = async (
 
     let updatedConversation: Conversation;
 
+    const newPrompt = getPluginSystemPrompt(
+      selectedConversation.prompt,
+      enabledPlugins,
+      null,
+    );
+
     updatedConversation = {
       ...selectedConversation,
       messages: [...selectedConversation.messages, message],
@@ -54,8 +61,13 @@ export const sendHandlerFunction = async (
       conversations,
     );
 
+    const pluginInjectedConversation = {
+      ...updatedConversation,
+      prompt: newPrompt,
+    };
+
     const { response, controller } = await sendChatRequest(
-      updatedConversation,
+      pluginInjectedConversation,
       apiKey,
     );
 
@@ -105,6 +117,7 @@ export const sendHandlerFunction = async (
 
     updatedConversation.messages.push(responseMessage);
     const length = updatedConversation.messages.length;
+    let plugin: InstalledPlugin | null | undefined;
     while (!done) {
       if (stopConversationRef.current === true) {
         controller.abort();
@@ -118,7 +131,7 @@ export const sendHandlerFunction = async (
 
       // This is a plugin call
       if (text.includes('λ/')) {
-        const plugin = findPluginInChat(text, enabledPlugins);
+        plugin = findPluginInChat(text, enabledPlugins);
 
         if (plugin) {
           updatedConversation.messages[
@@ -144,7 +157,7 @@ export const sendHandlerFunction = async (
 
     const pluginCallResponses = await autoExecute(text, enabledPlugins);
 
-    if (pluginCallResponses) {
+    if (pluginCallResponses && plugin) {
       for (const pluginCallResponse of pluginCallResponses) {
         const { operationId, result } = pluginCallResponse;
 
@@ -153,7 +166,7 @@ export const sendHandlerFunction = async (
           operationId,
           result,
           updatedConversation,
-          enabledPlugins,
+          plugin,
           stopConversationRef,
           apiKey,
           homeDispatch,

@@ -87,8 +87,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
         };
       });
 
-    console.log('sources:', sources);
-
     res.status(200).json({ sources });
   } catch (error) {
     console.error(error);

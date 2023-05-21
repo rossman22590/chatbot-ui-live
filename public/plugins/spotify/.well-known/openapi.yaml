@@ -5,7 +5,7 @@ info:
   author: Jorge Menjivar
   version: 1.0.0
   servers:
-    - url: /api/spotify
+    - url: /api/plugins/spotify
 
 paths:
   /play:
@@ -169,7 +169,7 @@ examples:
   /play:
     post:
       - input: Play the song "I'm Yours" by Jason Mraz.
-        output: Now playing "I'm Yours" by Jason Mraz. [[1]](https://open.spotify.com/track/3S0OXQeoh0w6AY8WQVckRW?si=8e9e9e9e9e9e9e9e)
+        output: Now playing "I'm Yours" by Jason Mraz.
 
   /pause:
     get:

@@ -13,8 +13,6 @@ export async function autoExecute(
 
   const enabledIds = enabledPlugins.map((plugin) => plugin.manifest.id);
 
-  console.log('enabledIds:', enabledIds);
-
   const pluginCalls = [];
   for (const rawCall of rawCalls) {
     try {
