@@ -3,7 +3,7 @@ import { getDatabase } from '@/utils/app/extensions/database';
 
 import { ErrorMessage } from '@/types/error';
 import { OpenAIModel, OpenAIModelID } from '@/types/openai';
-import { InstalledPlugin, PluginKey, QuickViewPlugin } from '@/types/plugin';
+import { InstalledPlugin, QuickViewPlugin } from '@/types/plugin';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { FolderInterface } from '@chatbot-ui/core/types/folder';
@@ -15,7 +15,6 @@ import { Database } from '@chatbot-ui/core';
 export interface HomeInitialState {
   apiKey: string;
   database: Database;
-  pluginKeys: PluginKey[];
   loading: boolean;
   lightMode: 'light' | 'dark';
   messageIsStreaming: boolean;
@@ -34,7 +33,6 @@ export interface HomeInitialState {
   searchTerm: string;
   defaultModelId: OpenAIModelID | undefined;
   serverSideApiKeyIsSet: boolean;
-  serverSidePluginKeysSet: boolean;
   systemPrompts: SystemPrompt[];
   defaultSystemPromptId: string;
   user: User;
@@ -46,7 +44,6 @@ export const initialState: HomeInitialState = {
   apiKey: '',
   database: await getDatabase(),
   loading: false,
-  pluginKeys: [],
   lightMode: 'dark',
   messageIsStreaming: false,
   modelError: null,
@@ -64,7 +61,6 @@ export const initialState: HomeInitialState = {
   searchTerm: '',
   defaultModelId: undefined,
   serverSideApiKeyIsSet: false,
-  serverSidePluginKeysSet: false,
   systemPrompts: [],
   defaultSystemPromptId: '0',
   user: await getUser(),

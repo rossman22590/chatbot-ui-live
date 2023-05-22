@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import Image from 'next/image';
+
 import { QuickViewPlugin } from '@/types/plugin';
 
 import { CodeBlock } from '@/components/Markdown/CodeBlock';
@@ -102,15 +104,27 @@ export const PluginHomePageContent = ({
                   );
                 },
                 img({ src, alt, width, height }) {
-                  return (
-                    <img
-                      src={src}
-                      alt={alt}
-                      width={width}
-                      height={height}
-                      className="m-1"
-                    />
-                  );
+                  if (src && alt && width && height) {
+                    return (
+                      <Image
+                        src={src!}
+                        alt={alt!}
+                        width={parseInt(width as string)}
+                        height={parseInt(height as string)}
+                        className="m-1"
+                      />
+                    );
+                  } else {
+                    return (
+                      <img
+                        src={src}
+                        alt={alt}
+                        width={width}
+                        height={height as string}
+                        className="m-1"
+                      />
+                    );
+                  }
                 },
               }}
             >

@@ -15,12 +15,7 @@ import {
   cleanConversationHistory,
   cleanSelectedConversation,
 } from '@/utils/app/clean';
-import {
-  DEFAULT_SYSTEM_PROMPT,
-  DEFAULT_TEMPERATURE,
-  MARKETPLACE_URL,
-} from '@/utils/app/const';
-import { getManifest, getPluginApi } from '@/utils/app/plugins/marketplace';
+import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
 import {
   storageCreateConversation,
   storageUpdateConversation,
@@ -39,7 +34,6 @@ import {
   localDeleteAPIKey,
   localGetAPIKey,
 } from '@/utils/app/storage/local/apiKey';
-import { localGetPluginKeys } from '@/utils/app/storage/local/pluginKeys';
 import {
   localAddInstalledPlugin,
   localDeleteInstalledPlugin,
@@ -89,19 +83,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
   serverSideApiKeyIsSet: boolean;
-  serverSidePluginKeysSet: boolean;
   defaultModelId: OpenAIModelID;
 }
 
-const Home = ({
-  serverSideApiKeyIsSet,
-  serverSidePluginKeysSet,
-  defaultModelId,
-}: Props) => {
+const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
   const { t } = useTranslation('chat');
   const { getModels } = useApiService();
   const { getModelsError } = useErrorService();
-  const [initialRender, setInitialRender] = useState<boolean>(true);
 
   const contextValue = useCreateReducer<HomeInitialState>({
     initialState,
@@ -391,18 +379,7 @@ const Home = ({
         field: 'serverSideApiKeyIsSet',
         value: serverSideApiKeyIsSet,
       });
-    serverSidePluginKeysSet &&
-      dispatch({
-        field: 'serverSidePluginKeysSet',
-        value: serverSidePluginKeysSet,
-      });
-  }, [
-    defaultModelId,
-    database,
-    serverSideApiKeyIsSet,
-    serverSidePluginKeysSet,
-    dispatch,
-  ]);
+  }, [defaultModelId, database, serverSideApiKeyIsSet, dispatch]);
 
   // ON LOAD --------------------------------------------
 
@@ -434,15 +411,6 @@ const Home = ({
       localDeleteAPIKey(user);
     } else if (apiKey) {
       dispatch({ field: 'apiKey', value: apiKey });
-    }
-
-    const pluginKeys = localGetPluginKeys(user);
-
-    if (serverSidePluginKeysSet) {
-      dispatch({ field: 'pluginKeys', value: [] });
-      localDeleteAPIKey(user);
-    } else if (pluginKeys) {
-      dispatch({ field: 'pluginKeys', value: pluginKeys });
     }
 
     if (window.innerWidth < 640) {
@@ -515,14 +483,7 @@ const Home = ({
         },
       });
     }
-  }, [
-    user,
-    defaultModelId,
-    database,
-    dispatch,
-    serverSideApiKeyIsSet,
-    serverSidePluginKeysSet,
-  ]);
+  }, [user, defaultModelId, database, dispatch, serverSideApiKeyIsSet]);
 
   return (
     <HomeContext.Provider
@@ -579,20 +540,10 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
       process.env.DEFAULT_MODEL) ||
     fallbackModelID;
 
-  let serverSidePluginKeysSet = false;
-
-  const googleApiKey = process.env.GOOGLE_API_KEY;
-  const googleCSEId = process.env.GOOGLE_CSE_ID;
-
-  if (googleApiKey && googleCSEId) {
-    serverSidePluginKeysSet = true;
-  }
-
   return {
     props: {
       serverSideApiKeyIsSet: !!process.env.OPENAI_API_KEY,
       defaultModelId,
-      serverSidePluginKeysSet,
       ...(await serverSideTranslations(locale ?? 'en', [
         'common',
         'chat',

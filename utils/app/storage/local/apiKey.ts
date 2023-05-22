@@ -1,4 +1,3 @@
-import { ClientSidePlugin } from '@/types/plugin';
 import { User } from '@chatbot-ui/core/types/auth';
 
 export const localGetAPIKey = (user: User) => {

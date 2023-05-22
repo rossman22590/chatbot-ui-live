@@ -14,10 +14,6 @@ import {
   storageUpdateFolders,
 } from '@/utils/app/storage/folders';
 import { localSaveAPIKey } from '@/utils/app/storage/local/apiKey';
-import {
-  localDeletePluginKeys,
-  localSavePluginKeys,
-} from '@/utils/app/storage/local/pluginKeys';
 import { localSaveShowPrimaryMenu } from '@/utils/app/storage/local/uiState';
 import {
   deleteSelectedConversation,
@@ -26,7 +22,6 @@ import {
 
 import { LatestExportFormat, SupportedExportFormats } from '@/types/export';
 import { OpenAIModels } from '@/types/openai';
-import { PluginKey } from '@/types/plugin';
 import { Conversation } from '@chatbot-ui/core/types/chat';
 
 import HomeContext from '@/pages/api/home/home.context';
@@ -56,7 +51,6 @@ export const Chatbar = () => {
       defaultModelId,
       database,
       folders,
-      pluginKeys,
       user,
     },
     dispatch: homeDispatch,
@@ -78,41 +72,6 @@ export const Chatbar = () => {
     },
     [homeDispatch, user],
   );
-
-  const handlePluginKeyChange = (pluginKey: PluginKey) => {
-    if (pluginKeys.some((key) => key.pluginId === pluginKey.pluginId)) {
-      const updatedPluginKeys = pluginKeys.map((key) => {
-        if (key.pluginId === pluginKey.pluginId) {
-          return pluginKey;
-        }
-
-        return key;
-      });
-
-      homeDispatch({ field: 'pluginKeys', value: updatedPluginKeys });
-
-      localSavePluginKeys(user, updatedPluginKeys);
-    } else {
-      homeDispatch({ field: 'pluginKeys', value: [...pluginKeys, pluginKey] });
-
-      localSavePluginKeys(user, [...pluginKeys, pluginKey]);
-    }
-  };
-
-  const handleClearPluginKey = (pluginKey: PluginKey) => {
-    const updatedPluginKeys = pluginKeys.filter(
-      (key) => key.pluginId !== pluginKey.pluginId,
-    );
-
-    if (updatedPluginKeys.length === 0) {
-      homeDispatch({ field: 'pluginKeys', value: [] });
-      localDeletePluginKeys(user);
-      return;
-    }
-
-    homeDispatch({ field: 'pluginKeys', value: updatedPluginKeys });
-    localSavePluginKeys(user, updatedPluginKeys);
-  };
 
   const handleExportData = (database: Database) => {
     exportData(database, user);
@@ -268,8 +227,6 @@ export const Chatbar = () => {
         handleClearConversations,
         handleImportConversations,
         handleExportData,
-        handlePluginKeyChange,
-        handleClearPluginKey,
         handleApiKeyChange,
       }}
     >

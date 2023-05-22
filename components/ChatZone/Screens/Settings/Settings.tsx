@@ -12,18 +12,12 @@ import { LearningFile } from '@/types/learning';
 
 import HomeContext from '@/pages/api/home/home.context';
 
-import { AddFileButton } from './components/AddFileButton';
-import { AddURLButton } from './components/AddURLButton';
-import { FileList } from './components/FilesList';
 import Search from '@/components/Common/Search';
 
-import LearningScreenContext from './LearningScreen.context';
-import {
-  LearningScreenInitialState,
-  initialState,
-} from './LearningScreen.state';
+import SettingsContext from './Settings.context';
+import { LearningScreenInitialState, initialState } from './Settings.state';
 
-export const LearningScreen = () => {
+export const Settings = () => {
   const { t } = useTranslation('sidebar');
 
   const learningScreenContextValue =
@@ -33,7 +27,7 @@ export const LearningScreen = () => {
 
   const {
     state: { searchQuery, filteredFiles },
-    dispatch: learningScreenDispatch,
+    dispatch: pluginCatalogDispatch,
   } = learningScreenContextValue;
 
   const {
@@ -53,7 +47,7 @@ export const LearningScreen = () => {
       const response = await fetch(`${LEARNING_URL}`);
       if (response.ok) {
         const data = await response.json();
-        learningScreenDispatch({
+        pluginCatalogDispatch({
           field: 'filteredFiles',
           value: data,
         });
@@ -62,7 +56,7 @@ export const LearningScreen = () => {
       const response = await fetch(`${LEARNING_URL}/search?q=${query}`);
       if (response.ok) {
         const data = await response.json();
-        learningScreenDispatch({
+        pluginCatalogDispatch({
           field: 'filteredFiles',
           value: data,
         });
@@ -90,32 +84,21 @@ export const LearningScreen = () => {
     },
   ];
 
-  // useEffect(() => {
-  //   fetchFiles(searchQuery);
-  // }, [searchQuery, learningScreenDispatch]);
+  useEffect(() => {
+    fetchFiles(searchQuery);
+  }, [searchQuery, pluginCatalogDispatch]);
 
   const doSearch = (query: string) =>
-    learningScreenDispatch({ field: 'searchQuery', value: query });
+    pluginCatalogDispatch({ field: 'searchQuery', value: query });
 
   return (
-    <LearningScreenContext.Provider
+    <SettingsContext.Provider
       value={{
         ...learningScreenContextValue,
         handleAddFile,
         handleAddLink,
         handleRemoveFile,
       }}
-    >
-      <div className="flex items-center gap-2">
-        <AddFileButton />
-        <AddURLButton />
-      </div>
-      <Search
-        placeholder={t('Search...') || ''}
-        searchTerm={searchQuery}
-        onSearch={doSearch}
-      />
-      <FileList files={files} />
-    </LearningScreenContext.Provider>
+    ></SettingsContext.Provider>
   );
 };

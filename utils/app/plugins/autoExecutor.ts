@@ -36,7 +36,7 @@ export async function autoExecute(
       } else {
         const execution = await execute(call, plugin, authToken);
 
-        message += `<img src="${plugin?.manifest.logo_url}" width="35"/>`;
+        message += `<img src="${plugin?.manifest.logo_url}" width="35" height="35"/>`;
         message += `${plugin?.manifest.name_for_human}: `;
 
         conversation.messages[messagesLength - 1].content = message;

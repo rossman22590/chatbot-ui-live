@@ -1,6 +1,8 @@
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { MouseEventHandler, useContext, useState } from 'react';
 
+import Image from 'next/image';
+
 import { QuickViewPlugin } from '@/types/plugin';
 
 import {
@@ -57,7 +59,12 @@ export const PluginComponent = ({
         onClick={() => handleSelect(index)}
       >
         <div className="relative min-w-[35px] w-[35px]">
-          <img src={plugin.logo_url} width={35} height={35} />
+          <Image
+            alt="Plugin Logo"
+            src={plugin.logo_url}
+            width={35}
+            height={35}
+          />
         </div>
         <div className="pl-2 flex-col w-full">
           <div className="text-[15px] font-bold pb-[4px]">{plugin.name}</div>

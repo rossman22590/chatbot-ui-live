@@ -11,19 +11,12 @@ import { Key } from '@/components/Settings/Key';
 
 import ChatbarContext from '../Chatbar.context';
 import { ClearConversations } from './ClearConversations';
-import { PluginKeys } from './PluginKeys';
 
 export const ChatbarSettings = () => {
   const { t } = useTranslation('sidebar');
 
   const {
-    state: {
-      apiKey,
-      database,
-      serverSideApiKeyIsSet,
-      serverSidePluginKeysSet,
-      conversations,
-    },
+    state: { apiKey, database, serverSideApiKeyIsSet, conversations },
   } = useContext(HomeContext);
 
   const {
@@ -50,8 +43,6 @@ export const ChatbarSettings = () => {
       {!serverSideApiKeyIsSet ? (
         <Key apiKey={apiKey} onApiKeyChange={handleApiKeyChange} />
       ) : null}
-
-      {!serverSidePluginKeysSet ? <PluginKeys /> : null}
     </div>
   );
 };

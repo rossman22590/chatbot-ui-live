@@ -9,6 +9,7 @@ import {
 import { FC, memo, useContext, useEffect, useRef, useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
+import Image from 'next/image';
 
 import { findPluginById } from '@/utils/app/plugins/finder';
 import { storageDeleteMessages } from '@/utils/app/storage/messages';
@@ -304,15 +305,27 @@ export const ChatMessage: FC<Props> = memo(
                       );
                     },
                     img({ src, alt, width, height }) {
-                      return (
-                        <img
-                          src={src}
-                          alt={alt}
-                          width={width}
-                          height={height}
-                          className="m-1"
-                        />
-                      );
+                      if (src && alt && width && height) {
+                        return (
+                          <Image
+                            src={src!}
+                            alt={alt!}
+                            width={parseInt(width as string)}
+                            height={parseInt(height as string)}
+                            className="m-1"
+                          />
+                        );
+                      } else {
+                        return (
+                          <img
+                            src={src}
+                            alt={alt}
+                            width={width}
+                            height={height as string}
+                            className="m-1"
+                          />
+                        );
+                      }
                     },
                   }}
                 >

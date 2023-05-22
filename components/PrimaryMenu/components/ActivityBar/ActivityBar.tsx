@@ -1,10 +1,7 @@
 import { IconLogout, IconSettings } from '@tabler/icons-react';
 import { signOut } from 'next-auth/react';
 import { useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
-import { localDeleteAPIKey } from '@/utils/app/storage/local/apiKey';
-import { localDeletePluginKeys } from '@/utils/app/storage/local/pluginKeys';
 import { deleteSelectedConversation } from '@/utils/app/storage/selectedConversation';
 import { AUTH_ENABLED } from '@chatbot-ui/core/utils/const';
 
