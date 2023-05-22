@@ -329,7 +329,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           <ChatInput
             stopConversationRef={stopConversationRef}
             textareaRef={textareaRef}
-            onSend={(conversation, message, plugin) => {
+            onSend={(conversation, message) => {
               setCurrentMessage(message);
               handleSend(
                 user,
