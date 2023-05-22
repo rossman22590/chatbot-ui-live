@@ -18,3 +18,5 @@ export const OPENAI_ORGANIZATION = process.env.OPENAI_ORGANIZATION || '';
 
 export const MARKETPLACE_URL =
   process.env.NEXT_PUBLIC_MARKETPLACE_URL || '/api/marketplace';
+
+export const LEARNING_URL = process.env.NEXT_PUBLIC_LEARNING_URL || '';

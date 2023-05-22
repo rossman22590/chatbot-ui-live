@@ -10,6 +10,7 @@ import { FC, memo, useContext, useEffect, useRef, useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
+import { findPluginById } from '@/utils/app/plugins/finder';
 import { storageDeleteMessages } from '@/utils/app/storage/messages';
 
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
@@ -41,6 +42,7 @@ export const ChatMessage: FC<Props> = memo(
         messageIsStreaming,
         database,
         user,
+        installedPlugins,
       },
       dispatch: homeDispatch,
     } = useContext(HomeContext);
@@ -49,6 +51,7 @@ export const ChatMessage: FC<Props> = memo(
     const [isTyping, setIsTyping] = useState<boolean>(false);
     const [messageContent, setMessageContent] = useState(message.content);
     const [messagedCopied, setMessageCopied] = useState(false);
+    const [pluginIconUrl, setPluginIconUrl] = useState<string | undefined>();
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -139,6 +142,16 @@ export const ChatMessage: FC<Props> = memo(
       }
     }, [isEditing]);
 
+    useEffect(() => {
+      if (message.plugin && !pluginIconUrl) {
+        const plugin = findPluginById(message.plugin, installedPlugins);
+        if (plugin) {
+          setPluginIconUrl(plugin.manifest.logo_url);
+        }
+      } else if (!message.plugin) {
+        setPluginIconUrl(undefined);
+      }
+    }, [message.plugin]);
     return (
       <div
         className={`group md:px-4 ${
@@ -150,11 +163,13 @@ export const ChatMessage: FC<Props> = memo(
       >
         <div className="relative m-auto flex p-4 text-base md:max-w-2xl md:gap-6 md:py-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
           <div className="min-w-[40px] text-right font-bold">
-            {message.role === 'assistant' ? (
+            {message.role === 'assistant' && !pluginIconUrl && (
               <IconRobot size={30} />
-            ) : (
-              <IconUser size={30} />
             )}
+            {message.role === 'assistant' && pluginIconUrl && (
+              <img src={pluginIconUrl} width={30} height={30} />
+            )}
+            {message.role === 'user' && <IconUser size={30} />}
           </div>
 
           <div className="prose mt-[-2px] w-full dark:prose-invert">

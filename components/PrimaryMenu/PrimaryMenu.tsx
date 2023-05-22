@@ -23,6 +23,7 @@ import Menu from './components/Menu/Menu';
 import PrimaryMenuContext from './PrimaryMenu.context';
 import { PrimaryMenuInitialState, initialState } from './PrimaryMenu.state';
 import { Chatbar } from './Screens/Chatbar/Chatbar';
+import { LearningScreen } from './Screens/Learning/LearningScreen';
 import { PluginCatalog } from './Screens/Plugins/PluginCatalog';
 import Promptbar from './Screens/Promptbar/Promptbar';
 
@@ -42,16 +43,17 @@ export const PrimaryMenu = () => {
   };
 
   const icons = [
-    <IconMessages size={30} key={0} />,
-    <IconBulb size={30} key={1} />,
-    <IconApps size={30} key={2} />,
-    <IconBrain size={30} key={3} />,
+    <IconMessages size={28} key={0} />,
+    <IconBulb size={28} key={1} />,
+    <IconApps size={28} key={2} />,
+    <IconBrain size={28} key={3} />,
   ];
 
   const screens = [
     <Chatbar key={0} />,
     <Promptbar key={1} />,
     <PluginCatalog key={2} />,
+    <LearningScreen key={3} />,
   ];
 
   return (

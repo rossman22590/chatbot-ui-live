@@ -12,9 +12,9 @@ export const ActivityBarTab = ({
   return (
     <>
       <button
-        className={`${isSelected ? 'text-gray-200' : 'text-gray-500'} hover:${
-          isSelected ? 'text-gray-200' : 'text-gray-400'
-        }`}
+        className={`py-3 ${
+          isSelected ? 'text-gray-200' : 'text-gray-500'
+        } hover:${isSelected ? 'text-gray-200' : 'text-gray-400'}`}
         onClick={() => handleSelect(index)}
       >
         {children}

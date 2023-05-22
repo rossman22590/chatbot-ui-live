@@ -29,7 +29,7 @@ export const PluginList = ({ plugins }: Props) => {
   };
 
   return (
-    <div className="relative h-fit flex w-full flex-col ">
+    <div className="relative h-fit flex w-full flex-col gap-1">
       {plugins.slice().map((plugin, index) => (
         <PluginComponent
           handleSelect={handleSelect}

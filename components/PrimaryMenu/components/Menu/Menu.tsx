@@ -20,9 +20,9 @@ const Menu = ({ screens }: { screens: JSX.Element[] }) => {
     <>
       <div
         className={`fixed w-[280px] h-full z-40 ${
-          showPrimaryMenu ? 'left-[50px] ' : 'left-[-285px]'
-        } flex flex-col space-y-2 bg-[#202123] p-2 
-        text-[14px] transition-all md:fixed sm:fixed sm:top-0`}
+          showPrimaryMenu ? 'left-[48px] ' : 'left-[-285px]'
+        } flex flex-col space-y-2 bg-unsaged-menu p-2 
+        text-[14px] transition-all md:fixed sm:fixed sm:top-0 border-unsaged-border border-r`}
       >
         {selectedScreen}
       </div>

@@ -53,14 +53,14 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
   // VS Code Activity Bar with tabs at the top and setting button at the bottom
   return (
     <div
-      className={`fixed border-r border-[#121314] top-0 z-50 flex h-full w-[50px] flex-none flex-col
-          ${showPrimaryMenu ? 'left-[0] ' : 'left-[-55px]'}
-          space-y-6 bg-[#363739] items-center align-middle py-4 text-[14px] transition-all sm:fixed sm:top-0
+      className={`fixed border-r border-unsaged-border top-0 z-50 flex h-full w-[48px] flex-none flex-col
+          ${showPrimaryMenu ? 'left-[0] ' : 'left-[-50px]'}
+          space-y-6 bg-unsaged items-center align-middle py-4 text-[14px] transition-all sm:fixed sm:top-0
           sm:left-[0]
           justify-between`}
     >
       {/* Tabs aligns to top */}
-      <div className="flex flex-col items-center space-y-6">
+      <div className="flex flex-col items-center">
         {icons.map((icon, index) => (
           <ActivityBarTab
             handleSelect={handleSelect}
@@ -77,11 +77,11 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
       <div className="flex flex-col items-center space-y-6">
         {AUTH_ENABLED && (
           <ActivityBarButton handleClick={handleSignOut}>
-            <IconLogout size={30} />
+            <IconLogout size={28} />
           </ActivityBarButton>
         )}
         <ActivityBarButton handleClick={() => setIsSettingDialog(true)}>
-          <IconSettings size={30} />
+          <IconSettings size={28} />
         </ActivityBarButton>
       </div>
 

@@ -79,6 +79,7 @@ import { Prompt } from '@chatbot-ui/core/types/prompt';
 import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import { ChatZone } from '@/components/ChatZone/ChatZone';
+import { Navbar } from '@/components/Mobile/Navbar';
 import { PrimaryMenu } from '@/components/PrimaryMenu/PrimaryMenu';
 
 import HomeContext from './home.context';
@@ -118,7 +119,6 @@ const Home = ({
       systemPrompts,
       defaultSystemPromptId,
       user,
-      installedPlugins,
     },
     dispatch,
   } = contextValue;
@@ -552,7 +552,13 @@ const Home = ({
         <main
           className={`flex h-screen w-screen flex-col text-sm text-white dark:text-white ${lightMode}`}
         >
-          <div className="flex h-full w-full pt-0">
+          {/* <div className="fixed top-0 w-full sm:hidden">
+            <Navbar
+              selectedConversation={selectedConversation}
+              onNewConversation={handleNewConversation}
+            />
+          </div> */}
+          <div className="flex h-full w-full sm:pt-0">
             <PrimaryMenu />
 
             <ChatZone />
