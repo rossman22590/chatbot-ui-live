@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 
 import { GetServerSideProps } from 'next';
@@ -34,15 +34,8 @@ import {
   localDeleteAPIKey,
   localGetAPIKey,
 } from '@/utils/app/storage/local/apiKey';
-import {
-  localAddInstalledPlugin,
-  localDeleteInstalledPlugin,
-  localGetInstalledPlugins,
-} from '@/utils/app/storage/local/plugins';
-import {
-  localGetShowChatBar,
-  localGetShowPromptBar,
-} from '@/utils/app/storage/local/uiState';
+import { localGetInstalledPlugins } from '@/utils/app/storage/local/plugins';
+import { localGetShowChatBar } from '@/utils/app/storage/local/uiState';
 import {
   storageDeleteMessages,
   storageUpdateMessages,
@@ -55,7 +48,12 @@ import {
   getSelectedConversation,
   saveSelectedConversation,
 } from '@/utils/app/storage/selectedConversation';
-import { getSettings, saveSettings } from '@/utils/app/storage/settings';
+import {
+  deleteSettings,
+  getSettings,
+  setSettingChoices,
+  updateSettingValue,
+} from '@/utils/app/storage/settings';
 import {
   storageCreateSystemPrompt,
   storageDeleteSystemPrompt,
@@ -66,14 +64,13 @@ import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
 
 import { KeyValuePair } from '@/types/data';
 import { OpenAIModelID, OpenAIModels, fallbackModelID } from '@/types/openai';
-import { Settings } from '@/types/settings';
+import { SettingChoice } from '@/types/settings';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { FolderType } from '@chatbot-ui/core/types/folder';
 import { Prompt } from '@chatbot-ui/core/types/prompt';
 import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import { ChatZone } from '@/components/ChatZone/ChatZone';
-import { Navbar } from '@/components/Mobile/Navbar';
 import { PrimaryMenu } from '@/components/PrimaryMenu/PrimaryMenu';
 
 import HomeContext from './home.context';
@@ -107,6 +104,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       systemPrompts,
       defaultSystemPromptId,
       user,
+      settings,
     },
     dispatch,
   } = contextValue;
@@ -140,6 +138,11 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
     dispatch({
       field: 'selectedConversation',
       value: conversation,
+    });
+
+    dispatch({
+      field: 'display',
+      value: 'chat',
     });
 
     saveSelectedConversation(user, conversation);
@@ -353,8 +356,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
 
     if (defaultSystemPromptId === systemPromptId) {
       // Resetting default system prompt to built-in
-      const settings: Settings = getSettings(user);
-      saveSettings(user, { ...settings, defaultSystemPromptId: '0' });
+      updateSettingValue(user, 'general', 'defaultSystemPromptId', '0');
       dispatch({ field: 'defaultSystemPromptId', value: '0' });
     }
     dispatch({ field: 'systemPrompts', value: updatedSystemPrompts });
@@ -384,20 +386,6 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
   // ON LOAD --------------------------------------------
 
   useEffect(() => {
-    const settings = getSettings(user);
-    if (settings.theme) {
-      dispatch({
-        field: 'lightMode',
-        value: settings.theme,
-      });
-    }
-    if (settings.defaultSystemPromptId) {
-      dispatch({
-        field: 'defaultSystemPromptId',
-        value: settings.defaultSystemPromptId,
-      });
-    }
-
     dispatch({
       field: 'installedPlugins',
       value: localGetInstalledPlugins(user),
@@ -415,17 +403,11 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
 
     if (window.innerWidth < 640) {
       dispatch({ field: 'showPrimaryMenu', value: false });
-      dispatch({ field: 'showPromptbar', value: false });
     }
 
     const showPrimaryMenu = localGetShowChatBar(user);
     if (showPrimaryMenu) {
       dispatch({ field: 'showPrimaryMenu', value: showPrimaryMenu });
-    }
-
-    const showPromptbar = localGetShowPromptBar(user);
-    if (showPromptbar) {
-      dispatch({ field: 'showPromptbar', value: showPromptbar });
     }
 
     storageGetFolders(database, user).then((folders) => {
@@ -441,9 +423,19 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
     });
 
     storageGetSystemPrompts(database, user).then((systemPrompts) => {
-      if (systemPrompts) {
-        dispatch({ field: 'systemPrompts', value: systemPrompts });
-      }
+      const choices: SettingChoice[] = systemPrompts.map((sp) => {
+        return { name: sp.name, value: sp.id };
+      });
+      choices.push({ name: 'Built-In', value: '0', default: true });
+      const settings = setSettingChoices(
+        user,
+        'general',
+        'defaultSystemPromptId',
+        choices,
+      );
+
+      dispatch({ field: 'settings', value: settings });
+      dispatch({ field: 'systemPrompts', value: systemPrompts });
     });
 
     storageGetConversations(database, user).then((conversationHistory) => {
@@ -484,6 +476,31 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       });
     }
   }, [user, defaultModelId, database, dispatch, serverSideApiKeyIsSet]);
+
+  // SETTINGS --------------------------------------------
+
+  useEffect(() => {
+    if (!settings) {
+      dispatch({
+        field: 'settings',
+        value: getSettings(user),
+      });
+    }
+  }, [dispatch, settings, user]);
+
+  useEffect(() => {
+    if (settings) {
+      dispatch({
+        field: 'lightMode',
+        value: settings['personalization'].settings['theme'].value,
+      });
+
+      dispatch({
+        field: 'defaultSystemPromptId',
+        value: settings['general'].settings['defaultSystemPromptId'].value,
+      });
+    }
+  }, [settings, dispatch]);
 
   return (
     <HomeContext.Provider

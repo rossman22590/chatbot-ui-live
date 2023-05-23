@@ -1,0 +1,335 @@
+{
+  "openapi": "3.0.2",
+  "info": { "title": "FastAPI", "version": "0.1.0" },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Hello World",
+        "operationId": "hello_world__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/upload_pdf": {
+      "post": {
+        "summary": "Upload Pdf",
+        "operationId": "upload_pdf_upload_pdf_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": { "title": "Namespace", "type": "string" },
+            "name": "namespace",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Index",
+              "type": "string",
+              "default": "secondmuse"
+            },
+            "name": "index",
+            "in": "query"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_pdf_upload_pdf_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/upload_google_doc": {
+      "post": {
+        "summary": "Upload Google Doc",
+        "operationId": "upload_google_doc_upload_google_doc_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": { "title": "Namespace", "type": "string" },
+            "name": "namespace",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Index",
+              "type": "string",
+              "default": "secondmuse"
+            },
+            "name": "index",
+            "in": "query"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Urls",
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/upload_webpage_webbase": {
+      "post": {
+        "summary": "Upload Webpage",
+        "operationId": "upload_webpage_upload_webpage_webbase_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": { "title": "Namespace", "type": "string" },
+            "name": "namespace",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Index",
+              "type": "string",
+              "default": "secondmuse"
+            },
+            "name": "index",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": { "title": "Crawl", "type": "boolean", "default": false },
+            "name": "crawl",
+            "in": "query"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Urls",
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/query": {
+      "post": {
+        "summary": "Query",
+        "operationId": "query_query_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": { "title": "Query", "type": "string" },
+            "name": "query",
+            "in": "query"
+          },
+          {
+            "required": true,
+            "schema": { "title": "Namespace", "type": "string" },
+            "name": "namespace",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Index",
+              "type": "string",
+              "default": "secondmuse"
+            },
+            "name": "index",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/delete_namespace": {
+      "post": {
+        "summary": "Delete Namespace",
+        "operationId": "delete_namespace_delete_namespace_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": { "title": "Namespace", "type": "string" },
+            "name": "namespace",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Index",
+              "type": "string",
+              "default": "secondmuse"
+            },
+            "name": "index",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list_indexes": {
+      "get": {
+        "summary": "List Indexes",
+        "operationId": "list_indexes_list_indexes_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/list_namespaces": {
+      "get": {
+        "summary": "List Namespaces",
+        "operationId": "list_namespaces_list_namespaces_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Index",
+              "type": "string",
+              "default": "secondmuse"
+            },
+            "name": "index",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_upload_pdf_upload_pdf_post": {
+        "title": "Body_upload_pdf_upload_pdf_post",
+        "required": ["file"],
+        "type": "object",
+        "properties": {
+          "file": { "title": "File", "type": "string", "format": "binary" }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ValidationError" }
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": ["loc", "msg", "type"],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] }
+          },
+          "msg": { "title": "Message", "type": "string" },
+          "type": { "title": "Error Type", "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,13 +1,17 @@
-import { LearningFile } from '@/types/learning';
+import { getSettings } from '@/utils/app/storage/settings';
 
-export interface LearningScreenInitialState {
+import { Setting, SettingsSection } from '@/types/settings';
+
+export interface SettingsInitialState {
   searchQuery: string;
-  filteredFiles: LearningFile[];
-  selectedSetting: LearningFile | null;
+  filteredSettings: Setting[];
+  selectedSection: SettingsSection | null;
+  selectedSetting: Setting | null;
 }
 
-export const initialState: LearningScreenInitialState = {
+export const initialState: SettingsInitialState = {
   searchQuery: '',
-  filteredFiles: [],
+  filteredSettings: [],
+  selectedSection: null,
   selectedSetting: null,
 };

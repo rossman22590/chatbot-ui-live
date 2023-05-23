@@ -152,7 +152,8 @@ export const ChatMessage: FC<Props> = memo(
       } else if (!message.plugin) {
         setPluginIconUrl(undefined);
       }
-    }, [message.plugin]);
+    }, [message.plugin, installedPlugins, pluginIconUrl]);
+
     return (
       <div
         className={`group md:px-4 ${
@@ -168,7 +169,12 @@ export const ChatMessage: FC<Props> = memo(
               <IconRobot size={30} />
             )}
             {message.role === 'assistant' && pluginIconUrl && (
-              <img src={pluginIconUrl} width={30} height={30} />
+              <Image
+                alt={'Plugin Logo'}
+                src={pluginIconUrl}
+                width={30}
+                height={30}
+              />
             )}
             {message.role === 'user' && <IconUser size={30} />}
           </div>
@@ -305,27 +311,15 @@ export const ChatMessage: FC<Props> = memo(
                       );
                     },
                     img({ src, alt, width, height }) {
-                      if (src && alt && width && height) {
-                        return (
-                          <Image
-                            src={src!}
-                            alt={alt!}
-                            width={parseInt(width as string)}
-                            height={parseInt(height as string)}
-                            className="m-1"
-                          />
-                        );
-                      } else {
-                        return (
-                          <img
-                            src={src}
-                            alt={alt}
-                            width={width}
-                            height={height as string}
-                            className="m-1"
-                          />
-                        );
-                      }
+                      return (
+                        <Image
+                          src={src!}
+                          alt={alt!}
+                          width={parseInt(width as string)}
+                          height={parseInt(height as string)}
+                          className="m-1"
+                        />
+                      );
                     },
                   }}
                 >

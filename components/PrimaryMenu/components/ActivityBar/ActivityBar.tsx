@@ -9,7 +9,6 @@ import HomeContext from '@/pages/api/home/home.context';
 
 import { ActivityBarButton } from './components/ActivityBarButton';
 import { ActivityBarTab } from './components/ActivityBarTab';
-import { SettingDialog } from '@/components/Settings/SettingDialog';
 
 import PrimaryMenuContext from '../../PrimaryMenu.context';
 
@@ -17,7 +16,7 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
   const [isSettingDialogOpen, setIsSettingDialog] = useState<boolean>(false);
 
   const {
-    state: { user, database, showPrimaryMenu },
+    state: { user, database, showPrimaryMenu, display },
     dispatch: homeDispatch,
   } = useContext(HomeContext);
 
@@ -35,6 +34,8 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
       homeDispatch({ field: 'showPrimaryMenu', value: !showPrimaryMenu });
     }
     primaryMenuDispatch({ field: 'selectedIndex', value: index });
+    // homeDispatch({ field: 'showSettings', value: false });
+    // homeDispatch({ field: 'selectedPlugin', value: null });
   };
 
   const handleSignOut = () => {
@@ -47,12 +48,16 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
     signOut();
   };
 
+  const handleShowSettings = () => {
+    homeDispatch({ field: 'display', value: 'settings' });
+  };
+
   // VS Code Activity Bar with tabs at the top and setting button at the bottom
   return (
     <div
-      className={`fixed border-r border-unsaged-border top-0 z-50 flex h-full w-[48px] flex-none flex-col
+      className={`relative border-r border-unsaged-border top-0 z-50 flex h-full w-[48px] flex-none flex-col
           ${showPrimaryMenu ? 'left-[0] ' : 'left-[-50px]'}
-          space-y-6 bg-unsaged items-center align-middle py-4 text-[14px] transition-all sm:fixed sm:top-0
+          space-y-6 bg-unsaged items-center align-middle py-4 text-[14px] transition-all sm:relative sm:top-0
           sm:left-[0]
           justify-between`}
     >
@@ -77,17 +82,10 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
             <IconLogout size={28} />
           </ActivityBarButton>
         )}
-        <ActivityBarButton handleClick={() => setIsSettingDialog(true)}>
+        <ActivityBarButton handleClick={handleShowSettings}>
           <IconSettings size={28} />
         </ActivityBarButton>
       </div>
-
-      <SettingDialog
-        open={isSettingDialogOpen}
-        onClose={() => {
-          setIsSettingDialog(false);
-        }}
-      />
     </div>
   );
 };

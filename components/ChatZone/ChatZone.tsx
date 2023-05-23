@@ -8,6 +8,7 @@ import ChatZoneContext from './ChatZone.context';
 import { ChatZoneInitialState, initialState } from './ChatZone.state';
 import { Chat } from './Screens/Chat/Chat';
 import { PluginHomePage } from './Screens/PluginHomePage/PluginHomePage';
+import { Settings } from './Screens/Settings/Settings';
 
 export const ChatZone = () => {
   const chatBarContextValue = useCreateReducer<ChatZoneInitialState>({
@@ -15,7 +16,7 @@ export const ChatZone = () => {
   });
 
   const {
-    state: { selectedPlugin },
+    state: { selectedPlugin, display },
   } = useContext(HomeContext);
 
   const stopConversationRef = useRef<boolean>(false);
@@ -23,8 +24,13 @@ export const ChatZone = () => {
   return (
     <ChatZoneContext.Provider value={chatBarContextValue}>
       <div className="flex flex-1">
-        {selectedPlugin && <PluginHomePage plugin={selectedPlugin} />}
-        {!selectedPlugin && <Chat stopConversationRef={stopConversationRef} />}
+        {selectedPlugin && display == 'plugins' && (
+          <PluginHomePage plugin={selectedPlugin} />
+        )}
+        {display == 'settings' && <Settings />}
+        {display == 'chat' && (
+          <Chat stopConversationRef={stopConversationRef} />
+        )}
       </div>
     </ChatZoneContext.Provider>
   );

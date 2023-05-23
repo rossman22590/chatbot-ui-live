@@ -18,7 +18,6 @@ interface Props {
   index: number;
   isSelected: boolean;
   isInstalled: boolean;
-  handleSelect: (index: number) => void;
 }
 
 export const PluginComponent = ({
@@ -26,9 +25,8 @@ export const PluginComponent = ({
   index,
   isSelected,
   isInstalled,
-  handleSelect,
 }: Props) => {
-  const { handleInstallPlugin, handleUninstallPlugin } =
+  const { handleInstallPlugin, handleUninstallPlugin, handleSelect } =
     useContext(PluginCatalogContext);
 
   const [isUninstalling, setIsUninstalling] = useState(false);
@@ -56,9 +54,9 @@ export const PluginComponent = ({
          duration-200 rounded-md
          ${!isSelected ? 'hover:bg-[#4c4d5d]/30' : ''}
          ${isSelected ? 'bg-[#4c4d5d]/80' : ''}`}
-        onClick={() => handleSelect(index)}
+        onClick={() => handleSelect(plugin)}
       >
-        <div className="relative min-w-[35px] w-[35px]">
+        <div className="min-w-[35px] min-h-[35px] mr-2">
           <Image
             alt="Plugin Logo"
             src={plugin.logo_url}
@@ -66,19 +64,19 @@ export const PluginComponent = ({
             height={35}
           />
         </div>
-        <div className="pl-2 flex-col w-full">
+        <div className="flex flex-col w-full overflow-hidden">
           <div className="text-[15px] font-bold pb-[4px]">{plugin.name}</div>
           <div className="text-[13.5px] pb-[2px] max-w-[210px] truncate">
             {plugin.description}
           </div>
-          <div className="flex w-full">
+          <div className="flex flex-grow flex-shrink">
             <div className="text-[12px] max-w-[170px] truncate">
               {plugin.author}
             </div>
 
-            <div className="flex-grow" />
+            <div className="flex-grow flex-shrink" />
 
-            <div className="flex shrink-0">
+            <div className="w-fit">
               {isUninstalling && (
                 <div className="absolute right-1 z-10 flex text-gray-300">
                   <SidebarActionButton handleClick={handleConfirm}>

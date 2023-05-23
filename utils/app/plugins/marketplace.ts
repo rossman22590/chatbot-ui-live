@@ -36,7 +36,5 @@ export const getPluginApi = async (url: string) => {
 
   const pluginApi: PluginOpenApi = yaml.load(rawPluginApi) as PluginOpenApi;
 
-  console.log('pluginApi:', pluginApi);
-
   return pluginApi;
 };

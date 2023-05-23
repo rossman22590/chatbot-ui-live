@@ -1,5 +1,5 @@
 import { IconMistOff } from '@tabler/icons-react';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
@@ -12,7 +12,7 @@ import {
   localDeleteInstalledPlugin,
 } from '@/utils/app/storage/local/plugins';
 
-import { InstalledPlugin } from '@/types/plugin';
+import { InstalledPlugin, QuickViewPlugin } from '@/types/plugin';
 
 import HomeContext from '@/pages/api/home/home.context';
 
@@ -40,6 +40,11 @@ export const PluginCatalog = () => {
     state: { user },
     dispatch: homeDispatch,
   } = useContext(HomeContext);
+
+  const handleSelect = (plugin: QuickViewPlugin) => {
+    homeDispatch({ field: 'selectedPlugin', value: plugin });
+    homeDispatch({ field: 'display', value: 'plugins' });
+  };
 
   // PLUGIN OPERATIONS  --------------------------------------------
   const handleInstallPlugin = async (pluginId: string) => {
@@ -71,31 +76,34 @@ export const PluginCatalog = () => {
     homeDispatch({ field: 'installedPlugins', value: updatedPlugins });
   };
 
-  const fetchPlugins = async (query: string) => {
-    if (!query) {
-      const response = await fetch(`${MARKETPLACE_URL}`);
-      if (response.ok) {
-        const data = await response.json();
-        pluginCatalogDispatch({
-          field: 'filteredPlugins',
-          value: data,
-        });
+  const fetchPlugins = useCallback(
+    async (query: string) => {
+      if (!query) {
+        const response = await fetch(`${MARKETPLACE_URL}`);
+        if (response.ok) {
+          const data = await response.json();
+          pluginCatalogDispatch({
+            field: 'filteredPlugins',
+            value: data,
+          });
+        }
+      } else {
+        const response = await fetch(`${MARKETPLACE_URL}/search?q=${query}`);
+        if (response.ok) {
+          const data = await response.json();
+          pluginCatalogDispatch({
+            field: 'filteredPlugins',
+            value: data,
+          });
+        }
       }
-    } else {
-      const response = await fetch(`${MARKETPLACE_URL}/search?q=${query}`);
-      if (response.ok) {
-        const data = await response.json();
-        pluginCatalogDispatch({
-          field: 'filteredPlugins',
-          value: data,
-        });
-      }
-    }
-  };
+    },
+    [pluginCatalogDispatch],
+  );
 
   useEffect(() => {
     fetchPlugins(searchQuery);
-  }, [searchQuery, pluginCatalogDispatch]);
+  }, [searchQuery, pluginCatalogDispatch, fetchPlugins]);
 
   const doSearch = (query: string) =>
     pluginCatalogDispatch({ field: 'searchQuery', value: query });
@@ -106,6 +114,7 @@ export const PluginCatalog = () => {
         ...pluginCatalogContextValue,
         handleInstallPlugin,
         handleUninstallPlugin,
+        handleSelect,
       }}
     >
       <Search

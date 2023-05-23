@@ -1,7 +1,3 @@
-import { KeyValuePair } from './data';
-
-import path from 'path';
-
 export interface PluginManifest {
   id: string;
   homepage: string;
@@ -98,18 +94,18 @@ export interface PluginPath {
   };
 }
 
+export interface PluginExample {
+  [path: string]: {
+    input: string;
+    output: string;
+  };
+}
+
 export interface PluginSetting {
   [key: string]: {
     name: string;
     description: string;
     type: string;
-  };
-}
-
-export interface PluginExample {
-  [path: string]: {
-    input: string;
-    output: string;
   };
 }
 

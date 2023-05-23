@@ -1,9 +1,11 @@
 import { getUser } from '@/utils/app/auth/helpers';
 import { getDatabase } from '@/utils/app/extensions/database';
+import { getSettings } from '@/utils/app/storage/settings';
 
 import { ErrorMessage } from '@/types/error';
 import { OpenAIModel, OpenAIModelID } from '@/types/openai';
 import { InstalledPlugin, QuickViewPlugin } from '@/types/plugin';
+import { Settings } from '@/types/settings';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { FolderInterface } from '@chatbot-ui/core/types/folder';
@@ -27,7 +29,6 @@ export interface HomeInitialState {
   prompts: Prompt[];
   temperature: number;
   showPrimaryMenu: boolean;
-  showPromptbar: boolean;
   currentFolder: FolderInterface | undefined;
   messageError: boolean;
   searchTerm: string;
@@ -38,6 +39,8 @@ export interface HomeInitialState {
   user: User;
   selectedPlugin: QuickViewPlugin | null;
   installedPlugins: InstalledPlugin[];
+  display: 'chat' | 'settings' | 'plugins';
+  settings: Settings | null;
 }
 
 export const initialState: HomeInitialState = {
@@ -54,7 +57,6 @@ export const initialState: HomeInitialState = {
   currentMessage: undefined,
   prompts: [],
   temperature: 1,
-  showPromptbar: true,
   showPrimaryMenu: true,
   currentFolder: undefined,
   messageError: false,
@@ -66,4 +68,6 @@ export const initialState: HomeInitialState = {
   user: await getUser(),
   selectedPlugin: null,
   installedPlugins: [],
+  display: 'chat',
+  settings: null,
 };

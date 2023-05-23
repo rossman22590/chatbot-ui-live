@@ -33,7 +33,7 @@ const Promptbar = () => {
   });
 
   const {
-    state: { prompts, defaultModelId, database, showPromptbar, user },
+    state: { prompts, defaultModelId, database, user },
     dispatch: homeDispatch,
     handleCreateFolder,
   } = useContext(HomeContext);
@@ -42,11 +42,6 @@ const Promptbar = () => {
     state: { searchTerm, filteredPrompts },
     dispatch: promptDispatch,
   } = promptBarContextValue;
-
-  const handleTogglePromptbar = () => {
-    homeDispatch({ field: 'showPromptbar', value: !showPromptbar });
-    localSaveShowPromptBar(user, !showPromptbar);
-  };
 
   const handleCreatePrompt = () => {
     if (defaultModelId) {

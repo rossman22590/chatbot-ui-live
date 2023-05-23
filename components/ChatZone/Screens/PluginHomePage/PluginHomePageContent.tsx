@@ -104,27 +104,15 @@ export const PluginHomePageContent = ({
                   );
                 },
                 img({ src, alt, width, height }) {
-                  if (src && alt && width && height) {
-                    return (
-                      <Image
-                        src={src!}
-                        alt={alt!}
-                        width={parseInt(width as string)}
-                        height={parseInt(height as string)}
-                        className="m-1"
-                      />
-                    );
-                  } else {
-                    return (
-                      <img
-                        src={src}
-                        alt={alt}
-                        width={width}
-                        height={height as string}
-                        className="m-1"
-                      />
-                    );
-                  }
+                  return (
+                    <Image
+                      src={src!}
+                      alt={alt!}
+                      width={parseInt(width as string)}
+                      height={parseInt(height as string)}
+                      className="m-1"
+                    />
+                  );
                 },
               }}
             >

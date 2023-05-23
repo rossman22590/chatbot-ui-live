@@ -2,18 +2,17 @@ import { Dispatch, createContext } from 'react';
 
 import { ActionType } from '@/hooks/useCreateReducer';
 
-import { LearningScreenInitialState } from './Settings.state';
+import { Setting, SettingsSection } from '@/types/settings';
 
-export interface LearningScreenContextProps {
-  state: LearningScreenInitialState;
-  dispatch: Dispatch<ActionType<LearningScreenInitialState>>;
-  handleAddFile: (file: Blob) => void;
-  handleAddLink: (url: string, recurse: false) => void;
-  handleRemoveFile: (fileId: string) => void;
+import { SettingsInitialState } from './Settings.state';
+
+export interface SettingsContextProps {
+  state: SettingsInitialState;
+  dispatch: Dispatch<ActionType<SettingsInitialState>>;
+  handleSelect: (section: SettingsSection, setting: Setting) => void;
+  handleSave: (section: SettingsSection, setting: Setting, value: any) => void;
 }
 
-const PrimaryMenuContext = createContext<LearningScreenContextProps>(
-  undefined!,
-);
+const PrimaryMenuContext = createContext<SettingsContextProps>(undefined!);
 
 export default PrimaryMenuContext;

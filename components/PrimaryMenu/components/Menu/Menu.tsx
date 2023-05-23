@@ -19,10 +19,10 @@ const Menu = ({ screens }: { screens: JSX.Element[] }) => {
   return (
     <>
       <div
-        className={`fixed w-[280px] h-full z-40 ${
-          showPrimaryMenu ? 'left-[48px] ' : 'left-[-285px]'
+        className={`relative w-[280px] h-full z-40 ${
+          showPrimaryMenu ? 'left-[0] ' : 'hidden'
         } flex flex-col space-y-2 bg-unsaged-menu p-2 
-        text-[14px] transition-all md:fixed sm:fixed sm:top-0 border-unsaged-border border-r`}
+        text-[14px] transition-all sm:relative sm:top-0 border-unsaged-border border-r`}
       >
         {selectedScreen}
       </div>

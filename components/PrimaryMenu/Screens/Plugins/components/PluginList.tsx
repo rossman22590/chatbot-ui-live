@@ -4,6 +4,7 @@ import { InstalledPlugin, QuickViewPlugin } from '@/types/plugin';
 
 import HomeContext from '@/pages/api/home/home.context';
 
+import PluginCatalogContext from '../PluginCatalog.context';
 import { PluginComponent } from './PluginComponent';
 
 interface Props {
@@ -15,10 +16,6 @@ export const PluginList = ({ plugins }: Props) => {
     state: { selectedPlugin, installedPlugins },
     dispatch: homeDispatch,
   } = useContext(HomeContext);
-
-  const handleSelect = (index: number) => {
-    homeDispatch({ field: 'selectedPlugin', value: plugins[index] });
-  };
 
   const isInstalled = (pluginId: string) => {
     const matchedList = installedPlugins.find(
@@ -32,7 +29,6 @@ export const PluginList = ({ plugins }: Props) => {
     <div className="relative h-fit flex w-full flex-col gap-1">
       {plugins.slice().map((plugin, index) => (
         <PluginComponent
-          handleSelect={handleSelect}
           isSelected={selectedPlugin?.id === plugin.id}
           isInstalled={isInstalled(plugin.id)}
           index={index}
