@@ -1,19 +1,7 @@
-import {
-  IconCheck,
-  IconFile,
-  IconLink,
-  IconTrash,
-  IconX,
-} from '@tabler/icons-react';
+import { IconCheck, IconFile, IconLink } from '@tabler/icons-react';
 import { MouseEventHandler, useContext, useState } from 'react';
 
 import { LearningFile } from '@/types/learning';
-
-import {
-  MiniGreenButton,
-  MiniRedButton,
-} from '@/components/Common/Buttons/MiniButtons';
-import SidebarActionButton from '@/components/Common/Buttons/SidebarActionButton';
 
 import LearningScreenContext from '../LearningScreen.context';
 
@@ -30,25 +18,23 @@ export const FileComponent = ({
   isSelected,
   handleSelect,
 }: Props) => {
-  const { handleRemoveFile } = useContext(LearningScreenContext);
+  // const [isRemoving, setIsRemoving] = useState(false);
 
-  const [isRemoving, setIsRemoving] = useState(false);
+  // const handleConfirm: MouseEventHandler<HTMLButtonElement> = (e) => {
+  //   e.stopPropagation();
+  //   handleRemoveFile(file.id);
+  //   setIsRemoving(false);
+  // };
 
-  const handleConfirm: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.stopPropagation();
-    handleRemoveFile(file.id);
-    setIsRemoving(false);
-  };
+  // const handleCancel: MouseEventHandler<HTMLButtonElement> = (e) => {
+  //   e.stopPropagation();
+  //   setIsRemoving(false);
+  // };
 
-  const handleCancel: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.stopPropagation();
-    setIsRemoving(false);
-  };
-
-  const handleOpenDeleteModal: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.stopPropagation();
-    setIsRemoving(true);
-  };
+  // const handleOpenDeleteModal: MouseEventHandler<HTMLButtonElement> = (e) => {
+  //   e.stopPropagation();
+  //   setIsRemoving(true);
+  // };
 
   return (
     <div className="relative flex-col select-none">
@@ -73,7 +59,7 @@ export const FileComponent = ({
             <div className="flex-grow" />
           </div>
         </div>
-        <div className="flex shrink-0">
+        {/* <div className="flex shrink-0">
           {isRemoving && (
             <div className="right-1 z-10 flex text-gray-300">
               <SidebarActionButton handleClick={handleConfirm}>
@@ -92,7 +78,7 @@ export const FileComponent = ({
               </SidebarActionButton>
             </div>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

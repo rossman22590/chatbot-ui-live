@@ -7,3 +7,7 @@ export interface LearningFile {
   folderId?: string;
   timestamp: string;
 }
+
+export interface Namespace {
+  namespace: string;
+}

@@ -3,6 +3,7 @@ import { getDatabase } from '@/utils/app/extensions/database';
 import { getSettings } from '@/utils/app/storage/settings';
 
 import { ErrorMessage } from '@/types/error';
+import { Namespace } from '@/types/learning';
 import { OpenAIModel, OpenAIModelID } from '@/types/openai';
 import { InstalledPlugin, QuickViewPlugin } from '@/types/plugin';
 import { Settings } from '@/types/settings';
@@ -41,6 +42,8 @@ export interface HomeInitialState {
   installedPlugins: InstalledPlugin[];
   display: 'chat' | 'settings' | 'plugins';
   settings: Settings | null;
+  namespaces: Namespace[];
+  selectedNamespace: Namespace | null;
 }
 
 export const initialState: HomeInitialState = {
@@ -70,4 +73,6 @@ export const initialState: HomeInitialState = {
   installedPlugins: [],
   display: 'chat',
   settings: null,
+  namespaces: [],
+  selectedNamespace: null,
 };

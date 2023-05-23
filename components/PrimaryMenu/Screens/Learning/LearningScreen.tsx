@@ -1,20 +1,16 @@
-import { IconMistOff } from '@tabler/icons-react';
-import { useContext, useEffect } from 'react';
-
 import { useTranslation } from 'next-i18next';
 
 import { useCreateReducer } from '@/hooks/useCreateReducer';
 
-import { getTimestampWithTimezoneOffset } from '@/../chatbot-ui-core/utils/time';
 import { LEARNING_URL } from '@/utils/app/const';
 
 import { LearningFile } from '@/types/learning';
 
-import HomeContext from '@/pages/api/home/home.context';
-
 import { AddFileButton } from './components/AddFileButton';
+import { AddNameSpaceButton } from './components/AddNamespaceButton';
 import { AddURLButton } from './components/AddURLButton';
 import { FileList } from './components/FilesList';
+import { NamespaceSelect } from './components/NamespaceSelect';
 import Search from '@/components/Common/Search';
 
 import LearningScreenContext from './LearningScreen.context';
@@ -32,14 +28,9 @@ export const LearningScreen = () => {
     });
 
   const {
-    state: { searchQuery, filteredFiles },
+    state: { searchQuery },
     dispatch: learningScreenDispatch,
   } = learningScreenContextValue;
-
-  const {
-    state: { user },
-    dispatch: homeDispatch,
-  } = useContext(HomeContext);
 
   // FILE OPERATIONS  --------------------------------------------
   const handleAddFile = async (file: Blob) => {};
@@ -106,6 +97,10 @@ export const LearningScreen = () => {
         handleRemoveFile,
       }}
     >
+      <div className="flex items-center gap-2 w-full p-0 mb-3">
+        <NamespaceSelect />
+        <AddNameSpaceButton />
+      </div>
       <div className="flex items-center gap-2">
         <AddFileButton />
         <AddURLButton />

@@ -56,7 +56,7 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
   return (
     <div
       className={`relative border-r border-unsaged-border top-0 z-50 flex h-full w-[48px] flex-none flex-col
-          ${showPrimaryMenu ? 'left-[0] ' : 'left-[-50px]'}
+          ${showPrimaryMenu ? 'left-[0] ' : 'hidden sm:flex'}
           space-y-6 bg-unsaged items-center align-middle py-4 text-[14px] transition-all sm:relative sm:top-0
           sm:left-[0]
           justify-between`}
