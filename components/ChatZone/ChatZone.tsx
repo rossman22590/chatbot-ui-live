@@ -16,14 +16,18 @@ export const ChatZone = () => {
   });
 
   const {
-    state: { selectedPlugin, display },
+    state: { selectedPlugin, display, showPrimaryMenu },
   } = useContext(HomeContext);
 
   const stopConversationRef = useRef<boolean>(false);
 
   return (
     <ChatZoneContext.Provider value={chatBarContextValue}>
-      <div className="flex flex-1">
+      <div
+        className={`relative sm:flex flex-1 ${
+          showPrimaryMenu ? 'hidden' : 'flex'
+        }`}
+      >
         {selectedPlugin && display == 'plugins' && (
           <PluginHomePage plugin={selectedPlugin} />
         )}

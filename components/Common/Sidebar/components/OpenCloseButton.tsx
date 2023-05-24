@@ -45,10 +45,22 @@ export const PrimaryMenuOpener = ({ onClick, open }: any) => {
   return (
     <>
       <button
-        className={`fixed top-5 ${
-          open ? 'left-[340px]' : 'left-[10px]'
-        } z-50 h-7 w-7 hover:text-gray-400
-         dark:text-white dark:hover:text-gray-300 sm:top-0.5 sm:left-[-200px] sm:h-8 sm:w-8 sm:text-neutral-700`}
+        className={`hover:text-gray-400
+         dark:text-white dark:hover:text-gray-300`}
+        onClick={onClick}
+      >
+        {open ? <IconArrowBarLeft /> : <IconArrowBarRight />}
+      </button>
+    </>
+  );
+};
+
+export const SecondaryMenuOpener = ({ onClick, open }: any) => {
+  return (
+    <>
+      <button
+        className={`hover:text-gray-400
+         dark:text-white dark:hover:text-gray-300`}
         onClick={onClick}
       >
         {open ? <IconArrowBarLeft /> : <IconArrowBarRight />}

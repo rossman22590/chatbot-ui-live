@@ -13,10 +13,8 @@ import { ActivityBarTab } from './components/ActivityBarTab';
 import PrimaryMenuContext from '../../PrimaryMenu.context';
 
 const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
-  const [isSettingDialogOpen, setIsSettingDialog] = useState<boolean>(false);
-
   const {
-    state: { user, database, showPrimaryMenu, display },
+    state: { user, database, showPrimaryMenu },
     dispatch: homeDispatch,
   } = useContext(HomeContext);
 
@@ -55,8 +53,8 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
   // VS Code Activity Bar with tabs at the top and setting button at the bottom
   return (
     <div
-      className={`relative border-r border-unsaged-border top-0 z-50 flex h-full w-[48px] flex-none flex-col
-          ${showPrimaryMenu ? 'left-[0] ' : 'hidden sm:flex'}
+      className={`relative border-r border-unsaged-border top-0 z-40 flex h-full w-[48px] flex-none flex-col
+          ${showPrimaryMenu ? 'left-[0]' : 'hidden sm:flex'}
           space-y-6 bg-unsaged items-center align-middle py-4 text-[14px] transition-all sm:relative sm:top-0
           sm:left-[0]
           justify-between`}

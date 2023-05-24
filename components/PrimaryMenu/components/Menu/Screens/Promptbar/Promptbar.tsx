@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 import { useCreateReducer } from '@/hooks/useCreateReducer';
 
-import { localSaveShowPromptBar } from '@/utils/app/storage/local/uiState';
 import {
   storageCreatePrompt,
   storageDeletePrompt,

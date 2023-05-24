@@ -71,6 +71,7 @@ import { Prompt } from '@chatbot-ui/core/types/prompt';
 import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import { ChatZone } from '@/components/ChatZone/ChatZone';
+import { Navbar } from '@/components/Mobile/Navbar';
 import { PrimaryMenu } from '@/components/PrimaryMenu/PrimaryMenu';
 
 import HomeContext from './home.context';
@@ -528,15 +529,16 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       </Head>
       {selectedConversation && (
         <main
-          className={`flex h-screen w-screen flex-col text-sm text-white dark:text-white ${lightMode}`}
+          className={`relative flex-col text-sm overflow-y-hidden
+          text-white dark:text-white ${lightMode} m-0 p-0 overflow-hidden`}
         >
-          {/* <div className="fixed top-0 w-full sm:hidden">
+          <div className="fixed top-0 z-50 w-full sm:hidden">
             <Navbar
               selectedConversation={selectedConversation}
               onNewConversation={handleNewConversation}
             />
-          </div> */}
-          <div className="flex h-full w-full sm:pt-0">
+          </div>
+          <div className="flex h-screen w-screen pt-[50px] sm:pt-0">
             <PrimaryMenu />
 
             <ChatZone />
