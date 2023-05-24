@@ -18,8 +18,8 @@ export const NamespaceSelect = () => {
     if (response.ok) {
       const body = await response.json();
       const namespaces = body.message as Namespace[];
+      namespaces.sort((a, b) => a.namespace.localeCompare(b.namespace));
       namespaces.unshift({ namespace: 'none' });
-      console.log('namespaces', namespaces);
       homeDispatch({
         field: 'namespaces',
         value: namespaces,
