@@ -1,4 +1,10 @@
-import { IconCheck, IconFile, IconLink } from '@tabler/icons-react';
+import {
+  IconCheck,
+  IconFile,
+  IconLink,
+  IconTrash,
+  IconX,
+} from '@tabler/icons-react';
 import { MouseEventHandler, useContext, useState } from 'react';
 
 import { LearningFile } from '@/types/learning';

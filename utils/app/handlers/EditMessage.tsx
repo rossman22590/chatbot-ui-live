@@ -1,26 +1,17 @@
-import { MutableRefObject, useContext } from 'react';
-import toast from 'react-hot-toast';
+import { MutableRefObject } from 'react';
 
-import { storageUpdateConversation } from '@/utils/app/storage/conversation';
-import {
-  storageCreateMessage,
-  storageUpdateMessage,
-} from '@/utils/app/storage/message';
-import { saveSelectedConversation } from '@/utils/app/storage/selectedConversation';
-import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
+import { storageUpdateMessage } from '@/utils/app/storage/message';
 
 import { InstalledPlugin } from '@/types/plugin';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 
-import { sendChatRequest } from '../chat';
-import { autoExecute } from '../plugins/autoExecutor';
-import { injectKnowledgeOfPluginSystem } from '../plugins/systemPromptInjector';
+import { storageUpdateConversation } from '../storage/conversation';
 import { storageDeleteMessages } from '../storage/messages';
 import { messageReceiver } from './helpers/messageReceiver';
+import { messageSender } from './helpers/messageSender';
 
 import { Database } from '@chatbot-ui/core';
-import { v4 as uuidv4 } from 'uuid';
 
 export const editMessageHandler = async (
   user: User,
@@ -71,6 +62,7 @@ export const editMessageHandler = async (
     );
 
     updatedConversation = update1.single;
+    const updatedConversations = update1.all;
 
     homeDispatch({
       field: 'selectedConversation',
@@ -80,39 +72,20 @@ export const editMessageHandler = async (
     homeDispatch({ field: 'loading', value: true });
     homeDispatch({ field: 'messageIsStreaming', value: true });
 
-    let newPrompt = selectedConversation.prompt;
-
-    // Make the chatbot aware of the installed plugins
-    if (installedPlugins.length > 0) {
-      newPrompt = injectKnowledgeOfPluginSystem(
-        selectedConversation.prompt,
-        installedPlugins,
-      );
-    }
-
-    const pluginInjectedConversation = {
-      ...updatedConversation,
-      prompt: newPrompt,
-    };
-
-    const { response, controller } = await sendChatRequest(
-      pluginInjectedConversation,
+    const { data, controller } = await messageSender(
+      updatedConversation,
+      installedPlugins,
+      selectedConversation,
       apiKey,
+      homeDispatch,
     );
 
-    if (!response.ok) {
-      homeDispatch({ field: 'loading', value: false });
-      homeDispatch({ field: 'messageIsStreaming', value: false });
-      toast.error(response.statusText);
-      return;
-    }
-    const data = response.body;
-    if (!data) {
-      homeDispatch({ field: 'loading', value: false });
-      homeDispatch({ field: 'messageIsStreaming', value: false });
+    // Failed to send message
+    if (!data || !controller) {
       return;
     }
 
+    // Updating the conversation name
     if (updatedConversation.messages.length === 1) {
       const { content } = message;
       const customName =
@@ -127,10 +100,9 @@ export const editMessageHandler = async (
         database,
         user,
         { ...selectedConversation, name: updatedConversation.name },
-        conversations,
+        updatedConversations,
       );
     }
-    homeDispatch({ field: 'loading', value: false });
 
     await messageReceiver(
       user,
@@ -139,7 +111,7 @@ export const editMessageHandler = async (
       controller,
       installedPlugins,
       updatedConversation,
-      conversations,
+      updatedConversations,
       stopConversationRef,
       apiKey,
       homeDispatch,

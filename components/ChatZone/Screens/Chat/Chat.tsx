@@ -51,6 +51,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
       systemPrompts,
       user,
       installedPlugins,
+      selectedNamespace,
     },
     handleUpdateConversation,
     dispatch: homeDispatch,
@@ -329,6 +330,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
               setCurrentMessage(message);
               handleSend(
                 user,
+                selectedNamespace,
                 message,
                 enabledPlugins,
                 stopConversationRef,
