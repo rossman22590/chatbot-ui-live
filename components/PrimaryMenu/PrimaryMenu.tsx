@@ -35,14 +35,14 @@ export const PrimaryMenu = () => {
   const icons = [
     <IconMessages size={28} key={0} />,
     <IconBulb size={28} key={1} />,
-    <IconApps size={28} key={2} />,
+    // <IconApps size={28} key={2} />,
     <IconBrain size={28} key={3} />,
   ];
 
   const screens = [
     <Chatbar key={0} />,
     <Promptbar key={1} />,
-    <PluginCatalog key={2} />,
+    // <PluginCatalog key={2} />,
     <LearningScreen key={3} />,
   ];
 
