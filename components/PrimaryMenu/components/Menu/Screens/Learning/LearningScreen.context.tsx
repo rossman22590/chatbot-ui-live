@@ -17,6 +17,9 @@ export interface LearningScreenContextProps {
     file?: File,
     urls?: string[],
   ) => Promise<void>;
+  handleDeleteNamespace: (
+    namespace: Namespace,
+  ) => Promise<void>;
 }
 
 const PrimaryMenuContext = createContext<LearningScreenContextProps>(

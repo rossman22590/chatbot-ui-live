@@ -10,8 +10,9 @@ import { LearningFile, Namespace } from '@/types/learning';
 
 import HomeContext from '@/pages/api/home/home.context';
 
-import { AddFileButton } from './components/AddFileButton';
+// import { AddFileButton } from './components/AddFileButton';
 import { AddNameSpaceButton } from './components/AddNamespaceButton';
+import { DeleteNamespaceButton } from './components/DeleteNamespaceButton';
 import { AddURLButton } from './components/AddURLButton';
 import { NamespaceSelect } from './components/NamespaceSelect';
 
@@ -45,9 +46,13 @@ export const LearningScreen = () => {
 
   const handleAddURLs = async (urls: string[], recurse: boolean) => {
     console.log('adding namespace');
-    const url = `${LEARNING_URL}/upload_webpage_webbase?namespace=${
-      selectedNamespace!.namespace
-    }&index=secondmuse&crawl=false`;
+    const isGoogleDocLink = urls.some(url => url.includes('docs.google.com/document'));
+    let url = '';
+    if (isGoogleDocLink) {
+      url = `${LEARNING_URL}/upload_google_doc?namespace=${selectedNamespace!.namespace}&index=secondmuse`;
+    } else {
+      url = `${LEARNING_URL}/upload_webpage_webbase?namespace=${selectedNamespace!.namespace}&index=secondmuse&crawl=false`;
+    }
 
     console.log({ urls });
 
@@ -77,7 +82,13 @@ export const LearningScreen = () => {
     urls?: string[],
   ) => {
     console.log('adding namespace');
-    const url = `${LEARNING_URL}/upload_webpage_webbase?namespace=${namespace.namespace}&index=secondmuse&crawl=false`;
+    const isGoogleDocLink = urls?.some(url => url.includes('docs.google.com/document')) ?? false;
+    let url = '';
+    if (isGoogleDocLink) {
+      url = `${LEARNING_URL}/upload_google_doc?namespace=${selectedNamespace!.namespace}&index=secondmuse`;
+    } else {
+      url = `${LEARNING_URL}/upload_webpage_webbase?namespace=${selectedNamespace!.namespace}&index=secondmuse&crawl=false`;
+    }
 
     console.log({ urls });
 
@@ -88,6 +99,30 @@ export const LearningScreen = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(urls),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log({ data });
+      handleFetchNamespaces();
+    } else {
+      const data = await response.json();
+      console.log({ data });
+    }
+  };
+
+  const handleDeleteNamespace = async (
+    namespace: Namespace,
+  ) => {
+    console.log('deleting namespace');
+    const url = `${LEARNING_URL}/delete_namespace?namespace=${namespace.namespace}&index=secondmuse`;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
     });
 
     if (response.ok) {
@@ -157,14 +192,16 @@ export const LearningScreen = () => {
         handleAddURLs,
         handleRemoveFile,
         handleAddNamespace,
+        handleDeleteNamespace,
       }}
     >
       <div className="flex items-center gap-2 w-full p-0 mb-3">
+        <DeleteNamespaceButton />
         <NamespaceSelect />
         <AddNameSpaceButton />
       </div>
       <div className="flex items-center gap-2">
-        <AddFileButton />
+        {/* <AddFileButton /> */}
         <AddURLButton />
       </div>
       {/* <Search

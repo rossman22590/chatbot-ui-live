@@ -17,15 +17,15 @@ import LearningScreenContext from '../LearningScreen.context';
 
 import { url } from 'inspector';
 
-export const AddNamespaceModal = ({ onClose }: { onClose: () => void }) => {
-  const [file, setFile] = useState<File | null>(null);
-  const [fileName, setFileName] = useState('');
+export const DeleteNamespaceModal = ({ onClose }: { onClose: () => void }) => {
+  // const [file, setFile] = useState<File | null>(null);
+  // const [fileName, setFileName] = useState('');
   const { t } = useTranslation('promptbar');
   const [name, setName] = useState('');
-  const [urls, setUrls] = useState<string[]>([]);
+  // const [urls, setUrls] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const { handleAddNamespace, dispatch: learningScreenDispatch } = useContext(
+  const { handleDeleteNamespace, dispatch: learningScreenDispatch } = useContext(
     LearningScreenContext,
   );
 
@@ -34,40 +34,40 @@ export const AddNamespaceModal = ({ onClose }: { onClose: () => void }) => {
 
   const handleEnter = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      handleAdd();
+      handleDelete();
     }
   };
 
-  const parseUrls = (urls: string) => {
-    const urlArray = urls.replaceAll(' ', '').split(',');
-    console.log(urlArray);
-    setUrls(urlArray);
-  };
+  // const parseUrls = (urls: string) => {
+  //   const urlArray = urls.replaceAll(' ', '').split(',');
+  //   console.log(urlArray);
+  //   setUrls(urlArray);
+  // };
 
-  const handleFileChange = (event: any) => {
-    if (event.target.files && event.target.files[0]) {
-      // const fileReader = new FileReader();
-      // fileReader.onload = (e) => {
-      //   const buffer = e.target.result as ArrayBuffer;
-      //   const binaryFile = Buffer.from(buffer).toString('base64');
+  // const handleFileChange = (event: any) => {
+  //   if (event.target.files && event.target.files[0]) {
+  //     // const fileReader = new FileReader();
+  //     // fileReader.onload = (e) => {
+  //     //   const buffer = e.target.result as ArrayBuffer;
+  //     //   const binaryFile = Buffer.from(buffer).toString('base64');
 
-      //   // Print the first 100 characters of the file
-      //   console.log(binaryFile.slice(0, 100));
-      // };
+  //     //   // Print the first 100 characters of the file
+  //     //   console.log(binaryFile.slice(0, 100));
+  //     // };
 
-      // fileReader.readAsArrayBuffer(event.target.files[0]);
-      setFile(event.target.files[0]);
-      setFileName(event.target.files[0].name);
-    }
-  };
+  //     // fileReader.readAsArrayBuffer(event.target.files[0]);
+  //     setFile(event.target.files[0]);
+  //     setFileName(event.target.files[0].name);
+  //   }
+  // };
 
-  const handleAdd = async () => {
-    if (name !== '' && urls.length > 0) {
-      const newNamespace: Namespace = {
+  const handleDelete = async () => {
+    if (name !== '') {
+      const deleteNamespace: Namespace = {
         namespace: name,
       };
       setLoading(true);
-      await handleAddNamespace(newNamespace, undefined, urls);
+      await handleDeleteNamespace(deleteNamespace);
       setLoading(false);
       onClose();
     }
@@ -149,8 +149,8 @@ export const AddNamespaceModal = ({ onClose }: { onClose: () => void }) => {
               {fileName}
             </p> */}
 
-            <div className="mt-6 mb-2 text-sm font-bold text-black dark:text-neutral-200">
-              {t('Add URLs')}
+            {/* <div className="mt-6 mb-2 text-sm font-bold text-black dark:text-neutral-200">
+              {t('Delete URLs')}
             </div>
             <input
               ref={nameInputRef}
@@ -158,15 +158,15 @@ export const AddNamespaceModal = ({ onClose }: { onClose: () => void }) => {
               placeholder={t('comma-separated list of URLs') || ''}
               value={urls}
               onChange={(e) => parseUrls(e.target.value)}
-            />
+            /> */}
 
             <button
               disabled={loading}
               type="button"
               className="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-white dark:text-black dark:hover:bg-neutral-300"
-              onClick={handleAdd}
+              onClick={handleDelete}
             >
-              {loading ? 'Creating' : t('Create')}
+              {loading ? 'Deleting' : t('Delete')}
             </button>
           </div>
         </div>
