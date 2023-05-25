@@ -14,6 +14,7 @@ const getSecret = () => {
 export default withAuth({
   callbacks: {
     async authorized({ token }) {
+      console.log('authorized', token);
       if (AUTH_ENABLED === false) {
         return true;
       }
