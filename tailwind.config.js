@@ -27,7 +27,7 @@ module.exports = {
         'theme-select-light': 'rgb(76 77 93 / 0.3)',
       },
       borderColor: {
-        'theme-border-dark': 'rgba(90, 90, 110, 1)',
+        'theme-border-dark': 'rgba(80, 80, 100, 1)',
         'theme-border-light': 'rgba(90, 90, 90, 0.3)',
       },
       textColor: {

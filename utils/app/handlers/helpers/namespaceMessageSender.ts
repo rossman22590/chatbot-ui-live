@@ -36,7 +36,7 @@ export async function namespaceMessageSender(
   <details style="padding-left:12px;"><Summary>Source ${i + 1}:   <a href=${
         metadata.metadata.source
       }>${metadata.metadata.source}</a></Summary>
-  ${metadata.excerpt}
+  <div style="padding-left:12px;">${metadata.excerpt}</div>
   </details>
 `;
     }
@@ -93,15 +93,20 @@ ${message.timestamp}
 
 `;
     } else if (message.role === 'assistant') {
+      const content = message.content.split(
+        '<details><Summary>Sources</Summary>',
+      )[0];
       query += `
 assistant:
-${message.content}
+${content.trim()}
 ${message.timestamp}
 
 
 `;
     }
   }
+
+  console.log(query.trim());
 
   return query.trim();
 };

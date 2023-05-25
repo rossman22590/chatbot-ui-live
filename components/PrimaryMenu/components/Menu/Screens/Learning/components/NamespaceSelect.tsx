@@ -12,25 +12,6 @@ export const NamespaceSelect = () => {
     dispatch: homeDispatch,
   } = useContext(HomeContext);
 
-  const fetchNamespaces = useCallback(async () => {
-    const url = `${LEARNING_URL}/list_namespaces?index=secondmuse`;
-    const response = await fetch(url);
-    if (response.ok) {
-      const body = await response.json();
-      const namespaces = body.message as Namespace[];
-      namespaces.sort((a, b) => a.namespace.localeCompare(b.namespace));
-      namespaces.unshift({ namespace: 'none' });
-      homeDispatch({
-        field: 'namespaces',
-        value: namespaces,
-      });
-    }
-  }, [homeDispatch]);
-
-  useEffect(() => {
-    fetchNamespaces();
-  }, [fetchNamespaces]);
-
   const handleSwitchNamespace = (name: string) => {
     const namespace = namespaces.find(
       (namespace) => namespace.namespace === name,

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
 import { GetServerSideProps } from 'next';
@@ -15,7 +15,11 @@ import {
   cleanConversationHistory,
   cleanSelectedConversation,
 } from '@/utils/app/clean';
-import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
+import {
+  DEFAULT_SYSTEM_PROMPT,
+  DEFAULT_TEMPERATURE,
+  LEARNING_URL,
+} from '@/utils/app/const';
 import {
   storageCreateConversation,
   storageUpdateConversation,
@@ -63,6 +67,7 @@ import { storageGetSystemPrompts } from '@/utils/app/storage/systemPrompts';
 import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
 
 import { KeyValuePair } from '@/types/data';
+import { Namespace } from '@/types/learning';
 import { OpenAIModelID, OpenAIModels, fallbackModelID } from '@/types/openai';
 import { SettingChoice } from '@/types/settings';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
@@ -503,6 +508,27 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
     }
   }, [settings, dispatch]);
 
+  // NAMESPACES --------------------------------------------
+  const handleFetchNamespaces = useCallback(async () => {
+    console.log('fetching namespaces');
+    const url = `${LEARNING_URL}/list_namespaces?index=secondmuse`;
+    const response = await fetch(url);
+    if (response.ok) {
+      const body = await response.json();
+      const namespaces = body.message as Namespace[];
+      namespaces.sort((a, b) => a.namespace.localeCompare(b.namespace));
+      namespaces.unshift({ namespace: 'none' });
+      dispatch({
+        field: 'namespaces',
+        value: namespaces,
+      });
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    handleFetchNamespaces();
+  }, [handleFetchNamespaces]);
+
   return (
     <HomeContext.Provider
       value={{
@@ -516,6 +542,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
         handleCreateSystemPrompt,
         handleUpdateSystemPrompt,
         handleDeleteSystemPrompt,
+        handleFetchNamespaces,
       }}
     >
       <Head>

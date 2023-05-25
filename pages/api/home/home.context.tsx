@@ -24,6 +24,7 @@ export interface HomeContextProps {
   handleCreateSystemPrompt: () => void;
   handleUpdateSystemPrompt: (systemPrompt: SystemPrompt) => void;
   handleDeleteSystemPrompt: (systemPromptId: string) => void;
+  handleFetchNamespaces: () => void;
 }
 
 const HomeContext = createContext<HomeContextProps>(undefined!);

@@ -15,6 +15,7 @@ export const AddFileButton = () => {
         id="addedFile"
         name="filename"
         className="hidden"
+        accept=".pdf"
       ></input>
     </label>
   );
