@@ -195,12 +195,12 @@ export const LearningScreen = () => {
         handleDeleteNamespace,
       }}
     >
-      <div className="flex items-center gap-2 w-full p-0 mb-3">
+      <div className="flex items-center gap-2 w-full p-0">
         <DeleteNamespaceButton />
         <NamespaceSelect />
         <AddNameSpaceButton />
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center">
         {/* <AddFileButton /> */}
         <AddURLButton />
       </div>

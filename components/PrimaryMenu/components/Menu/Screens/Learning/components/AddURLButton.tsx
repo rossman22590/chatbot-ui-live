@@ -9,10 +9,10 @@ export const AddURLButton = () => {
   return (
     <>
       <button
-        className="w-1/2 flex flex-shrink cursor-pointer items-center gap-3 rounded-md border
-      border-theme-border-light dark:border-theme-border-dark p-3 text-sm
-      text-black dark:text-white transition-colors duration-200 
-      hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark"
+        className="text-sidebar flex w-full flex-shrink-0 cursor-pointer select-none items-center gap-3
+        rounded-md border border-theme-border-light dark:border-theme-border-dark p-3
+        text-black dark:text-white transition-colors duration-200
+        hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark"
         onClick={(e) => {
           e.stopPropagation();
           setShowModal(true);
