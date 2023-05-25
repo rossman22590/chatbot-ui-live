@@ -11,23 +11,61 @@ const getSecret = () => {
   }
 };
 
+// export default withAuth({
+//   callbacks: {
+//     async authorized({ token }) {
+//       console.log('authorized', token);
+//       if (AUTH_ENABLED === false) {
+//         return true;
+//       }
+//       if (!token?.email) {
+//         return false;
+//       } else {
+//         const pattern =
+//           dockerEnvVarFix(process.env.NEXTAUTH_EMAIL_PATTERN) || '';
+//         if (!pattern || token?.email?.match('^' + pattern + '$')) {
+//           return true;
+//         }
+
+//         return false;
+//       }
+//     },
+//   },
+//   secret: getSecret(),
+// });
+
+const getEmailPatterns = () => {
+  if (!AUTH_ENABLED) {
+    return [];
+  } else {
+    const patternsString = dockerEnvVarFix(process.env.NEXTAUTH_EMAIL_PATTERNS);
+    return patternsString ? patternsString.split(',') : [];
+  }
+};
+
 export default withAuth({
   callbacks: {
     async authorized({ token }) {
-      console.log('authorized', token);
       if (AUTH_ENABLED === false) {
         return true;
       }
       if (!token?.email) {
         return false;
       } else {
-        const pattern =
-          dockerEnvVarFix(process.env.NEXTAUTH_EMAIL_PATTERN) || '';
-        if (!pattern || token?.email?.match('^' + pattern + '$')) {
-          return true;
+        const patterns = getEmailPatterns();
+        if (patterns.length === 0) {
+          return true; // No patterns specified, allow access
         }
 
-        return false;
+        const email = token.email.toLowerCase();
+        for (const pattern of patterns) {
+          const regex = new RegExp(pattern.trim());
+          if (email.match(regex)) {
+            return true; // Email matches one of the patterns, allow access
+          }
+        }
+
+        return false; // Email does not match any of the patterns, deny access
       }
     },
   },
