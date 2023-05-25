@@ -72,11 +72,11 @@ export const Settings = () => {
         handleSave,
       }}
     >
-      <div className="relative flex-1 overflow-hidden bg-white dark:bg-[#343541]">
+      <div className="relative flex-1 overflow-hidden bg-theme-light dark:bg-theme-dark">
         <div className="max-h-full overflow-x-hidden"></div>
         <div
-          className={`group md:px-4 'border-b border-black/10 bg-white text-gray-800
-       dark:border-gray-900/50 dark:bg-[#343541] dark:text-gray-100'`}
+          className={`group md:px-4 bg-theme-light text-gray-800
+       dark:border-gray-900/50 dark:bg-theme-dark dark:text-gray-100'`}
           style={{ overflowWrap: 'anywhere' }}
         >
           <div className="relative m-auto flex p-4 text-base md:max-w-2xl md:gap-6 md:py-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
@@ -99,7 +99,7 @@ export const Settings = () => {
       <div>
         <button
           className="absolute top-2 right-2 w-6 h-6 m-2 cursor-pointer text-gray-700
-         hover:text-gray-800 dark:text-gray-100 dark:hover:text-gray-100"
+         dark:hover:bg-theme-hover-dark dark:text-gray-100 hover:bg-theme-hover-dark"
           onClick={handleClose}
         >
           <IconX />

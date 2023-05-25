@@ -25,7 +25,29 @@ export async function namespaceMessageSender(
     const body = await response.json();
     const learningResponse = body as LearningResponse;
 
-    const content = learningResponse.message;
+    let metadataInfo = `
+<details><Summary>Sources</Summary>
+
+    `;
+
+    for (const [i, metadata] of learningResponse.metadata.entries()) {
+      metadataInfo += `
+
+  <details style="padding-left:12px;"><Summary>Source ${i + 1}:   <a href=${
+        metadata.metadata.source
+      }>${metadata.metadata.source}</a></Summary>
+  ${metadata.excerpt}
+  </details>
+`;
+    }
+
+    metadataInfo += '</details>';
+
+    const content = `
+${learningResponse.message}
+
+${metadataInfo}
+    `;
 
     const assistantMessageId = uuidv4();
     const responseMessage: Message = {
@@ -80,8 +102,6 @@ ${message.timestamp}
 `;
     }
   }
-
-  console.log(query);
 
   return query.trim();
 };

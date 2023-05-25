@@ -232,7 +232,9 @@ export const Chatbar = () => {
     >
       <div className="flex items-center">
         <button
-          className="text-sidebar flex w-[214px] flex-shrink-0 cursor-pointer select-none items-center gap-3 rounded-md border border-white/20 p-3 text-white transition-colors duration-200 hover:bg-gray-500/10"
+          className="text-sidebar flex w-[214px] flex-shrink-0 cursor-pointer select-none items-center
+          gap-3 rounded-md border border-theme-border-light dark:border-theme-border-dark
+          p-3 text-black dark:text-white transition-colors duration-200 hover:bg-gray-500/10"
           onClick={() => {
             handleNewConversation();
             doSearch('');
@@ -243,7 +245,9 @@ export const Chatbar = () => {
         </button>
 
         <button
-          className="ml-2 flex flex-shrink-0 cursor-pointer items-center gap-3 rounded-md border border-white/20 p-3 text-sm text-white transition-colors duration-200 hover:bg-gray-500/10"
+          className="ml-2 flex flex-shrink-0 cursor-pointer items-center gap-3 rounded-md border
+          border-theme-border-light dark:border-theme-border-dark p-3 text-sm
+          text-black dark:text-white transition-colors duration-200 hover:bg-gray-500/10"
           onClick={createFolder}
         >
           <IconFolderPlus size={16} />
@@ -257,7 +261,7 @@ export const Chatbar = () => {
 
       <div className="flex-grow overflow-auto">
         {filteredConversations?.length > 0 && (
-          <div className="flex border-b border-white/20 pb-2">
+          <div className="flex border-b border-theme-border-light dark:border-theme-border-dark pb-2">
             <ChatFolders searchTerm={searchTerm} />
           </div>
         )}
@@ -273,7 +277,7 @@ export const Chatbar = () => {
             <Conversations conversations={filteredConversations} />
           </div>
         ) : (
-          <div className="mt-8 select-none text-center text-white opacity-50">
+          <div className="mt-8 select-none text-center text-black dark:text-white opacity-50">
             <IconMistOff className="mx-auto mb-3" />
             <span className="text-[14px] leading-normal">{t('No data.')}</span>
           </div>

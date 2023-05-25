@@ -35,8 +35,8 @@ export const PluginHomePageContent = ({
 
   return (
     <div
-      className={`group md:px-4 'border-b border-black/10 bg-white text-gray-800
-       dark:border-gray-900/50 dark:bg-[#343541] dark:text-gray-100'`}
+      className={`group md:px-4 bg-theme-light text-gray-800
+       dark:border-gray-900/50 dark:bg-theme-dark dark:text-gray-100'`}
       style={{ overflowWrap: 'anywhere' }}
     >
       <div className="relative m-auto flex p-4 text-base md:max-w-2xl md:gap-6 md:py-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
@@ -84,7 +84,7 @@ export const PluginHomePageContent = ({
                 },
                 th({ children }) {
                   return (
-                    <th className="break-words border border-black bg-gray-500 px-3 py-1 text-white dark:border-white">
+                    <th className="break-words border border-black bg-gray-500 px-3 py-1 text-black dark:text-white dark:border-white">
                       {children}
                     </th>
                   );

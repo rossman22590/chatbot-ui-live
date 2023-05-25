@@ -65,7 +65,7 @@ export const SystemPromptSection: FC<Props> = ({ systemPrompts }) => {
             <option
               key={systemPrompt.id}
               value={systemPrompt.id}
-              className="dark:bg-[#343541] dark:text-white"
+              className="bg-theme-light dark:bg-theme-dark dark:text-white"
             >
               {systemPrompt.id === defaultSystemPromptId
                 ? `${t('Default')} (${systemPrompt.name})`

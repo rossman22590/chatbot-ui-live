@@ -8,7 +8,8 @@ export const ActivityBarButton = ({
   return (
     <>
       <button
-        className="text-gray-500 hover:text-gray-400"
+        className="text-theme-activity-bar-tab-light dark:text-theme-activity-bar-tab-dark
+        hover:text-theme-activity-bar-tab-hover-light dark:hover:text-theme-activity-bar-tab-hover-dark"
         onClick={handleClick}
       >
         {children}

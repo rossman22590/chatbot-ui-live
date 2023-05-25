@@ -129,7 +129,7 @@ export const PluginCatalog = () => {
             <PluginList plugins={filteredPlugins} />
           </div>
         ) : (
-          <div className="mt-8 select-none text-center text-white opacity-50">
+          <div className="mt-8 select-none text-center text-black dark:text-white opacity-50">
             <IconMistOff className="mx-auto mb-3" />
             <span className="text-[14px] leading-normal">
               {t('No plugins found.')}

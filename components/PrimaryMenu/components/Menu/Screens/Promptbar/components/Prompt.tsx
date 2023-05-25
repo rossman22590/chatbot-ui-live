@@ -78,7 +78,8 @@ export const PromptComponent = ({ prompt }: Props) => {
   return (
     <div className="relative flex items-center">
       <button
-        className="flex w-full cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors duration-200 hover:bg-[#4c4d5d]/30"
+        className="flex w-full cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors
+         duration-200 text-black dark:text-white hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark"
         draggable="true"
         onClick={(e) => {
           e.stopPropagation();
@@ -93,13 +94,19 @@ export const PromptComponent = ({ prompt }: Props) => {
       >
         <IconBulbFilled size={18} />
 
-        <div className="relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all pr-4 text-left text-[12.5px] leading-3">
+        <div
+          className="relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap
+        break-all pr-4 text-left text-[12.5px] leading-3"
+        >
           {prompt.name}
         </div>
       </button>
 
       {(isDeleting || isRenaming) && (
-        <div className="absolute right-1 z-10 flex text-gray-300">
+        <div
+          className="absolute right-1 z-10 flex
+        hover:text-theme-button-icon-hover-light dark:hover:text-theme-button-icon-hover-dark"
+        >
           <SidebarActionButton handleClick={handleDelete}>
             <IconCheck size={18} />
           </SidebarActionButton>
@@ -111,7 +118,10 @@ export const PromptComponent = ({ prompt }: Props) => {
       )}
 
       {!isDeleting && !isRenaming && (
-        <div className="absolute right-1 z-10 flex text-gray-300">
+        <div
+          className="absolute right-1 z-10 flex
+        hover:text-theme-button-icon-hover-light dark:hover:text-theme-button-icon-hover-dark"
+        >
           <SidebarActionButton handleClick={handleOpenDeleteModal}>
             <IconTrash size={18} />
           </SidebarActionButton>

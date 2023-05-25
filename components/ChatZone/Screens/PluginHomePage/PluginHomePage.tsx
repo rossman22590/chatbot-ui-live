@@ -23,14 +23,14 @@ export const PluginHomePage = ({ plugin }: Props) => {
   };
 
   return (
-    <div className="relative flex-1 overflow-hidden bg-white dark:bg-[#343541]">
+    <div className="relative flex-1 overflow-hidden bg-theme-light dark:bg-theme-dark">
       <div className="max-h-full overflow-x-hidden">
         <PluginHomePageContent plugin={plugin} />
       </div>
       <div>
         <button
           className="absolute top-2 right-2 w-6 h-6 m-2 cursor-pointer text-gray-700
-         hover:text-gray-800 dark:text-gray-100 dark:hover:text-gray-100"
+          hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark dark:text-gray-100"
           onClick={handleClose}
         >
           <IconX />

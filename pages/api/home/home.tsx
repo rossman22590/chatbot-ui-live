@@ -530,7 +530,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       {selectedConversation && (
         <main
           className={`relative flex-col text-sm overflow-y-hidden
-          text-white dark:text-white ${lightMode} m-0 p-0 overflow-hidden`}
+          text-black dark:text-white ${lightMode} m-0 p-0 overflow-hidden`}
         >
           <div className="fixed top-0 z-50 w-full sm:hidden">
             <Navbar

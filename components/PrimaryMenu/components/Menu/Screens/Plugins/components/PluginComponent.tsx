@@ -51,9 +51,12 @@ export const PluginComponent = ({
     <div className="relative flex-col select-none">
       <div
         className={`relative flex cursor-pointer items-center p-2 text-sm transition-colors overflow-hidden
-         duration-200 rounded-md
-         ${!isSelected ? 'hover:bg-[#4c4d5d]/30' : ''}
-         ${isSelected ? 'bg-[#4c4d5d]/80' : ''}`}
+         duration-200 rounded-md text-black dark:text-white
+         ${
+           !isSelected
+             ? 'hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark'
+             : 'bg-theme-select-light dark:bg-theme-select-dark'
+         }`}
         onClick={() => handleSelect(plugin)}
       >
         <div className="min-w-[35px] min-h-[35px] mr-2">

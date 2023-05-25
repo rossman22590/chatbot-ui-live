@@ -24,7 +24,8 @@ export const SettingComponent = ({ section, setting, isSelected }: Props) => {
         <div className="relative h-fit flex w-full flex-col gap-1">
           <input
             type="text"
-            className={`w-full flex-1 rounded-md border bg-[#343541] border-neutral-600 px-4 py-3 pr-10 text-[14px] leading-3 text-white`}
+            className={`w-full flex-1 rounded-md border border-theme-border-light dark:border-theme-border-dark
+            bg-theme-light dark:bg-theme-dark px-4 py-3 pr-10 text-[14px] leading-3 text-black dark:text-white`}
             onChange={(event) =>
               handleSave(section, setting, event.target.value)
             }
@@ -41,8 +42,8 @@ export const SettingComponent = ({ section, setting, isSelected }: Props) => {
         <p className="m-1">{setting.description}</p>
         <div className="w-1/2 p-0 m-0">
           <select
-            className={`p-[2px] text-sm w-full bg-[#343541] cursor-pointer text-neutral-700
-          dark:text-neutral-200 border`}
+            className={`p-[2px] text-sm w-full bg-theme-light dark:bg-theme-dark cursor-pointer text-neutral-700
+          dark:text-neutral-200 border border-theme-border-light dark:border-theme-border-dark`}
             value={setting.value}
             onChange={(event) =>
               handleSave(section, setting, event.target.value)
@@ -52,7 +53,7 @@ export const SettingComponent = ({ section, setting, isSelected }: Props) => {
               <option
                 key={index}
                 value={choice.value}
-                className="dark:bg-[#343541] dark:text-white "
+                className="bg-theme-light dark:bg-theme-dark dark:text-white "
               >
                 {choice.default ? `Default(${choice.name})` : choice.name}
               </option>
@@ -65,7 +66,9 @@ export const SettingComponent = ({ section, setting, isSelected }: Props) => {
   return (
     <div
       className={`block w-full p-4 pt-2 ${
-        isSelected ? 'bg-[#505163]' : 'bg-[#343541] hover:bg-[#444554]'
+        isSelected
+          ? 'bg-theme-select-light dark:bg-theme-select-dark'
+          : 'bg-bg-theme-light dark:bg-theme-dark  hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark'
       } 
       rounded-lg `}
       onClick={() => handleSelect(section, setting)}

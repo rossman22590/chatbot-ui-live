@@ -38,7 +38,10 @@ export const PromptFolders = () => {
       .map((prompt, index) => {
         if (prompt.folderId === currentFolder.id) {
           return (
-            <div key={index} className="ml-5 gap-2 border-l pl-2">
+            <div
+              key={index}
+              className="ml-5 gap-2 border-l pl-2 border-theme-border-light dark:border-theme-border-dark"
+            >
               <PromptComponent prompt={prompt} />
             </div>
           );

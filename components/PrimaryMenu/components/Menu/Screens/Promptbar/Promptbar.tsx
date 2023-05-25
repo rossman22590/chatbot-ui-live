@@ -142,7 +142,10 @@ const Promptbar = () => {
     >
       <div className="flex items-center">
         <button
-          className="text-sidebar flex w-[214px] flex-shrink-0 cursor-pointer select-none items-center gap-3 rounded-md border border-white/20 p-3 text-white transition-colors duration-200 hover:bg-gray-500/10"
+          className="text-sidebar flex w-[214px] flex-shrink-0 cursor-pointer select-none items-center gap-3
+          rounded-md border border-theme-border-light dark:border-theme-border-dark p-3
+          text-black dark:text-white transition-colors duration-200
+          hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark"
           onClick={() => {
             handleCreatePrompt();
             doSearch('');
@@ -153,7 +156,10 @@ const Promptbar = () => {
         </button>
 
         <button
-          className="ml-2 flex flex-shrink-0 cursor-pointer items-center gap-3 rounded-md border border-white/20 p-3 text-sm text-white transition-colors duration-200 hover:bg-gray-500/10"
+          className="ml-2 flex flex-shrink-0 cursor-pointer items-center gap-3 rounded-md border
+          border-theme-border-light dark:border-theme-border-dark p-3 text-sm
+          text-black dark:text-white transition-colors duration-200
+          hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark"
           onClick={createFolder}
         >
           <IconFolderPlus size={16} />
@@ -167,7 +173,7 @@ const Promptbar = () => {
 
       <div className="flex-grow overflow-auto">
         {filteredPrompts?.length > 0 && (
-          <div className="flex border-b border-white/20 pb-2">
+          <div className="flex border-b border-theme-border-light dark:border-theme-border-dark pb-2">
             <PromptFolders />
           </div>
         )}
@@ -185,7 +191,7 @@ const Promptbar = () => {
             />
           </div>
         ) : (
-          <div className="mt-8 select-none text-center text-white opacity-50">
+          <div className="mt-8 select-none text-center text-black dark:text-white opacity-50">
             <IconMistOff className="mx-auto mb-3" />
             <span className="text-[14px] leading-normal">{t('No data.')}</span>
           </div>

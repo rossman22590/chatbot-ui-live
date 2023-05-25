@@ -43,9 +43,8 @@ export const NamespaceSelect = () => {
 
   return (
     <div
-      className={
-        'w-full rounded-md border border-neutral-200 bg-transparent pr-2 text-neutral-900 dark:border-neutral-600 dark:text-white'
-      }
+      className={`w-full rounded-md border border-theme-border-light dark:border-theme-border-dark
+      bg-transparent pr-2 text-black dark:text-white`}
     >
       <select
         className="text-left w-full bg-transparent p-3"
@@ -56,7 +55,7 @@ export const NamespaceSelect = () => {
           <option
             key={index}
             value={namespace.namespace}
-            className="dark:bg-unsaged-menu dark:text-white "
+            className="bg-theme-primary-menu-light dark:bg-theme-primary-menu-dark text-black dark:text-white"
           >
             {namespace.namespace}
           </option>

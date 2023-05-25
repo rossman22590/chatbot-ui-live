@@ -13,8 +13,14 @@ export const ActivityBarTab = ({
     <>
       <button
         className={`py-3 ${
-          isSelected ? 'text-gray-200' : 'text-gray-500'
-        } hover:${isSelected ? 'text-gray-200' : 'text-gray-400'}`}
+          isSelected
+            ? 'text-theme-activity-bar-tab-select-light dark:text-theme-activity-bar-tab-select-dark'
+            : 'text-theme-activity-bar-tab-light dark:text-theme-activity-bar-tab-dark'
+        } ${
+          isSelected
+            ? ''
+            : 'hover:text-theme-activity-bar-tab-hover-light dark:hover:text-theme-activity-bar-tab-hover-dark'
+        }`}
         onClick={() => handleSelect(index)}
       >
         {children}
