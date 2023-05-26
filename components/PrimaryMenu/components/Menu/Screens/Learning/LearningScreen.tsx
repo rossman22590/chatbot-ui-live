@@ -85,9 +85,9 @@ export const LearningScreen = () => {
     const isGoogleDocLink = urls?.some(url => url.includes('docs.google.com/document')) ?? false;
     let url = '';
     if (isGoogleDocLink) {
-      url = `${LEARNING_URL}/upload_google_doc?namespace=${selectedNamespace!.namespace}&index=secondmuse`;
+      url = `${LEARNING_URL}/upload_google_doc?namespace=${namespace.namespace}&index=secondmuse`;
     } else {
-      url = `${LEARNING_URL}/upload_webpage_webbase?namespace=${selectedNamespace!.namespace}&index=secondmuse&crawl=false`;
+      url = `${LEARNING_URL}/upload_webpage_webbase?namespace=${namespace.namespace}&index=secondmuse&crawl=false`;
     }
 
     console.log({ urls });
