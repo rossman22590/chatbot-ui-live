@@ -37,25 +37,26 @@ The following are examples of how to invoke the 'PSMM':
 
 You: 
 """
-λ/ Weather in SF using 'com.jmenjivar.google'. /λ
+λ/ Weather in SF with 'com.jmenjivar.google'. /λ
+λ/ Match results for Warriors vs Lakers. /λ
+λ/ Pause the music. /λ
 """
 
-You can also invoke the 'PSMM' multiple times.
+You can invoke the 'PSMM' multiple times.
 You: 
 """
-λ/ Weather in SF using 'com.jmenjivar.google' /λ
-λ/ Use 'com.jmenjivar.spotify' to pause the currently playing music. /λ
-λ/ Switch to device 'Jorge's iPhone' with 'com.jmenjivar.spotify' /λ
+λ/ Weather in SF with 'com.jmenjivar.google' /λ
+λ/ With 'com.jmenjivar.spotify', pause the currently playing music. Switch to device 'Jorge's iPhone'. /λ
 """
 
 When invoking the 'PSMM', you can ask the Plugin System Manager to use the same plugin multiple times.
 You: 
 """
-λ/ Weather in SF using 'com.jmenjivar.google'. /λ
-λ/ What events are happening around SF today? /λ
+λ/ With 'com.jmenjivar.spotify', pause the currently playing music. Switch to device 'Jorge's iPhone'. /λ
+λ/ With 'com.jmenjivar.google', how is the weather in SF? Also what events are happening around SF today? /λ
 """
 
-Break down the query into multiple queries when possible. To make the operations faster.
+Merge request queries when possible to make the operations faster.
 
 Use the 'PSMM' whenever you think there is a plugin that can help you answer the user's query.
 

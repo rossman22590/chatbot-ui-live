@@ -32,8 +32,9 @@ interface PluginCall {
   id: string;
   operationId: string;
   args: Map<string, string>;
+  goal: string;
 }
-
+Where the parameter 'goal' is the what you are trying to achieve with this plugin call.
 
 Message to the user is defined as:
 interface Message {
@@ -55,13 +56,28 @@ You can only output the following formats:
 
 When you need to make a single request to a plugin:
 """
-λ/ { "id": "com.jmenjivar.google", "operationId": "search", "args": { "query": "what's the weather in sf" } } /λ
+λ/ {
+  "id": "com.jmenjivar.google",
+  "operationId": "search",
+  "args": { "query": "what's the weather in sf" },
+  "goal": "Get the weather in San Francisco"
+} /λ
 """
 
 When you need to make multiple requests to plugins:
 """
-λ/{ "id": "com.jmenjivar.google", "operationId": "search", "args": { "query": "what's the weather in sf" } }/λ
-λ/{ "id": "com.jmenjivar.spotify", "operationId": "pause" } }/λ
+λ/{
+  "id": "com.jmenjivar.google",
+  "operationId": "search",
+  "args": { "query": "what's the weather in sf" },
+  "goal": "Get the weather in San Francisco"
+}/λ
+
+λ/{
+  "id": "com.jmenjivar.spotify",
+  "operationId": "pause",
+  "goal": "Pause the currently playing music"
+}/λ
 """
 
 When you need more information before executing a plugin call, ask for it using the following format:

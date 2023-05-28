@@ -38,3 +38,17 @@ export const getPluginApi = async (url: string) => {
 
   return pluginApi;
 };
+
+export const getPluginPrompt = async (url: string) => {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    const error = await response.text();
+    console.error(error);
+    return;
+  }
+
+  const prompt = await response.text();
+
+  return prompt;
+};

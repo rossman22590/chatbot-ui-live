@@ -4,7 +4,7 @@ import { InstalledPlugin } from '@/types/plugin';
 import { Conversation } from '@chatbot-ui/core/types/chat';
 
 import { sendChatRequest } from '../../chat';
-import { injectKnowledgeOfPluginSystem } from '../../plugins/systemPromptInjector';
+import { injectKnowledgeOfPluginSystem } from '../../plugins/awarenessInjectorPrompt';
 
 export async function messageSender(
   updatedConversation: Conversation,

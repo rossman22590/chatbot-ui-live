@@ -1,6 +1,6 @@
 import { InstalledPlugin, PluginCall, PluginOperation } from '@/types/plugin';
 
-export async function execute(
+export async function callApi(
   call: PluginCall,
   plugin: InstalledPlugin,
   authToken?: string,
@@ -49,9 +49,6 @@ export async function execute(
     },
   });
 
-  const resultJson = await response.json();
-  return {
-    plugin: plugin,
-    result: resultJson,
-  };
+  const body = await response.json();
+  return body;
 }

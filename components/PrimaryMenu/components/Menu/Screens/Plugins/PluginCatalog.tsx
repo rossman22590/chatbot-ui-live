@@ -6,7 +6,11 @@ import { useTranslation } from 'next-i18next';
 import { useCreateReducer } from '@/hooks/useCreateReducer';
 
 import { MARKETPLACE_URL } from '@/utils/app/const';
-import { getManifest, getPluginApi } from '@/utils/app/plugins/marketplace';
+import {
+  getManifest,
+  getPluginApi,
+  getPluginPrompt,
+} from '@/utils/app/plugins/marketplace';
 import {
   localAddInstalledPlugin,
   localDeleteInstalledPlugin,
@@ -62,9 +66,17 @@ export const PluginCatalog = () => {
       return;
     }
 
+    const prompt = await getPluginPrompt(manifest.prompt_url);
+
+    if (!prompt) {
+      console.log('Plugin prompt not found');
+      return;
+    }
+
     const installedPlugin: InstalledPlugin = {
       manifest: manifest,
       api: pluginAPI,
+      prompt: prompt,
     };
 
     const updatedPlugins = localAddInstalledPlugin(user, installedPlugin);

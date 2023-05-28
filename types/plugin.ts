@@ -12,6 +12,7 @@ export interface PluginManifest {
   author: string;
   contact_email: string;
   tags: string;
+  prompt_url: string;
 }
 
 export interface PluginApiInfo {
@@ -37,9 +38,10 @@ export interface ServerSidePlugin {
 }
 
 export interface PluginCall {
-  id: string;
+  plugin: InstalledPlugin;
   operationId: string;
   args: Map<string, string>;
+  goal: string;
 }
 
 export interface PSMMMessage {
@@ -121,4 +123,5 @@ export interface PluginOpenApi {
 export interface InstalledPlugin {
   manifest: PluginManifest;
   api: PluginOpenApi;
+  prompt: string;
 }

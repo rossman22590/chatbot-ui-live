@@ -19,7 +19,7 @@ export async function messageReceiver(
   data: ReadableStream,
   controller: AbortController,
   installedPlugins: InstalledPlugin[],
-  updatedConversation: Conversation,
+  conversation: Conversation,
   conversations: Conversation[],
   stopConversationRef: MutableRefObject<boolean>,
   apiKey: string,
@@ -37,8 +37,8 @@ export async function messageReceiver(
     content: '',
     timestamp: getTimestampWithTimezoneOffset(),
   };
-  updatedConversation.messages.push(responseMessage);
-  const length = updatedConversation.messages.length;
+  conversation.messages.push(responseMessage);
+  const length = conversation.messages.length;
   let usingPlugin = false;
   while (!done) {
     if (stopConversationRef.current === true) {
@@ -54,50 +54,57 @@ export async function messageReceiver(
     // This is a request to use a plugin
     if (text.includes('λ/') && !usingPlugin) {
       usingPlugin = true;
-      updatedConversation.messages[length - 1].content =
+      conversation.messages[length - 1].content =
         'Contacting the Plugin System Model';
       homeDispatch({
         field: 'selectedConversation',
-        value: updatedConversation,
+        value: conversation,
       });
     } else if (!usingPlugin) {
-      updatedConversation.messages[length - 1].content = text;
+      conversation.messages[length - 1].content = text;
 
       homeDispatch({
         field: 'selectedConversation',
-        value: updatedConversation,
+        value: conversation,
       });
     }
   }
 
-  responseMessage.content = await usePlugin(
-    text,
-    installedPlugins,
-    updatedConversation,
-    stopConversationRef,
-    apiKey,
-    homeDispatch,
-  );
+  conversation.messages.pop();
 
-  updatedConversation.messages.pop();
+  if (!usingPlugin) {
+    responseMessage.content = text;
 
-  homeDispatch({ field: 'loading', value: false });
-  homeDispatch({ field: 'messageIsStreaming', value: false });
+    homeDispatch({ field: 'loading', value: false });
+    homeDispatch({ field: 'messageIsStreaming', value: false });
 
-  // Saving the response message
-  const { single, all } = storageCreateMessage(
-    database,
-    user,
-    updatedConversation,
-    responseMessage,
-    conversations,
-  );
+    // Saving the response message
+    const { single, all } = storageCreateMessage(
+      database,
+      user,
+      conversation,
+      responseMessage,
+      conversations,
+    );
 
-  homeDispatch({
-    field: 'selectedConversation',
-    value: single,
-  });
+    homeDispatch({
+      field: 'selectedConversation',
+      value: single,
+    });
 
-  homeDispatch({ field: 'conversations', value: all });
-  saveSelectedConversation(user, single);
+    homeDispatch({ field: 'conversations', value: all });
+    saveSelectedConversation(user, single);
+  } else {
+    await usePlugin(
+      database,
+      user,
+      text,
+      installedPlugins,
+      conversation,
+      conversations,
+      stopConversationRef,
+      apiKey,
+      homeDispatch,
+    );
+  }
 }

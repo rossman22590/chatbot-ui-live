@@ -2,16 +2,18 @@ import { MutableRefObject } from 'react';
 
 import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
 
-import { InstalledPlugin } from '@/types/plugin';
+import { InstalledPlugin, PluginCall } from '@/types/plugin';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { OpenAIModels } from '@chatbot-ui/core/types/openai';
 
 import { sendChatRequest } from '../chat';
 import { getPPMPrompt } from './PPMPrompt';
 
+import { v4 as uuidv4 } from 'uuid';
+
 // Invoke the Plugin Parser Model
 export const invokePPM = async (
-  operationId: string,
+  call: PluginCall,
   operationResult: any,
   conversation: Conversation,
   plugin: InstalledPlugin,
@@ -23,13 +25,13 @@ export const invokePPM = async (
   const systemPrompt = getPPMPrompt(plugin, null);
 
   const completeLog = `
-  Calling ${operationId}.
+  User:
+  ${call.goal}
 
   Result:
   ${JSON.stringify(operationResult)}
   `;
 
-  const length = conversation.messages.length;
   const messages: Message[] = [
     {
       id: '0',
@@ -56,20 +58,30 @@ export const invokePPM = async (
   );
 
   if (!response.ok) {
-    console.log('Error sending parse request');
-    return '';
+    console.error('Error sending parse request');
+    return;
   }
   const data = response.body;
   if (!data) {
-    console.log('Error sending parse request');
-    return '';
+    console.error('Error sending parse request');
+    return;
   }
 
   const reader = data.getReader();
   const decoder = new TextDecoder();
-  let done = false;
-  let text = conversation.messages[length - 1].content;
 
+  const assistantMessageId = uuidv4();
+  conversation.messages.push({
+    id: assistantMessageId,
+    role: 'assistant',
+    content: '',
+    plugin: call.plugin.manifest.id,
+    timestamp: getTimestampWithTimezoneOffset(),
+  });
+  const length = conversation.messages.length;
+
+  let text = '';
+  let done = false;
   while (!done) {
     if (stopConversationRef.current === true) {
       controller.abort();
@@ -81,7 +93,7 @@ export const invokePPM = async (
     const chunkValue = decoder.decode(value);
     text += chunkValue;
 
-    conversation.messages[length - 1].content = text;
+    conversation.messages[length - 1].content = text.trim();
 
     homeDispatch({
       field: 'selectedConversation',
@@ -89,5 +101,5 @@ export const invokePPM = async (
     });
   }
 
-  return text;
+  return conversation.messages[length - 1];
 };

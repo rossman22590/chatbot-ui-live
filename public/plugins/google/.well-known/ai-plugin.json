@@ -15,6 +15,7 @@
     "url": "/plugins/google/.well-known/openapi.yaml",
     "has_user_authentication": false
   },
+  "prompt_url": "/plugins/google/.well-known/prompt.txt",
   "author": "Jorge Menjivar",
   "logo_url": "/plugins/google/.well-known/logo.png",
   "contact_email": "jorgemenjivar1997@gmail.com",

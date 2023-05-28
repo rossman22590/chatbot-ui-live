@@ -23,6 +23,7 @@ export const manifests: PluginManifest[] = [
     logo_url: '/plugins/google/.well-known/logo.png',
     contact_email: 'jorgemenjivar1997@gmail.com',
     tags: 'search, google',
+    prompt_url: '/plugins/google/.well-known/prompt.txt',
   },
   {
     id: 'com.jmenjivar.python',
@@ -46,6 +47,7 @@ export const manifests: PluginManifest[] = [
     logo_url: '/plugins/python/.well-known/logo.png',
     contact_email: 'jorgemenjivar1997@gmail.com',
     tags: 'python, interpreter',
+    prompt_url: '/plugins/python/.well-known/prompt.txt',
   },
   {
     id: 'com.jmenjivar.uber',
@@ -69,6 +71,7 @@ export const manifests: PluginManifest[] = [
     logo_url: '/plugins/uber/.well-known/logo.png',
     contact_email: 'jorgemenjivar1997@gmail.com',
     tags: 'uber, rides',
+    prompt_url: '/plugins/uber/.well-known/prompt.txt',
   },
   {
     id: 'com.jmenjivar.spotify',
@@ -92,5 +95,6 @@ export const manifests: PluginManifest[] = [
     logo_url: '/plugins/spotify/.well-known/logo.png',
     contact_email: 'jorgemenjivar1997@gmail.com',
     tags: 'music, songs',
+    prompt_url: '/plugins/spotify/.well-known/prompt.txt',
   },
 ];

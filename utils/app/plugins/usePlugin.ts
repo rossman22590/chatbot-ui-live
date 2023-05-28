@@ -1,59 +1,92 @@
 import { MutableRefObject } from 'react';
 
 import { InstalledPlugin, PluginCall } from '@/types/plugin';
-import { Conversation } from '@chatbot-ui/core/types/chat';
+import { User } from '@chatbot-ui/core/types/auth';
+import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 
-import { invokePSMM } from './PSMM';
-import { autoExecute, autoParseMessages } from './autoExecutor';
+import { storageCreateMessages } from '../storage/messages';
+import { saveSelectedConversation } from '../storage/selectedConversation';
+import { getApiCalls } from './PSMM';
+import { autoParseMessages, executeApiCall } from './autoExecutor';
+
+import { Database } from '@chatbot-ui/core';
 
 export async function usePlugin(
+  database: Database,
+  user: User,
   text: string,
   installedPlugins: InstalledPlugin[],
   conversation: Conversation,
+  conversations: Conversation[],
   stopConversationRef: MutableRefObject<boolean>,
   apiKey: string,
   homeDispatch: React.Dispatch<any>,
 ) {
-  const prompts = text.match(/(?<=λ\/)[^\/λ]*(?=\/λ)/g);
+  const invocations = getInvocations(text);
 
-  if (!prompts) return text;
+  const newMessages: Message[] = [];
+  for (const invocation of invocations) {
+    const apiCalls = await getApiCalls(
+      invocation,
+      installedPlugins,
+      conversation,
+      stopConversationRef,
+      apiKey,
+      homeDispatch,
+    );
 
-  const psmmInvocations = [];
-  for (const prompt of prompts) {
-    try {
-      psmmInvocations.push(prompt);
-    } catch (err) {
-      console.log('Invalid JSON:', prompt);
+    for (const apiCall of apiCalls) {
+      const newMessage = await executeApiCall(
+        apiCall,
+        conversation,
+        stopConversationRef,
+        apiKey,
+        homeDispatch,
+      );
+
+      if (newMessage) {
+        newMessages.push(newMessage);
+      }
     }
   }
 
-  const invocation = psmmInvocations[0];
+  homeDispatch({ field: 'loading', value: false });
+  homeDispatch({ field: 'messageIsStreaming', value: false });
 
-  if (psmmInvocations.length > 1) {
-    console.log('Only one invocation is allowed');
-    console.log('Using first invocation');
+  for (let i = 0; i < newMessages.length; i++) {
+    conversation.messages.pop();
   }
 
-  const psmmResponse = await invokePSMM(
-    invocation,
-    installedPlugins,
+  const { single, all } = storageCreateMessages(
+    database,
+    user,
     conversation,
-    stopConversationRef,
-    apiKey,
-    homeDispatch,
+    newMessages,
+    conversations,
   );
 
-  const ppmResponseMessages = await autoExecute(
-    psmmResponse,
-    installedPlugins,
-    conversation,
-    stopConversationRef,
-    apiKey,
-    homeDispatch,
-  );
-  const psmmMessages = await autoParseMessages(psmmResponse, installedPlugins);
+  homeDispatch({
+    field: 'selectedConversation',
+    value: single,
+  });
 
-  const message = `${ppmResponseMessages}\n\n${psmmMessages}`;
+  homeDispatch({ field: 'conversations', value: all });
+  saveSelectedConversation(user, single);
+}
 
-  return message;
+function getInvocations(text: string) {
+  const queries = text.match(/(?<=λ\/)[^\/λ]*(?=\/λ)/g);
+
+  if (!queries) return text;
+
+  const invocations = [];
+  for (const query of queries) {
+    try {
+      invocations.push(query);
+    } catch (err) {
+      console.log('Invalid JSON:', query);
+    }
+  }
+
+  return invocations;
 }
