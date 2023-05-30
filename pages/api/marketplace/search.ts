@@ -33,6 +33,7 @@ export default async function handler(
       description: manifest.description_for_human,
       homepage: manifest.homepage,
       version: manifest.schema_version,
+      tags: manifest.tags,
     };
     return plugin;
   });
