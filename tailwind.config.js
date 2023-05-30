@@ -25,6 +25,10 @@ module.exports = {
         'theme-hover-light': 'rgb(76 77 93 / 0.10)',
         'theme-select-dark': 'rgb(76 77 93 / 0.8)',
         'theme-select-light': 'rgb(76 77 93 / 0.3)',
+        'theme-dropdown-dark': '#413e4f',
+        'theme-dropdown-light': '#ffffff',
+        'theme-dropdown-hover-dark': '#676473',
+        'theme-dropdown-hover-light': 'rgb(76 77 93 / 0.10)',
       },
       borderColor: {
         'theme-border-dark': 'rgba(80, 80, 100, 1)',

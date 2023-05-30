@@ -15,6 +15,7 @@
     "@chatbot-ui/core": "^1.0.3",
     "@chatbot-ui/local-storage": "^1.0.1",
     "@dqbd/tiktoken": "^1.0.2",
+    "@headlessui/react": "^1.7.14",
     "@next-auth/supabase-adapter": "^0.2.1",
     "@supabase/auth-helpers-nextjs": "^0.6.1",
     "@tabler/icons-react": "^2.9.0",

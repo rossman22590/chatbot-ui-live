@@ -26,8 +26,11 @@ export const PluginComponent = ({
   isSelected,
   isInstalled,
 }: Props) => {
-  const { handleInstallPlugin, handleUninstallPlugin, handleSelect } =
-    useContext(PluginCatalogContext);
+  const {
+    handleInstall: handleInstallPlugin,
+    handleUninstall: handleUninstallPlugin,
+    handleSelect,
+  } = useContext(PluginCatalogContext);
 
   const [isUninstalling, setIsUninstalling] = useState(false);
 

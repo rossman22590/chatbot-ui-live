@@ -23,6 +23,20 @@ export const getManifest = async (pluginId: string) => {
   return manifest;
 };
 
+export const getManifestFromUrl = async (url: string) => {
+  const response = await fetch(`${url}/.well-known/ai-plugin.json`);
+
+  if (!response.ok) {
+    const error = await response.text();
+    console.error(error);
+    return;
+  }
+
+  const manifest: PluginManifest = await response.json();
+
+  return manifest;
+};
+
 export const getPluginApi = async (url: string) => {
   const response = await fetch(url);
 

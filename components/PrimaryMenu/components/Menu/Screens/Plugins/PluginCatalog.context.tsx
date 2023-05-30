@@ -9,8 +9,9 @@ import { PluginCatalogInitialState } from './PluginCatalog.state';
 export interface PluginCatalogContextProps {
   state: PluginCatalogInitialState;
   dispatch: Dispatch<ActionType<PluginCatalogInitialState>>;
-  handleInstallPlugin: (pluginId: string) => void;
-  handleUninstallPlugin: (pluginId: string) => void;
+  handleInstall: (pluginId: string) => void;
+  handleInstallFromUrls: (url: string[]) => void;
+  handleUninstall: (pluginId: string) => void;
   handleSelect: (plugin: QuickViewPlugin) => void;
 }
 

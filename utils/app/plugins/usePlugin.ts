@@ -1,13 +1,13 @@
 import { MutableRefObject } from 'react';
 
-import { InstalledPlugin, PluginCall } from '@/types/plugin';
+import { InstalledPlugin } from '@/types/plugin';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 
 import { storageCreateMessages } from '../storage/messages';
 import { saveSelectedConversation } from '../storage/selectedConversation';
 import { getApiCalls } from './PSMM';
-import { autoParseMessages, executeApiCall } from './autoExecutor';
+import { executeApiCall } from './autoExecutor';
 
 import { Database } from '@chatbot-ui/core';
 

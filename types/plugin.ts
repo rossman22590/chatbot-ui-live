@@ -29,6 +29,7 @@ export interface QuickViewPlugin {
   description: string;
   homepage: string;
   version: string;
+  tags: string;
 }
 
 export interface ServerSidePlugin {

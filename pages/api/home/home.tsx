@@ -510,7 +510,6 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
 
   // NAMESPACES --------------------------------------------
   const handleFetchNamespaces = useCallback(async () => {
-    console.log('fetching namespaces');
     const url = `${LEARNING_URL}/list_namespaces?index=secondmuse`;
     const response = await fetch(url);
     if (response.ok) {

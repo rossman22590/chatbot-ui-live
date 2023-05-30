@@ -15,6 +15,7 @@
     "url": "/plugins/spotify/.well-known/openapi.yaml",
     "has_user_authentication": false
   },
+  "prompt_url": "/plugins/google/.well-known/prompt.txt",
   "author": "Spotify",
   "logo_url": "/plugins/spotify/.well-known/logo.png",
   "contact_email": "jorgemenjivar1997@gmail.com",
