@@ -39,7 +39,7 @@ import {
   localGetAPIKey,
 } from '@/utils/app/storage/local/apiKey';
 import { localGetInstalledPlugins } from '@/utils/app/storage/local/plugins';
-import { localGetShowChatBar } from '@/utils/app/storage/local/uiState';
+import { localGetShowPrimaryMenu } from '@/utils/app/storage/local/uiState';
 import {
   storageDeleteMessages,
   storageUpdateMessages,
@@ -76,8 +76,10 @@ import { Prompt } from '@chatbot-ui/core/types/prompt';
 import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import { ChatZone } from '@/components/ChatZone/ChatZone';
+import { SecondaryMenuOpener } from '@/components/Common/Sidebar/components/OpenCloseButton';
 import { Navbar } from '@/components/Mobile/Navbar';
 import { PrimaryMenu } from '@/components/PrimaryMenu/PrimaryMenu';
+import { SecondaryMenu } from '@/components/SecondaryMenu/SecondaryMenu';
 
 import HomeContext from './home.context';
 import { HomeInitialState, initialState } from './home.state';
@@ -411,7 +413,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       dispatch({ field: 'showPrimaryMenu', value: false });
     }
 
-    const showPrimaryMenu = localGetShowChatBar(user);
+    const showPrimaryMenu = localGetShowPrimaryMenu(user);
     if (showPrimaryMenu) {
       dispatch({ field: 'showPrimaryMenu', value: showPrimaryMenu });
     }
@@ -545,7 +547,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       }}
     >
       <Head>
-        <title>Chatbot UI</title>
+        <title>UnSaged</title>
         <meta name="description" content="ChatGPT but better." />
         <meta
           name="viewport"
@@ -566,8 +568,8 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
           </div>
           <div className="flex h-screen w-screen pt-[50px] sm:pt-0">
             <PrimaryMenu />
-
             <ChatZone />
+            <SecondaryMenu />
           </div>
         </main>
       )}

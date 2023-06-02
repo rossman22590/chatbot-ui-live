@@ -1,4 +1,3 @@
-import { IconClearAll, IconSettings } from '@tabler/icons-react';
 import {
   MutableRefObject,
   memo,
@@ -24,17 +23,12 @@ import { Message } from '@chatbot-ui/core/types/chat';
 
 import HomeContext from '@/pages/api/home/home.context';
 
-import Spinner from '@/components/Common/Spinner';
-
 import { ErrorMessageDiv } from '../../../Common/ErrorMessageDiv';
 import ChatContext from './Chat.context';
 import { ChatInitialState, initialState } from './Chat.state';
 import { ChatInput } from './ChatInput';
 import { ChatLoader } from './ChatLoader';
 import { MemoizedChatMessage } from './MemoizedChatMessage';
-import { ModelSelect } from './ModelSelect';
-import { SystemPromptSection } from './SystemPromptSection';
-import { TemperatureSlider } from './Temperature';
 
 interface Props {
   stopConversationRef: MutableRefObject<boolean>;
@@ -150,22 +144,6 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
     });
   };
 
-  const handleSettings = () => {
-    setShowSettings(!showSettings);
-  };
-
-  const onClearAll = () => {
-    if (
-      confirm(t<string>('Are you sure you want to clear all messages?')) &&
-      selectedConversation
-    ) {
-      handleUpdateConversation(selectedConversation, {
-        key: 'messages',
-        value: [],
-      });
-    }
-  };
-
   const scrollDown = () => {
     if (autoScrollEnabled) {
       messagesEndRef.current?.scrollIntoView(true);
@@ -205,47 +183,43 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
     };
   }, [messagesEndRef]);
 
+  const getRandomQuote = useCallback(() => {
+    const quotes = [
+      "Let's get started...",
+      'A good day to start learning.',
+      "Let's start learning.",
+      "Let's build something.",
+      'Try experimenting.',
+      'Try something new.',
+      'Try something different.',
+      'Make something unique.',
+      'Try something creative.',
+      'Make something innovative.',
+      'Create something original.',
+      'Create something fresh.',
+      'Try something novel.',
+      'Try something unusual.',
+      'Try something unconventional.',
+      'Life is a learning process.',
+      'Life is short, learn something new.',
+      'Learning is a treasure that will follow its owner everywhere.',
+      'Learning is not attained by chance, it must be sought for with ardor and diligence.',
+      'Learning is not a spectator sport.',
+    ];
+
+    return quotes[Math.floor(Math.random() * quotes.length)];
+  }, []);
+
   return (
     <ChatContext.Provider value={{ ...chatContextValue, handleRetryPlugin }}>
-      <div className="relative flex-1 overflow-hidden bg-theme-light dark:bg-theme-dark">
+      <div
+        className="relative flex-1 overflow-hidden bg-theme-light dark:bg-theme-dark
+      "
+      >
         {!(apiKey || serverSideApiKeyIsSet) ? (
           <div className="mx-auto flex h-full w-[300px] flex-col justify-center space-y-6 sm:w-[600px]">
             <div className="text-center text-4xl font-bold text-black dark:text-white">
-              Welcome to Chatbot UI
-            </div>
-            <div className="text-center text-lg text-black dark:text-white">
-              <div className="mb-8">{`Chatbot UI is an open source clone of OpenAI's ChatGPT UI.`}</div>
-              <div className="mb-2 font-bold">
-                Important: Chatbot UI is 100% unaffiliated with OpenAI.
-              </div>
-            </div>
-            <div className="text-center text-gray-500 dark:text-gray-400">
-              <div className="mb-2">
-                Chatbot UI allows you to plug in your API key to use this UI
-                with their API.
-              </div>
-              <div className="mb-2">
-                It is <span className="italic">only</span> used to communicate
-                with their API.
-              </div>
-              <div className="mb-2">
-                {t(
-                  'Please set your OpenAI API key in the bottom left of the sidebar.',
-                )}
-              </div>
-              <div>
-                {t(
-                  "If you don't have an OpenAI API key, you can get one here: ",
-                )}
-                <a
-                  href="https://platform.openai.com/account/api-keys"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-blue-500 hover:underline"
-                >
-                  openai.com
-                </a>
-              </div>
+              Welcome to UnSaged
             </div>
           </div>
         ) : modelError ? (
@@ -253,71 +227,33 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
         ) : (
           <>
             <div
-              className="max-h-full overflow-x-hidden"
+              className="max-h-full h-full overflow-x-hidden"
               ref={chatContainerRef}
               onScroll={handleScroll}
             >
               {selectedConversation?.messages.length === 0 ? (
                 <>
-                  <div className="mx-auto flex flex-col space-y-5 md:space-y-10 px-3 pt-5 md:pt-12 sm:max-w-[600px]">
-                    <div className="text-center text-3xl font-semibold text-gray-800 dark:text-gray-100">
-                      {models.length === 0 ? (
-                        <div>
-                          <Spinner size="16px" className="mx-auto" />
+                  <div className="h-full w-full px-4 flex self-center items-center align-middle justify-center">
+                    <div className="text-center text-black dark:text-white">
+                      <div className="animate-zoom-pulse-slow">
+                        <div
+                          className="pb-3 flex flex-row self-center items-end align-middle justify-center text-transparent 
+                          bg-gradient-to-r from-fuchsia-700 via-violet-900 to-indigo-500
+                          dark:from-fuchsia-500 dark:via-violet-600 dark:to-indigo-400
+                          bg-clip-text bg-175% animate-bg-pan-fast rotate-0"
+                        >
+                          <div className="text-4xl font-light pb-[2px]">UN</div>
+                          <div className="text-6xl font-semibold">SAGED</div>
                         </div>
-                      ) : (
-                        'Chatbot UI'
-                      )}
-                    </div>
-
-                    {models.length > 0 && (
-                      <div
-                        className="flex h-full flex-col space-y-4 rounded-lg border 
-                    border-theme-border-light dark:border-theme-border-dark p-4"
-                      >
-                        <ModelSelect />
-
-                        <SystemPromptSection systemPrompts={systemPrompts} />
-
-                        <TemperatureSlider
-                          label={t('Temperature')}
-                          onChangeTemperature={(temperature) =>
-                            handleUpdateConversation(selectedConversation, {
-                              key: 'temperature',
-                              value: temperature,
-                            })
-                          }
-                        />
                       </div>
-                    )}
+                      <div className="text-2xl font-light">
+                        {getRandomQuote()}
+                      </div>
+                    </div>
                   </div>
                 </>
               ) : (
                 <>
-                  {/* <div className="fixed top-[50px] z-40 flex justify-center border border-b-neutral-300 bg-neutral-100 py-2 text-sm text-neutral-500 dark:border-none dark:bg-[#444654] dark:text-neutral-200">
-                  {t('Model')}: {selectedConversation?.model.name} | {t('Temp')}
-                  : {selectedConversation?.temperature} |
-                  <button
-                    className="ml-2 cursor-pointer hover:opacity-50"
-                    onClick={handleSettings}
-                  >
-                    <IconSettings size={18} />
-                  </button>
-                  <button
-                    className="ml-2 cursor-pointer hover:opacity-50"
-                    onClick={onClearAll}
-                  >
-                    <IconClearAll size={18} />
-                  </button>
-                </div>
-                {showSettings && (
-                  <div className="flex flex-col space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-3 md:pt-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
-                    <div className="flex h-full flex-col space-y-4 border-b border-neutral-200 p-4 dark:border-neutral-600 md:rounded-lg md:border">
-                      <ModelSelect />
-                    </div>
-                  </div>
-                )} */}
-
                   {selectedConversation?.messages.map((message, index) => (
                     <MemoizedChatMessage
                       key={index}

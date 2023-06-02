@@ -30,6 +30,7 @@ export interface HomeInitialState {
   prompts: Prompt[];
   temperature: number;
   showPrimaryMenu: boolean;
+  showSecondaryMenu: boolean;
   currentFolder: FolderInterface | undefined;
   messageError: boolean;
   searchTerm: string;
@@ -61,6 +62,7 @@ export const initialState: HomeInitialState = {
   prompts: [],
   temperature: 1,
   showPrimaryMenu: true,
+  showSecondaryMenu: true,
   currentFolder: undefined,
   messageError: false,
   searchTerm: '',

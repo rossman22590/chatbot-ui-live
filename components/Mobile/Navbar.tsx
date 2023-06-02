@@ -1,13 +1,19 @@
 import { IconPlus } from '@tabler/icons-react';
 import { FC, useContext } from 'react';
 
-import { localSaveShowPrimaryMenu } from '@/utils/app/storage/local/uiState';
+import {
+  localSaveShowPrimaryMenu,
+  localSaveShowSecondaryMenu,
+} from '@/utils/app/storage/local/uiState';
 
 import { Conversation } from '@chatbot-ui/core/types/chat';
 
 import HomeContext from '@/pages/api/home/home.context';
 
-import { PrimaryMenuOpener } from '../Common/Sidebar/components/OpenCloseButton';
+import {
+  PrimaryMenuOpener,
+  SecondaryMenuOpener,
+} from '../Common/Sidebar/components/OpenCloseButton';
 
 interface Props {
   selectedConversation: Conversation;
@@ -19,13 +25,18 @@ export const Navbar: FC<Props> = ({
   onNewConversation,
 }) => {
   const {
-    state: { showPrimaryMenu, user },
+    state: { showPrimaryMenu, showSecondaryMenu, user },
     dispatch: homeDispatch,
   } = useContext(HomeContext);
 
   const handleShowPrimaryMenu = () => {
     homeDispatch({ field: 'showPrimaryMenu', value: !showPrimaryMenu });
     localSaveShowPrimaryMenu(user, showPrimaryMenu);
+  };
+
+  const handleShowSecondaryMenu = () => {
+    homeDispatch({ field: 'showSecondaryMenu', value: !showSecondaryMenu });
+    localSaveShowSecondaryMenu(user, showSecondaryMenu);
   };
 
   return (
@@ -36,15 +47,18 @@ export const Navbar: FC<Props> = ({
         open={showPrimaryMenu}
       />
       <div className="flex w-full justify-between bg-[#202123] px-8">
-        <div className="left-[100px] max-w-[280px] overflow-hidden text-ellipsis whitespace-nowrap">
+        <div className="left-[100px] text-black dark:text-white max-w-[280px] overflow-hidden text-ellipsis whitespace-nowrap">
           {selectedConversation.name}
         </div>
         <IconPlus
-          className="cursor-pointer hover:text-neutral-400"
+          className="cursor-pointer hover:text-neutral-400 text-black dark:text-white "
           onClick={onNewConversation}
         />
       </div>
-      <PrimaryMenuOpener onClick={() => {}} open={false} />
+      <SecondaryMenuOpener
+        onClick={handleShowSecondaryMenu}
+        open={showSecondaryMenu}
+      />
     </nav>
   );
 };

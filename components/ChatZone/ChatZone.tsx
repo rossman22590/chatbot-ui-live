@@ -4,6 +4,7 @@ import { useCreateReducer } from '@/hooks/useCreateReducer';
 
 import HomeContext from '@/pages/api/home/home.context';
 
+import { SecondaryMenu } from '../SecondaryMenu/SecondaryMenu';
 import ChatZoneContext from './ChatZone.context';
 import { ChatZoneInitialState, initialState } from './ChatZone.state';
 import { Chat } from './Screens/Chat/Chat';
@@ -16,7 +17,7 @@ export const ChatZone = () => {
   });
 
   const {
-    state: { selectedPlugin, display, showPrimaryMenu },
+    state: { selectedPlugin, display, showPrimaryMenu, showSecondaryMenu },
   } = useContext(HomeContext);
 
   const stopConversationRef = useRef<boolean>(false);
@@ -25,7 +26,7 @@ export const ChatZone = () => {
     <ChatZoneContext.Provider value={chatBarContextValue}>
       <div
         className={`relative sm:flex flex-1 ${
-          showPrimaryMenu ? 'hidden' : 'flex'
+          showPrimaryMenu || showSecondaryMenu ? 'hidden' : 'flex'
         }`}
       >
         {selectedPlugin && display == 'plugins' && (

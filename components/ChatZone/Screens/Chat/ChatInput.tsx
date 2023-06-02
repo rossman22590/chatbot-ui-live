@@ -263,7 +263,11 @@ export const ChatInput = ({
   }, []);
 
   return (
-    <div className="absolute bottom-0 left-0 w-full border-transparent bg-gradient-to-b from-transparent via-white to-white pt-6 dark:border-white/20 dark:via-theme-dark dark:to-theme-dark md:pt-2">
+    <div
+      className="absolute bottom-0 left-0 w-full border-transparent bg-gradient-to-b 
+      dark:border-white/20 from-transparent via-[#f4f5ff] to-[#e4e7ff]
+      dark:via-[#31323d] dark:to-[#26272f]"
+    >
       <div className="relative mb-2 mt-4 flex-row gap-4 last:mb-2 md:mx-4 md:mt-[52px] md:last:mb-6 lg:mx-auto lg:max-w-3xl">
         {messageIsStreaming && (
           <button
@@ -294,12 +298,15 @@ export const ChatInput = ({
         <div
           className="relative mx-4 flex flex-grow flex-col rounded-md border
         border-black/10 bg-white shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:border-gray-900/50
-        dark:bg-[#40414F] dark:text-white dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]"
+        dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]
+        bg-gradient-to-r from-white via-[#fdf4ff] to-white
+        dark:from-[#40414F] dark:via-[#4d3f55] dark:to-[#40414F]
+        bg-175% animate-bg-pan-slow"
         >
           <textarea
             ref={textareaRef}
             className="m-0 min-h-[38px] w-full resize-none border-0 bg-transparent p-0 py-2 pr-8 pl-2
-             text-black dark:bg-transparent dark:text-white md:py-3 md:pl-3"
+             text-black dark:text-white md:py-3 md:pl-3"
             style={{
               resize: 'none',
               bottom: `${textareaRef?.current?.scrollHeight}px`,

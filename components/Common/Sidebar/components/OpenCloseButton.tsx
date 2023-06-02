@@ -63,7 +63,7 @@ export const SecondaryMenuOpener = ({ onClick, open }: any) => {
          dark:text-white dark:hover:text-gray-300`}
         onClick={onClick}
       >
-        {open ? <IconArrowBarLeft /> : <IconArrowBarRight />}
+        {open ? <IconArrowBarRight /> : <IconArrowBarLeft />}
       </button>
     </>
   );
