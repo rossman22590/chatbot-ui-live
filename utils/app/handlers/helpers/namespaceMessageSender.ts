@@ -106,7 +106,5 @@ ${message.timestamp}
     }
   }
 
-  console.log(query.trim());
-
   return query.trim();
 };

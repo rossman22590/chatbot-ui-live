@@ -20,6 +20,7 @@ export const invokePPM = async (
   stopConversationRef: MutableRefObject<boolean>,
   apiKey: string,
   homeDispatch: React.Dispatch<any>,
+  message?: Message,
 ) => {
   // Get the prompt for the Plugin Parser Model
   const systemPrompt = getPPMPrompt(plugin, null);
@@ -70,14 +71,21 @@ export const invokePPM = async (
   const reader = data.getReader();
   const decoder = new TextDecoder();
 
-  const assistantMessageId = uuidv4();
-  conversation.messages.push({
-    id: assistantMessageId,
-    role: 'assistant',
-    content: '',
-    plugin: call.plugin.manifest.id,
-    timestamp: getTimestampWithTimezoneOffset(),
-  });
+  let index = 0;
+  if (!message) {
+    const assistantMessageId = uuidv4();
+    conversation.messages.push({
+      id: assistantMessageId,
+      role: 'assistant',
+      content: '',
+      plugin: call.plugin.manifest.id,
+      timestamp: getTimestampWithTimezoneOffset(),
+    });
+    index = conversation.messages.length - 1;
+  } else {
+    // The index of the message whose id matches the id of the message that was passed in
+    index = conversation.messages.findIndex((m) => m.id === message.id);
+  }
   const length = conversation.messages.length;
 
   let text = '';
@@ -93,7 +101,7 @@ export const invokePPM = async (
     const chunkValue = decoder.decode(value);
     text += chunkValue;
 
-    conversation.messages[length - 1].content = text.trim();
+    conversation.messages[index].content = text.trim();
 
     homeDispatch({
       field: 'selectedConversation',
@@ -101,5 +109,5 @@ export const invokePPM = async (
     });
   }
 
-  return conversation.messages[length - 1];
+  return conversation.messages[index];
 };

@@ -6,7 +6,7 @@ export interface PluginManifest {
   name_for_human: string;
   description_for_model: string;
   description_for_human: string;
-  auth: PluginAuthentication | null;
+  auth: PluginAuthentication;
   api: PluginApiInfo;
   logo_url: string;
   author: string;
@@ -51,8 +51,12 @@ export interface PSMMMessage {
 }
 
 export interface PluginAuthentication {
-  type: string;
-  authorization_type: string;
+  type: 'oauth' | 'none' | 'automatic';
+  authorization_type?: string;
+  client_url?: string;
+  authorization_url?: string;
+  scope?: string;
+  authorization_content_type?: string;
 }
 
 export interface PluginInfo {

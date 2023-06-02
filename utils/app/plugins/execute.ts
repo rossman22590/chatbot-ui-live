@@ -7,6 +7,8 @@ export async function callApi(
 ) {
   let authHeader = '';
 
+  console.log('callApi', call, plugin);
+
   const pluginPaths = plugin.api.paths;
 
   let callPath: string | null = null;
@@ -26,15 +28,18 @@ export async function callApi(
 
   if (!callPath || !callMethod || !operation) {
     console.log('Operation not found:', call.operationId);
-    return null;
+    return { error: 'operation-not-found' };
   }
 
-  if (operation.security) {
-    if (!authToken) {
-      console.log('No auth token provided');
-      return null;
+  if (plugin.manifest.auth.type === 'oauth') {
+    const token = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith(`${plugin.manifest.id}-token=`))
+      ?.split('=')[1];
+    if (!token) {
+      return { error: 'no-auth' };
     } else {
-      authHeader = `Bearer ${authToken}`;
+      authHeader = `Bearer ${token}`;
     }
   }
 
@@ -49,6 +54,13 @@ export async function callApi(
     },
   });
 
-  const body = await response.json();
-  return body;
+  try {
+    const body = await response.json();
+    return { data: body };
+  } catch (err) {
+    console.log('Error parsing response', err);
+    console.log('Response', response);
+    console.log('Response body', response.body);
+    return { error: 'error-parsing-response' };
+  }
 }

@@ -4,6 +4,7 @@ import { Conversation } from '@chatbot-ui/core/types/chat';
 import { invokePPM } from './PPM';
 import { callApi } from './execute';
 import { findPluginById } from './finder';
+import { addPluginSignInBox } from './pluginSignIn';
 
 export async function executeApiCall(
   call: PluginCall,
@@ -13,20 +14,22 @@ export async function executeApiCall(
   homeDispatch: React.Dispatch<any>,
   authToken?: string,
 ) {
-  const response = await callApi(call, call.plugin, authToken);
+  const { error, data } = await callApi(call, call.plugin, authToken);
 
-  // Invoking the Plugin Parser Model to get the human readable response
-  const message = await invokePPM(
-    call,
-    response,
-    conversation,
-    call.plugin,
-    stopConversationRef,
-    apiKey,
-    homeDispatch,
-  );
-
-  return message;
+  if (data) {
+    // Invoking the Plugin Parser Model to get the human readable response
+    return await invokePPM(
+      call,
+      data,
+      conversation,
+      call.plugin,
+      stopConversationRef,
+      apiKey,
+      homeDispatch,
+    );
+  } else if (error === 'no-auth') {
+    return await addPluginSignInBox(call, conversation, homeDispatch);
+  }
 }
 
 export async function autoParseMessages(

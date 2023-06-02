@@ -103,11 +103,6 @@ ${JSON.stringify(summarizedPlugins, null, 2)}
 
 Current time is: ${new Date().toISOString()}
 
-${
-  userLocation
-    ? `The user is located in ${userLocation}`
-    : 'User location is unknown. Ask the user for their location if needed.'
-}
 `;
 
   return prompt;

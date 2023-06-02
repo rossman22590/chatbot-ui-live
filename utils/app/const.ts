@@ -20,3 +20,6 @@ export const MARKETPLACE_URL =
   process.env.NEXT_PUBLIC_MARKETPLACE_URL || '/api/marketplace';
 
 export const LEARNING_URL = process.env.NEXT_PUBLIC_LEARNING_URL || '';
+
+export const APP_DOMAIN =
+  process.env.NEXT_PUBLIC_APP_DOMAIN || 'http://localhost:3000';

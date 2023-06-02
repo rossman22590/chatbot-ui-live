@@ -7,13 +7,15 @@
   "description_for_model": "Plugin for managing music with Spotify. Use it whenever a user asks you to play a song. You can also use it to get the lyrics of a song.",
   "description_for_human": "Control your music and view lyrics with Spotify.",
   "auth": {
-    "type": "user_http",
-    "authorization_type": "bearer"
+    "type": "oauth",
+    "authorization_url": "http://localhost:3000/api/plugins/spotify/login",
+    "scope": "app-remote-control playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private user-library-read user-library-modify user-read-private user-read-email user-follow-read user-follow-modify user-top-read user-read-playback-position user-read-playback-state user-read-recently-played user-read-currently-playing user-modify-playback-state streaming",
+    "authorization_content_type": "application/x-www-form-urlencoded"
   },
   "api": {
     "type": "openapi",
     "url": "/plugins/spotify/.well-known/openapi.yaml",
-    "has_user_authentication": false
+    "has_user_authentication": true
   },
   "prompt_url": "/plugins/google/.well-known/prompt.txt",
   "author": "Spotify",

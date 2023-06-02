@@ -11,9 +11,11 @@ import { FC, memo, useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 
+import { executeApiCall } from '@/utils/app/plugins/autoExecutor';
 import { findPluginById } from '@/utils/app/plugins/finder';
 import { storageDeleteMessages } from '@/utils/app/storage/messages';
 
+import { InstalledPlugin, PluginCall } from '@/types/plugin';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 
 import HomeContext from '@/pages/api/home/home.context';
@@ -21,6 +23,9 @@ import HomeContext from '@/pages/api/home/home.context';
 import { CodeBlock } from '@/components/Markdown/CodeBlock';
 import { MemoizedReactMarkdown } from '@/components/Markdown/MemoizedReactMarkdown';
 
+import ChatContext from './Chat.context';
+
+import querystring from 'querystring';
 import rehypeMathjax from 'rehype-mathjax';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
@@ -35,6 +40,8 @@ export interface Props {
 export const ChatMessage: FC<Props> = memo(
   ({ message, messageIndex, onEdit }) => {
     const { t } = useTranslation('chat');
+
+    const { handleRetryPlugin } = useContext(ChatContext);
 
     const {
       state: {
@@ -52,7 +59,9 @@ export const ChatMessage: FC<Props> = memo(
     const [isTyping, setIsTyping] = useState<boolean>(false);
     const [messageContent, setMessageContent] = useState(message.content);
     const [messagedCopied, setMessageCopied] = useState(false);
-    const [pluginIconUrl, setPluginIconUrl] = useState<string | undefined>();
+
+    const [plugin, setPlugin] = useState<InstalledPlugin | undefined>();
+    const [authUrl, setAuthUrl] = useState<string | undefined>();
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -144,15 +153,20 @@ export const ChatMessage: FC<Props> = memo(
     }, [isEditing]);
 
     useEffect(() => {
-      if (message.plugin && !pluginIconUrl) {
+      if (message.plugin && !plugin) {
         const plugin = findPluginById(message.plugin, installedPlugins);
+        setPlugin(plugin);
+
         if (plugin) {
-          setPluginIconUrl(plugin.manifest.logo_url);
+          const url = `${
+            plugin.manifest.auth.authorization_url
+          }?${querystring.stringify({
+            scope: plugin.manifest.auth.scope,
+          })}`;
+          setAuthUrl(url);
         }
-      } else if (!message.plugin) {
-        setPluginIconUrl(undefined);
       }
-    }, [message.plugin, installedPlugins, pluginIconUrl]);
+    }, [message.plugin, installedPlugins]);
 
     return (
       <div
@@ -165,13 +179,21 @@ export const ChatMessage: FC<Props> = memo(
       >
         <div className="relative m-auto flex p-4 text-base md:max-w-2xl md:gap-6 md:py-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
           <div className="min-w-[40px] text-right font-bold">
-            {message.role === 'assistant' && !pluginIconUrl && (
+            {message.role === 'assistant' && !plugin?.manifest.logo_url && (
               <IconRobot size={30} />
             )}
-            {message.role === 'assistant' && pluginIconUrl && (
+            {message.role === 'assistant' && plugin?.manifest.logo_url && (
               <Image
                 alt={'Plugin Logo'}
-                src={pluginIconUrl}
+                src={plugin?.manifest.logo_url}
+                width={30}
+                height={30}
+              />
+            )}
+            {message.role === 'auth' && plugin?.manifest.logo_url && (
+              <Image
+                alt={'Plugin Logo'}
+                src={plugin?.manifest.logo_url}
                 width={30}
                 height={30}
               />
@@ -180,7 +202,7 @@ export const ChatMessage: FC<Props> = memo(
           </div>
 
           <div className="prose mt-[-2px] w-full dark:prose-invert">
-            {message.role === 'user' ? (
+            {message.role === 'user' && (
               <div className="flex w-full">
                 {isEditing ? (
                   <div className="flex w-full flex-col">
@@ -244,7 +266,9 @@ export const ChatMessage: FC<Props> = memo(
                   </div>
                 )}
               </div>
-            ) : (
+            )}
+
+            {message.role === 'assistant' && (
               <div className="flex flex-row">
                 <MemoizedReactMarkdown
                   className="prose dark:prose-invert flex-1"
@@ -347,6 +371,31 @@ export const ChatMessage: FC<Props> = memo(
                     </button>
                   )}
                 </div>
+              </div>
+            )}
+
+            {message.role === 'auth' && (
+              <div className="flex flex-row">
+                <a
+                  target="_blank"
+                  href={authUrl}
+                  className="flex flex-shrink cursor-pointer items-center gap-3 rounded-md border
+                  border-theme-border-light dark:border-theme-border-dark p-1 text-sm
+                  text-black dark:text-white transition-colors
+                  duration-200 hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark"
+                >
+                  Login
+                </a>
+                &nbsp;to use&nbsp;{message.plugin}.&nbsp;
+                <button
+                  className="flex flex-shrink cursor-pointer items-center gap-3 rounded-md border
+                  border-theme-border-light dark:border-theme-border-dark p-1 text-sm
+                  text-black dark:text-white transition-colors
+                  duration-200 hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark"
+                  onClick={() => handleRetryPlugin(message)}
+                >
+                  Retry
+                </button>
               </div>
             )}
           </div>
