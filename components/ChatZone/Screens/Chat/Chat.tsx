@@ -219,7 +219,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
         {!(apiKey || serverSideApiKeyIsSet) ? (
           <div className="mx-auto flex h-full w-[300px] flex-col justify-center space-y-6 sm:w-[600px]">
             <div className="text-center text-4xl font-bold text-black dark:text-white">
-              Welcome to UnSaged
+              Welcome to unSAGED UI
             </div>
           </div>
         ) : modelError ? (
@@ -244,6 +244,9 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                         >
                           <div className="text-4xl font-light pb-[2px]">UN</div>
                           <div className="text-6xl font-semibold">SAGED</div>
+                          <div className="text-4xl font-light pb-[2px]">
+                            &nbsp;UI
+                          </div>
                         </div>
                       </div>
                       <div className="text-2xl font-light">

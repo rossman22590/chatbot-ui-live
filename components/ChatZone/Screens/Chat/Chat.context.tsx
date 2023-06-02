@@ -2,7 +2,7 @@ import { Dispatch, createContext } from 'react';
 
 import { ActionType } from '@/hooks/useCreateReducer';
 
-import { Message } from '@/../chatbot-ui-core/types/chat';
+import { Message } from '@chatbot-ui/core/types/chat';
 
 import { ChatInitialState } from './Chat.state';
 

@@ -547,7 +547,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       }}
     >
       <Head>
-        <title>UnSaged</title>
+        <title>unSAGED UI</title>
         <meta name="description" content="ChatGPT but better." />
         <meta
           name="viewport"
