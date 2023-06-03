@@ -166,7 +166,7 @@ export const ChatMessage: FC<Props> = memo(
           setAuthUrl(url);
         }
       }
-    }, [message.plugin, installedPlugins]);
+    }, [message.plugin, installedPlugins, plugin]);
 
     return (
       <div

@@ -20,7 +20,7 @@ const Callback = () => {
       console.log('expires_in', expires_in);
       document.cookie = `${plugin_id}-token=${access_token}; max-age=${expires_in}; domain=${APP_DOMAIN}; path=/`;
     }
-  }, [access_token, router]);
+  }, [access_token, router, expires_in, plugin_id]);
 
   return <div className="text-white">You may now close this tab</div>;
 };
