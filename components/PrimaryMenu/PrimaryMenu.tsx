@@ -33,7 +33,7 @@ export const PrimaryMenu = () => {
     <Chatbar key={0} />,
     <Promptbar key={1} />,
     <PluginCatalog key={2} />,
-    <LearningScreen key={1} />,
+    <LearningScreen key={3} />,
   ];
 
   return (
