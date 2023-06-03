@@ -2,7 +2,7 @@ import { IconAdjustments, IconBrain } from '@tabler/icons-react';
 
 import { useCreateReducer } from '@/hooks/useCreateReducer';
 
-import { LearningScreen } from '../PrimaryMenu/components/Menu/Screens/Learning/LearningScreen';
+import { LearningScreen } from '../PrimaryMenu/components/Menu/components/Screens/Learning/LearningScreen';
 import ActivityBar from './components/ActivityBar/ActivityBar';
 import Menu from './components/Menu/Menu';
 import { ModelSettings } from './components/Menu/components/Screens/ModelSettings/ModelSettings';

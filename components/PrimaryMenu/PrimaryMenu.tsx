@@ -9,10 +9,10 @@ import { useCreateReducer } from '@/hooks/useCreateReducer';
 
 import ActivityBar from './components/ActivityBar/ActivityBar';
 import Menu from './components/Menu/Menu';
-import { Chatbar } from './components/Menu/Screens/Chatbar/Chatbar';
-import { LearningScreen } from './components/Menu/Screens/Learning/LearningScreen';
-import { PluginCatalog } from './components/Menu/Screens/Plugins/PluginCatalog';
-import Promptbar from './components/Menu/Screens/Promptbar/Promptbar';
+import { Chatbar } from './components/Menu/components/Screens/Chatbar/Chatbar';
+import { LearningScreen } from './components/Menu/components/Screens/Learning/LearningScreen';
+import { PluginCatalog } from './components/Menu/components/Screens/Plugins/PluginCatalog';
+import Promptbar from './components/Menu/components/Screens/Promptbar/Promptbar';
 
 import PrimaryMenuContext from './PrimaryMenu.context';
 import { PrimaryMenuInitialState, initialState } from './PrimaryMenu.state';
