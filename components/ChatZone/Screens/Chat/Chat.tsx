@@ -60,9 +60,6 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
     dispatch: homeDispatch,
   } = useContext(HomeContext);
 
-  const [enabledPlugins, setEnabledPlugins] =
-    useState<InstalledPlugin[]>(installedPlugins);
-
   const [currentMessage, setCurrentMessage] = useState<Message>();
   const [autoScrollEnabled, setAutoScrollEnabled] = useState<boolean>(true);
   const [showSettings, setShowSettings] = useState<boolean>(false);
@@ -104,7 +101,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
     retryPluginHandlerFunction(
       user,
       message,
-      enabledPlugins,
+      installedPlugins,
       stopConversationRef,
       selectedConversation,
       conversations,
@@ -267,7 +264,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                         // discard edited message and the ones that come after then resend
                         handleEdit(
                           user,
-                          enabledPlugins,
+                          installedPlugins,
                           editedMessage,
                           index,
                           stopConversationRef,
@@ -300,7 +297,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                   user,
                   selectedNamespace,
                   message,
-                  enabledPlugins,
+                  installedPlugins,
                   stopConversationRef,
                   conversation,
                   conversations,
@@ -314,7 +311,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                 if (currentMessage) {
                   handleRegenerate(
                     user,
-                    enabledPlugins,
+                    installedPlugins,
                     stopConversationRef,
                     conversation,
                     conversations,

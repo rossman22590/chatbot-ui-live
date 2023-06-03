@@ -85,7 +85,13 @@ export const PluginCatalog = () => {
       };
 
       const updatedPlugins = localAddInstalledPlugin(user, installedPlugin);
+
+      console.log('Updated Plugins', updatedPlugins);
+
       homeDispatch({ field: 'installedPlugins', value: updatedPlugins });
+
+      console.log('Plugin installed');
+      console.log('Installed Plugins', installedPlugins);
     }
   };
 

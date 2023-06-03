@@ -26,6 +26,8 @@ export const sendHandlerFunction = async (
   apiKey: string,
   homeDispatch: React.Dispatch<any>,
 ) => {
+  console.log('installedPlugins', installedPlugins);
+
   if (selectedConversation) {
     homeDispatch({ field: 'messageIsStreaming', value: true });
     homeDispatch({ field: 'loading', value: true });
