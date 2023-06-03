@@ -21,7 +21,7 @@ export const storageCreateFolder = (
 
   database.createFolder(user, newFolder).then((success) => {
     if (!success) {
-      console.log('Failed to create folder');
+      console.error('Failed to create folder');
     }
   });
 
@@ -51,7 +51,7 @@ export const storageUpdateFolder = (
 
   database.updateFolder(user, updatedFolder!).then((success) => {
     if (!success) {
-      console.log('Failed to update folder');
+      console.error('Failed to update folder');
     }
   });
 
@@ -68,7 +68,7 @@ export const storageDeleteFolder = (
 
   database.deleteFolder(user, folderId).then((success) => {
     if (!success) {
-      console.log('Failed to delete folder');
+      console.error('Failed to delete folder');
     }
   });
 

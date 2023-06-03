@@ -17,7 +17,7 @@ export const storageUpdateSystemPrompts = async (
 ) => {
   database.updateSystemPrompts(user, updatedSystemPrompts).then((success) => {
     if (!success) {
-      console.log('Failed to update system prompts');
+      console.error('Failed to update system prompts');
     }
   });
 };

@@ -7,8 +7,6 @@ export async function callApi(
 ) {
   let authHeader = '';
 
-  console.log('callApi', call, plugin);
-
   const pluginPaths = plugin.api.paths;
 
   let callPath: string | null = null;
@@ -27,7 +25,7 @@ export async function callApi(
   }
 
   if (!callPath || !callMethod || !operation) {
-    console.log('Operation not found:', call.operationId);
+    console.error('Operation not found:', call.operationId);
     return { error: 'operation-not-found' };
   }
 
@@ -58,9 +56,7 @@ export async function callApi(
     const body = await response.json();
     return { data: body };
   } catch (err) {
-    console.log('Error parsing response', err);
-    console.log('Response', response);
-    console.log('Response body', response.body);
+    console.error('Error parsing response', err);
     return { error: 'error-parsing-response' };
   }
 }

@@ -17,7 +17,7 @@ export const storageUpdateConversations = async (
 ) => {
   await database.updateConversations(user, conversations).then((success) => {
     if (!success) {
-      console.log('Failed to update conversations');
+      console.error('Failed to update conversations');
     }
   });
 };
@@ -28,7 +28,7 @@ export const storageDeleteConversations = async (
 ) => {
   database.deleteConversations(user).then((success) => {
     if (!success) {
-      console.log('Failed to delete conversations');
+      console.error('Failed to delete conversations');
     }
   });
 };

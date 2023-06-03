@@ -13,7 +13,7 @@ export const storageCreatePrompt = (
 
   database.createPrompt(user, newPrompt).then((success) => {
     if (!success) {
-      console.log('Failed to create prompt');
+      console.error('Failed to create prompt');
     }
   });
 
@@ -36,7 +36,7 @@ export const storageUpdatePrompt = (
 
   database.updatePrompt(user, updatedPrompt).then((success) => {
     if (!success) {
-      console.log('Failed to update prompt');
+      console.error('Failed to update prompt');
     }
   });
 
@@ -56,7 +56,7 @@ export const storageDeletePrompt = (
 
   database.deletePrompt(user, promptId).then((success) => {
     if (!success) {
-      console.log('Failed to delete prompt');
+      console.error('Failed to delete prompt');
     }
   });
 

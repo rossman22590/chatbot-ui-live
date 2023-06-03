@@ -84,7 +84,7 @@ function getInvocations(text: string) {
     try {
       invocations.push(query);
     } catch (err) {
-      console.log('Invalid JSON:', query);
+      console.error('Invalid JSON:', query);
     }
   }
 

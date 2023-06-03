@@ -11,16 +11,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     redirect_uri: 'http://localhost:3000/api/plugins/spotify/callback',
   };
 
-  console.log(
-    'authorization',
-    'Basic ' +
-      new Buffer(
-        process.env.PLUGIN_SPOTIFY_CLIENT_ID +
-          ':' +
-          process.env.PLUGIN_SPOTIFY_CLIENT_SECRET,
-      ).toString('base64'),
-  );
-
   const response = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
     headers: {
@@ -37,8 +27,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   });
 
   const resBody = await response.json();
-
-  console.log('resBody', resBody);
 
   res.redirect(
     'http://localhost:3000/plugin-auth/callback?' +

@@ -14,10 +14,6 @@ const Callback = () => {
 
   useEffect(() => {
     if (access_token && expires_in) {
-      console.log('APP_DOMAIN', APP_DOMAIN);
-      console.log('plugin_id', plugin_id);
-      console.log('access_token', access_token);
-      console.log('expires_in', expires_in);
       document.cookie = `${plugin_id}-token=${access_token}; max-age=${expires_in}; domain=${APP_DOMAIN}; path=/`;
     }
   }, [access_token, router, expires_in, plugin_id]);

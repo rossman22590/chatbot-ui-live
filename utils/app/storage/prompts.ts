@@ -14,7 +14,7 @@ export const storageUpdatePrompts = async (
 ) => {
   await database.updatePrompts(user, updatedPrompts).then((success) => {
     if (!success) {
-      console.log('Failed to update prompts');
+      console.error('Failed to update prompts');
     }
   });
 };

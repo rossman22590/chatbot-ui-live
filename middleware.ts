@@ -11,29 +11,6 @@ const getSecret = () => {
   }
 };
 
-// export default withAuth({
-//   callbacks: {
-//     async authorized({ token }) {
-//       console.log('authorized', token);
-//       if (AUTH_ENABLED === false) {
-//         return true;
-//       }
-//       if (!token?.email) {
-//         return false;
-//       } else {
-//         const pattern =
-//           dockerEnvVarFix(process.env.NEXTAUTH_EMAIL_PATTERN) || '';
-//         if (!pattern || token?.email?.match('^' + pattern + '$')) {
-//           return true;
-//         }
-
-//         return false;
-//       }
-//     },
-//   },
-//   secret: getSecret(),
-// });
-
 const getEmailPatterns = () => {
   if (!AUTH_ENABLED) {
     return [];

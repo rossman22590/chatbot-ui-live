@@ -14,7 +14,7 @@ export const storageUpdateFolders = async (
 ) => {
   await database.updateFolders(user, folders).then((success) => {
     if (!success) {
-      console.log('Failed to update folders');
+      console.error('Failed to update folders');
     }
   });
 };
@@ -26,7 +26,7 @@ export const storageDeleteFolders = async (
 ) => {
   await database.deleteFolders(user, folderIds).then((success) => {
     if (!success) {
-      console.log('Failed to delete folders');
+      console.error('Failed to delete folders');
     }
   });
 };

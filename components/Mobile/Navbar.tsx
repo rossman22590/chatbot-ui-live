@@ -49,8 +49,6 @@ export const Navbar: FC<Props> = ({
     localSaveShowSecondaryMenu(user, showSecondaryMenu);
   };
 
-  console.log('showPrimaryMenu', showPrimaryMenu);
-
   return (
     <nav className="h-[50px] flex w-full justify-between bg-[#202123] py-3 px-4">
       {' '}

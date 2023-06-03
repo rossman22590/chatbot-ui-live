@@ -38,7 +38,7 @@ export const storageCreateMessages = (
     .createMessages(user, selectedConversation.id, newMessages)
     .then((success) => {
       if (!success) {
-        console.log('Failed to create messages');
+        console.error('Failed to create messages');
       }
     });
 

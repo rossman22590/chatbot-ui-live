@@ -41,7 +41,6 @@ export const AddURLModal = ({ onClose }: { onClose: () => void }) => {
 
   const parseUrls = (urls: string) => {
     const urlArray = urls.replaceAll(' ', '').split(',');
-    console.log(urlArray);
     setUrls(urlArray);
   };
 

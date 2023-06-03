@@ -15,7 +15,7 @@ export const storageCreateConversation = (
 
   database.createConversation(user, newConversation).then((success) => {
     if (!success) {
-      console.log('Failed to create conversation');
+      console.error('Failed to create conversation');
     }
   });
 
@@ -40,7 +40,7 @@ export const storageUpdateConversation = (
 
   database.updateConversation(user, updatedConversation).then((success) => {
     if (!success) {
-      console.log('Failed to update conversation');
+      console.error('Failed to update conversation');
     }
   });
 
@@ -62,7 +62,7 @@ export const storageDeleteConversation = (
 
   database.deleteConversation(user, conversationId).then((success) => {
     if (!success) {
-      console.log('Failed to delete conversation');
+      console.error('Failed to delete conversation');
     }
   });
 

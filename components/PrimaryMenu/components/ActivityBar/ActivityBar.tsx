@@ -50,7 +50,6 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
     if (display !== 'settings') {
       homeDispatch({ field: 'display', value: 'settings' });
     } else {
-      console.log('display', display);
       if (window.innerWidth < 640) {
         homeDispatch({ field: 'showPrimaryMenu', value: false });
       } else {

@@ -12,8 +12,8 @@ import HomeContext from '@/pages/api/home/home.context';
 
 // import { AddFileButton } from './components/AddFileButton';
 import { AddNameSpaceButton } from './components/AddNamespaceButton';
-import { DeleteNamespaceButton } from './components/DeleteNamespaceButton';
 import { AddURLButton } from './components/AddURLButton';
+import { DeleteNamespaceButton } from './components/DeleteNamespaceButton';
 import { NamespaceSelect } from './components/NamespaceSelect';
 
 import LearningScreenContext from './LearningScreen.context';
@@ -45,17 +45,19 @@ export const LearningScreen = () => {
   const handleAddFile = async (file: Blob) => {};
 
   const handleAddURLs = async (urls: string[], recurse: boolean) => {
-    console.log('adding namespace');
-    const isGoogleDocLink = urls.some(url => url.includes('docs.google.com/document'));
+    const isGoogleDocLink = urls.some((url) =>
+      url.includes('docs.google.com/document'),
+    );
     let url = '';
     if (isGoogleDocLink) {
-      url = `${LEARNING_URL}/upload_google_doc?namespace=${selectedNamespace!.namespace}&index=secondmuse`;
+      url = `${LEARNING_URL}/upload_google_doc?namespace=${
+        selectedNamespace!.namespace
+      }&index=secondmuse`;
     } else {
-      url = `${LEARNING_URL}/upload_webpage_webbase?namespace=${selectedNamespace!.namespace}&index=secondmuse&crawl=false`;
+      url = `${LEARNING_URL}/upload_webpage_webbase?namespace=${
+        selectedNamespace!.namespace
+      }&index=secondmuse&crawl=false`;
     }
-
-    console.log({ urls });
-
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -66,11 +68,9 @@ export const LearningScreen = () => {
     });
 
     if (response.ok) {
-      const data = await response.json();
-      console.log(response);
       handleFetchNamespaces();
     } else {
-      console.log('error');
+      console.error('error');
     }
   };
 
@@ -81,16 +81,14 @@ export const LearningScreen = () => {
     file?: File,
     urls?: string[],
   ) => {
-    console.log('adding namespace');
-    const isGoogleDocLink = urls?.some(url => url.includes('docs.google.com/document')) ?? false;
+    const isGoogleDocLink =
+      urls?.some((url) => url.includes('docs.google.com/document')) ?? false;
     let url = '';
     if (isGoogleDocLink) {
       url = `${LEARNING_URL}/upload_google_doc?namespace=${namespace.namespace}&index=secondmuse`;
     } else {
       url = `${LEARNING_URL}/upload_webpage_webbase?namespace=${namespace.namespace}&index=secondmuse&crawl=false`;
     }
-
-    console.log({ urls });
 
     const response = await fetch(url, {
       method: 'POST',
@@ -102,19 +100,14 @@ export const LearningScreen = () => {
     });
 
     if (response.ok) {
-      const data = await response.json();
-      console.log({ data });
       handleFetchNamespaces();
     } else {
       const data = await response.json();
-      console.log({ data });
+      console.error({ data });
     }
   };
 
-  const handleDeleteNamespace = async (
-    namespace: Namespace,
-  ) => {
-    console.log('deleting namespace');
+  const handleDeleteNamespace = async (namespace: Namespace) => {
     const url = `${LEARNING_URL}/delete_namespace?namespace=${namespace.namespace}&index=secondmuse`;
 
     const response = await fetch(url, {
@@ -126,12 +119,10 @@ export const LearningScreen = () => {
     });
 
     if (response.ok) {
-      const data = await response.json();
-      console.log({ data });
       handleFetchNamespaces();
     } else {
       const data = await response.json();
-      console.log({ data });
+      console.error({ data });
     }
   };
 

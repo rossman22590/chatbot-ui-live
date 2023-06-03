@@ -31,8 +31,6 @@ export const retryPluginHandlerFunction = async (
     try {
       const call = JSON.parse(message.content) as PluginCall;
 
-      console.log('call', call);
-
       const { error, data } = await callApi(call, call.plugin);
 
       if (data) {
@@ -74,7 +72,7 @@ export const retryPluginHandlerFunction = async (
         );
       }
     } catch (error) {
-      console.log('error', error);
+      console.error(error);
       return;
     }
   }

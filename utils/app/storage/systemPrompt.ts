@@ -13,7 +13,7 @@ export const storageCreateSystemPrompt = (
 
   database.createSystemPrompt(user, newSystemPrompt).then((success) => {
     if (!success) {
-      console.log('Failed to create system prompt');
+      console.error('Failed to create system prompt');
     }
   });
 
@@ -36,7 +36,7 @@ export const storageUpdateSystemPrompt = (
 
   database.updateSystemPrompt(user, updatedSystemPrompt).then((success) => {
     if (!success) {
-      console.log('Failed to update system prompt');
+      console.error('Failed to update system prompt');
     }
   });
 
@@ -56,7 +56,7 @@ export const storageDeleteSystemPrompt = (
 
   database.deleteSystemPrompt(user, promptId).then((success) => {
     if (!success) {
-      console.log('Failed to delete system prompt');
+      console.error('Failed to delete system prompt');
     }
   });
 

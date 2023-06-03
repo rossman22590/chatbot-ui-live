@@ -49,7 +49,7 @@ export async function autoParseMessages(
       message += `![${plugin?.manifest.id}](${plugin?.manifest.logo_url})\n`;
       message += `${plugin?.manifest.name_for_human}: ${text}\n\n`;
     } catch (err) {
-      console.log('Invalid JSON:', rawMessage);
+      console.error('Invalid JSON:', rawMessage);
     }
   }
 

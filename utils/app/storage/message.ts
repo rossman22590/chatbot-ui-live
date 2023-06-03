@@ -28,7 +28,7 @@ export const storageCreateMessage = (
     .createMessage(user, selectedConversation.id, newMessage)
     .then((success) => {
       if (!success) {
-        console.log('Failed to create message');
+        console.error('Failed to create message');
       }
     });
 
@@ -62,7 +62,7 @@ export const storageUpdateMessage = (
     .updateMessage(user, selectedConversation.id, updatedMessage)
     .then((success) => {
       if (!success) {
-        console.log('Failed to update message');
+        console.error('Failed to update message');
       }
     });
 
@@ -79,7 +79,7 @@ export const storageDeleteMessage = (
     .deleteMessage(user, selectedConversation.id, messageId)
     .then((success) => {
       if (!success) {
-        console.log('Failed to delete message');
+        console.error('Failed to delete message');
       }
     });
 };

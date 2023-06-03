@@ -25,9 +25,8 @@ export const DeleteNamespaceModal = ({ onClose }: { onClose: () => void }) => {
   // const [urls, setUrls] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const { handleDeleteNamespace, dispatch: learningScreenDispatch } = useContext(
-    LearningScreenContext,
-  );
+  const { handleDeleteNamespace, dispatch: learningScreenDispatch } =
+    useContext(LearningScreenContext);
 
   const modalRef = useRef<HTMLDivElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
@@ -37,29 +36,6 @@ export const DeleteNamespaceModal = ({ onClose }: { onClose: () => void }) => {
       handleDelete();
     }
   };
-
-  // const parseUrls = (urls: string) => {
-  //   const urlArray = urls.replaceAll(' ', '').split(',');
-  //   console.log(urlArray);
-  //   setUrls(urlArray);
-  // };
-
-  // const handleFileChange = (event: any) => {
-  //   if (event.target.files && event.target.files[0]) {
-  //     // const fileReader = new FileReader();
-  //     // fileReader.onload = (e) => {
-  //     //   const buffer = e.target.result as ArrayBuffer;
-  //     //   const binaryFile = Buffer.from(buffer).toString('base64');
-
-  //     //   // Print the first 100 characters of the file
-  //     //   console.log(binaryFile.slice(0, 100));
-  //     // };
-
-  //     // fileReader.readAsArrayBuffer(event.target.files[0]);
-  //     setFile(event.target.files[0]);
-  //     setFileName(event.target.files[0].name);
-  //   }
-  // };
 
   const handleDelete = async () => {
     if (name !== '') {

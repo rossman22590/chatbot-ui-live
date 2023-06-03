@@ -37,8 +37,6 @@ const handler = async (req: Request): Promise<Response> => {
 
     const prompt_tokens = encoding.encode(promptToSend);
 
-    console.log('prompt_tokens', prompt_tokens.length);
-
     let tokens_per_message = 0;
     if (model.name == 'GPT-3.5') {
       tokens_per_message = 5;
