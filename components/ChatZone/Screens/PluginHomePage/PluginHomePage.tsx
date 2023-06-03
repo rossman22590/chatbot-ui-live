@@ -20,6 +20,7 @@ export const PluginHomePage = ({ plugin }: Props) => {
 
   const handleClose = () => {
     homeDispatch({ field: 'selectedPlugin', value: null });
+    homeDispatch({ field: 'display', value: 'chat' });
   };
 
   return (

@@ -45,13 +45,18 @@ export const PluginCatalog = () => {
   } = pluginCatalogContextValue;
 
   const {
-    state: { user, installedPlugins },
+    state: { user, installedPlugins, selectedPlugin },
     dispatch: homeDispatch,
   } = useContext(HomeContext);
 
   const handleSelect = (plugin: QuickViewPlugin) => {
-    homeDispatch({ field: 'selectedPlugin', value: plugin });
-    homeDispatch({ field: 'display', value: 'plugins' });
+    if (selectedPlugin !== plugin) {
+      homeDispatch({ field: 'selectedPlugin', value: plugin });
+      homeDispatch({ field: 'display', value: 'plugins' });
+    } else {
+      homeDispatch({ field: 'selectedPlugin', value: null });
+      homeDispatch({ field: 'display', value: 'chat' });
+    }
   };
 
   // PLUGIN OPERATIONS  --------------------------------------------

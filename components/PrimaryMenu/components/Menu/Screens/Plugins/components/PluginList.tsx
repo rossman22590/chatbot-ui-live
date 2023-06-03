@@ -1,10 +1,9 @@
 import { useContext } from 'react';
 
-import { InstalledPlugin, QuickViewPlugin } from '@/types/plugin';
+import { QuickViewPlugin } from '@/types/plugin';
 
 import HomeContext from '@/pages/api/home/home.context';
 
-import PluginCatalogContext from '../PluginCatalog.context';
 import { PluginComponent } from './PluginComponent';
 
 interface Props {
@@ -14,7 +13,6 @@ interface Props {
 export const PluginList = ({ plugins }: Props) => {
   const {
     state: { selectedPlugin, installedPlugins },
-    dispatch: homeDispatch,
   } = useContext(HomeContext);
 
   const isInstalled = (pluginId: string) => {

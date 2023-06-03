@@ -39,7 +39,10 @@ import {
   localGetAPIKey,
 } from '@/utils/app/storage/local/apiKey';
 import { localGetInstalledPlugins } from '@/utils/app/storage/local/plugins';
-import { localGetShowPrimaryMenu } from '@/utils/app/storage/local/uiState';
+import {
+  localGetShowPrimaryMenu,
+  localGetShowSecondaryMenu,
+} from '@/utils/app/storage/local/uiState';
 import {
   storageDeleteMessages,
   storageUpdateMessages,
@@ -104,10 +107,12 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
     state: {
       apiKey,
       database,
+      display,
       lightMode,
       folders,
       conversations,
       selectedConversation,
+      selectedPlugin,
       prompts,
       systemPrompts,
       defaultSystemPromptId,
@@ -378,7 +383,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
     if (window.innerWidth < 640) {
       dispatch({ field: 'showPrimaryMenu', value: false });
     }
-  }, [dispatch, selectedConversation]);
+  }, [dispatch, selectedConversation, selectedPlugin, display]);
 
   useEffect(() => {
     defaultModelId &&
@@ -416,6 +421,11 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
     const showPrimaryMenu = localGetShowPrimaryMenu(user);
     if (showPrimaryMenu) {
       dispatch({ field: 'showPrimaryMenu', value: showPrimaryMenu });
+    }
+
+    const showSecondaryMenu = localGetShowSecondaryMenu(user);
+    if (showSecondaryMenu) {
+      dispatch({ field: 'showSecondaryMenu', value: showSecondaryMenu });
     }
 
     storageGetFolders(database, user).then((folders) => {

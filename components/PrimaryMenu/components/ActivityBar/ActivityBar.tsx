@@ -14,7 +14,7 @@ import PrimaryMenuContext from '../../PrimaryMenu.context';
 
 const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
   const {
-    state: { user, database, showPrimaryMenu },
+    state: { user, database, showPrimaryMenu, display },
     dispatch: homeDispatch,
   } = useContext(HomeContext);
 
@@ -47,7 +47,16 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
   };
 
   const handleShowSettings = () => {
-    homeDispatch({ field: 'display', value: 'settings' });
+    if (display !== 'settings') {
+      homeDispatch({ field: 'display', value: 'settings' });
+    } else {
+      console.log('display', display);
+      if (window.innerWidth < 640) {
+        homeDispatch({ field: 'showPrimaryMenu', value: false });
+      } else {
+        homeDispatch({ field: 'display', value: 'chat' });
+      }
+    }
   };
 
   // VS Code Activity Bar with tabs at the top and setting button at the bottom
