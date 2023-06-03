@@ -480,18 +480,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
         value: cleanedSelectedConversation,
       });
     } else {
-      dispatch({
-        field: 'selectedConversation',
-        value: {
-          id: uuidv4(),
-          name: 'New conversation',
-          messages: [],
-          model: OpenAIModels[defaultModelId],
-          prompt: DEFAULT_SYSTEM_PROMPT,
-          temperature: DEFAULT_TEMPERATURE,
-          folderId: null,
-        },
-      });
+      handleNewConversation();
     }
   }, [user, defaultModelId, database, dispatch, serverSideApiKeyIsSet]);
 
