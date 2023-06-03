@@ -3,7 +3,7 @@ export const ActivityBarButton = ({
   handleClick,
 }: {
   children: JSX.Element;
-  handleClick: () => void;
+  handleClick?: () => void;
 }) => {
   return (
     <>

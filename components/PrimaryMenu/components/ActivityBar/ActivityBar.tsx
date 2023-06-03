@@ -1,4 +1,8 @@
-import { IconLogout, IconSettings } from '@tabler/icons-react';
+import {
+  IconBrandDiscord,
+  IconLogout,
+  IconSettings,
+} from '@tabler/icons-react';
 import { signOut } from 'next-auth/react';
 import { useContext, useState } from 'react';
 
@@ -83,8 +87,13 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
 
       {/* Settings buttons align to bottom */}
       <div className="flex flex-col items-center space-y-6">
+        <ActivityBarButton>
+          <a href="https://discord.gg/q9AQP2w6gK" target="_blank">
+            <IconBrandDiscord size={28} />
+          </a>
+        </ActivityBarButton>
         {AUTH_ENABLED && (
-          <ActivityBarButton handleClick={handleSignOut}>
+          <ActivityBarButton>
             <IconLogout size={28} />
           </ActivityBarButton>
         )}
