@@ -41,30 +41,28 @@ export const OpenSidebarButton = ({ onClick, side }: Props) => {
   );
 };
 
-export const PrimaryMenuOpener = ({ onClick, open }: any) => {
+export const PrimaryMenuOpener = ({ onClick, open, visible }: any) => {
   return (
-    <>
-      <button
-        className={`text-black hover:text-gray-400 
-         dark:text-white dark:hover:text-gray-300`}
-        onClick={onClick}
-      >
-        {open ? <IconArrowBarLeft /> : <IconArrowBarRight />}
-      </button>
-    </>
+    <button
+      className={`${visible ? 'block' : 'invisible'}
+        text-black hover:text-gray-400 
+        dark:text-white dark:hover:text-gray-300`}
+      onClick={onClick}
+    >
+      {open ? <IconArrowBarLeft /> : <IconArrowBarRight />}
+    </button>
   );
 };
 
-export const SecondaryMenuOpener = ({ onClick, open }: any) => {
+export const SecondaryMenuOpener = ({ onClick, open, visible }: any) => {
   return (
-    <>
-      <button
-        className={`text-black hover:text-gray-400 
-         dark:text-white dark:hover:text-gray-300`}
-        onClick={onClick}
-      >
-        {open ? <IconArrowBarRight /> : <IconArrowBarLeft />}
-      </button>
-    </>
+    <button
+      className={`${visible ? 'block' : 'invisible'}
+        text-black hover:text-gray-400 
+        dark:text-white dark:hover:text-gray-300`}
+      onClick={onClick}
+    >
+      {open ? <IconArrowBarRight /> : <IconArrowBarLeft />}
+    </button>
   );
 };

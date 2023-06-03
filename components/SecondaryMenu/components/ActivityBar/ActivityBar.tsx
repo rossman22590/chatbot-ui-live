@@ -29,7 +29,7 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
     }
 
     if (!showSecondaryMenu) {
-      homeDispatch({ field: 'showPrimaryMenu', value: !showSecondaryMenu });
+      homeDispatch({ field: 'showSecondaryMenu', value: !showSecondaryMenu });
     }
     secondaryMenuDispatch({ field: 'selectedIndex', value: index });
   };

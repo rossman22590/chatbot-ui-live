@@ -30,19 +30,32 @@ export const Navbar: FC<Props> = ({
   } = useContext(HomeContext);
 
   const handleShowPrimaryMenu = () => {
-    homeDispatch({ field: 'showPrimaryMenu', value: !showPrimaryMenu });
+    if (!showPrimaryMenu) {
+      homeDispatch({ field: 'showPrimaryMenu', value: true });
+      homeDispatch({ field: 'showSecondaryMenu', value: false });
+    } else {
+      homeDispatch({ field: 'showPrimaryMenu', value: false });
+    }
     localSaveShowPrimaryMenu(user, showPrimaryMenu);
   };
 
   const handleShowSecondaryMenu = () => {
-    homeDispatch({ field: 'showSecondaryMenu', value: !showSecondaryMenu });
+    if (!showSecondaryMenu) {
+      homeDispatch({ field: 'showPrimaryMenu', value: false });
+      homeDispatch({ field: 'showSecondaryMenu', value: true });
+    } else {
+      homeDispatch({ field: 'showSecondaryMenu', value: false });
+    }
     localSaveShowSecondaryMenu(user, showSecondaryMenu);
   };
+
+  console.log('showPrimaryMenu', showPrimaryMenu);
 
   return (
     <nav className="h-[50px] flex w-full justify-between bg-[#202123] py-3 px-4">
       {' '}
       <PrimaryMenuOpener
+        visible={!showSecondaryMenu}
         onClick={handleShowPrimaryMenu}
         open={showPrimaryMenu}
       />
@@ -56,6 +69,7 @@ export const Navbar: FC<Props> = ({
         />
       </div>
       <SecondaryMenuOpener
+        visible={!showPrimaryMenu}
         onClick={handleShowSecondaryMenu}
         open={showSecondaryMenu}
       />
