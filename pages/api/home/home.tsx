@@ -482,7 +482,14 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
     } else {
       handleNewConversation();
     }
-  }, [user, defaultModelId, database, dispatch, serverSideApiKeyIsSet]);
+  }, [
+    user,
+    defaultModelId,
+    database,
+    dispatch,
+    serverSideApiKeyIsSet,
+    handleNewConversation,
+  ]);
 
   // SETTINGS --------------------------------------------
 
