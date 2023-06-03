@@ -1,4 +1,5 @@
 import {
+  IconAdjustments,
   IconApps,
   IconBrain,
   IconBulb,
@@ -16,9 +17,9 @@ import { localSaveShowSecondaryMenu } from '@/utils/app/storage/local/uiState';
 import HomeContext from '@/pages/api/home/home.context';
 
 import { SecondaryMenuOpener } from '../Common/Sidebar/components/OpenCloseButton';
-import { ModelSelect } from './components/ModelSelect';
-import { SystemPromptSelect } from './components/SystemPromptSelect';
-import { TemperatureSlider } from './components/Temperature';
+import ActivityBar from './components/ActivityBar/ActivityBar';
+import Menu from './components/Menu/Menu';
+import { ModelSettings } from './components/Menu/components/Screens/ModelSettings/ModelSettings';
 
 import SecondaryMenuContext from './SecondaryMenu.context';
 import { SecondaryMenuInitialState, initialState } from './SecondaryMenu.state';
@@ -42,41 +43,14 @@ export const SecondaryMenu = () => {
     localSaveShowSecondaryMenu(user, showSecondaryMenu);
   };
 
+  const icons = [<IconAdjustments size={28} key={0} />];
+
+  const screens = [<ModelSettings key={0} />];
+
   return (
     <SecondaryMenuContext.Provider value={secondaryMenuContextValue}>
-      <div className="hidden sm:block h-0 w-0 relative top-5 right-10">
-        <SecondaryMenuOpener
-          onClick={handleShowSecondaryMenu}
-          open={showSecondaryMenu}
-        />
-      </div>
-      <div
-        className={`relative sm:w-[280px] h-full z-30 ${
-          !showSecondaryMenu ? 'hidden' : 'right-[0] w-full'
-        } flex flex-col bg-theme-primary-menu-light dark:bg-theme-primary-menu-dark p-2 
-        text-[14px] transition-all sm:relative sm:top-0 border-theme-border-light dark:border-theme-border-dark border-l`}
-      >
-        <div className="pt-2 px-1 space-y-1">
-          <label className="flex items-center text-left pl-1 text-black dark:text-white">
-            {t('Model')}
-            <InfoCircle />
-          </label>
-          <ModelSelect />
-
-          <label className="pt-3 flex items-center text-left pl-1 text-black dark:text-white">
-            {t('System Prompt')}
-            <InfoCircle />
-          </label>
-          <SystemPromptSelect />
-
-          <label className="pt-3 flex items-center text-left pl-1 pr-1 text-black dark:text-white">
-            {t('Temperature')}
-            <InfoCircle />
-          </label>
-
-          <TemperatureSlider />
-        </div>
-      </div>
+      <Menu screens={screens} />
+      <ActivityBar icons={icons} />
     </SecondaryMenuContext.Provider>
   );
 };
