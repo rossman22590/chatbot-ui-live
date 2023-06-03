@@ -44,7 +44,7 @@ export const SecondaryMenu = () => {
 
   return (
     <SecondaryMenuContext.Provider value={secondaryMenuContextValue}>
-      <div className="hidden sm:block w-0 relative top-5 right-10">
+      <div className="hidden sm:block h-0 w-0 relative top-5 right-10">
         <SecondaryMenuOpener
           onClick={handleShowSecondaryMenu}
           open={showSecondaryMenu}
