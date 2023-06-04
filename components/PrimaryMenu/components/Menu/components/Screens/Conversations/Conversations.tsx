@@ -242,7 +242,10 @@ export const Conversations = () => {
 
       <div className="flex-grow overflow-auto">
         {filteredConversations?.length > 0 && (
-          <div className="flex border-b border-theme-border-light dark:border-theme-border-dark pb-2">
+          <div
+            className="flex border-b pb-2
+          border-theme-button-border-light dark:border-theme-button-border-dark"
+          >
             <ConversationsFolders searchTerm={searchTerm} />
           </div>
         )}

@@ -38,7 +38,7 @@ export const ConversationsFolders = ({ searchTerm }: Props) => {
             return (
               <div
                 key={index}
-                className="ml-5 gap-2 border-l border-theme-border-light dark:border-theme-border-dark pl-2"
+                className="ml-5 gap-2 border-l border-theme-button-border-light dark:border-theme-button-border-dark pl-2"
               >
                 <ConversationComponent conversation={conversation} />
               </div>

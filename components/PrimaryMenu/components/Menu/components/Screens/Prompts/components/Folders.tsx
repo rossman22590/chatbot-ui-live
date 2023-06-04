@@ -32,7 +32,7 @@ export const PromptFolders = () => {
     }
   };
 
-  const PromptFolders = (currentFolder: FolderInterface) =>
+  const Folders = (currentFolder: FolderInterface) =>
     filteredPrompts
       .filter((p) => p.folderId)
       .map((prompt, index) => {
@@ -40,7 +40,7 @@ export const PromptFolders = () => {
           return (
             <div
               key={index}
-              className="ml-5 gap-2 border-l pl-2 border-theme-border-light dark:border-theme-border-dark"
+              className="ml-5 gap-2 border-l border-theme-button-border-light dark:border-theme-button-border-dark pl-2"
             >
               <PromptComponent prompt={prompt} />
             </div>
@@ -59,7 +59,7 @@ export const PromptFolders = () => {
             searchTerm={searchTerm}
             currentFolder={folder}
             handleDrop={handleDrop}
-            folderComponent={PromptFolders(folder)}
+            folderComponent={Folders(folder)}
           />
         ))}
     </div>

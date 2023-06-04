@@ -15,7 +15,7 @@ import { Prompt } from '@chatbot-ui/core/types/prompt';
 
 import HomeContext from '@/pages/api/home/home.context';
 
-import { PromptFolders } from './components/PromptFolders';
+import { PromptFolders } from './components/Folders';
 import { PromptList } from './components/PromptList';
 import { PrimaryButton } from '@/components/Common/Buttons/PrimaryButton';
 import { SecondaryButton } from '@/components/Common/Buttons/SecondaryButton';
@@ -164,7 +164,10 @@ const Prompts = () => {
 
       <div className="flex-grow overflow-auto">
         {filteredPrompts?.length > 0 && (
-          <div className="flex border-b border-theme-border-light dark:border-theme-border-dark pb-2">
+          <div
+            className="flex border-b pb-2
+          border-theme-button-border-light dark:border-theme-button-border-dark"
+          >
             <PromptFolders />
           </div>
         )}
