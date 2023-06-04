@@ -42,7 +42,7 @@ module.exports = {
         'theme-border-dark': '#1b1f23',
         'theme-border-light': 'rgba(210, 210, 205, 1)',
         'theme-button-border-dark': 'rgba(100, 100, 100, 1)',
-        'theme-button-border-light': 'rgba(210, 210, 205, 1)',
+        'theme-button-border-light': 'rgba(180, 180, 180, 1)',
       },
       textColor: {
         'theme-button-icon-dark': 'rgb(180, 180, 180)',
