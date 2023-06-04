@@ -79,10 +79,12 @@ export const Settings = () => {
        dark:border-gray-900/50 dark:bg-theme-dark dark:text-gray-100'`}
           style={{ overflowWrap: 'anywhere' }}
         >
-          <div className="relative m-auto flex p-4 text-base md:max-w-2xl md:gap-6 md:py-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
-            <div className="prose mt-[-2px] w-full dark:prose-invert">
+          <div className="flex w-full p-4 text-base">
+            <div className="w-full">
               <div className="block">
-                <h1 className="pl-3 text-center">Settings</h1>
+                <h1 className="text-3xl font-bold text-center text-black dark:text-white">
+                  Settings
+                </h1>
                 {settings &&
                   Object.values(settings).map((section, index) => (
                     <SettingsSectionComponent
@@ -98,8 +100,11 @@ export const Settings = () => {
       </div>
       <div>
         <button
-          className="absolute top-2 right-2 w-6 h-6 m-2 cursor-pointer text-gray-700
-         dark:hover:bg-theme-hover-dark dark:text-gray-100 hover:bg-theme-hover-dark"
+          className="
+          absolute top-2 right-2 w-6 h-6 m-2 cursor-pointer rounded-sm
+          text-gray-700 dark:text-gray-100
+          hover:bg-theme-hover-dark dark:hover:bg-theme-hover-dark 
+          "
           onClick={handleClose}
         >
           <IconX />

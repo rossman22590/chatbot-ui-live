@@ -18,7 +18,9 @@ export const SettingsSectionComponent = ({ section, isSelected }: Props) => {
 
   return (
     <div className="block w-full flex-col gap-1 mb-5">
-      <h2 className="mb-2 mt-2 pl-3">{section.name}</h2>
+      <h2 className="mb-2 mt-2 pl-3 font-semibold text-2xl text-black dark:text-white">
+        {section.name}
+      </h2>
       {Object.values(section.settings).map((setting, index) => (
         <SettingComponent
           isSelected={isSelected && selectedSetting?.name === setting.name}

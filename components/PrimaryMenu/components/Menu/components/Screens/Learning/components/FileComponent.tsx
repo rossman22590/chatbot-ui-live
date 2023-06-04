@@ -50,7 +50,7 @@ export const FileComponent = ({
          ${
            !isSelected
              ? 'hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark'
-             : 'bg-theme-select-light dark:bg-theme-select-dark'
+             : 'bg-theme-selected-light dark:bg-theme-selected-dark'
          }
          `}
         onClick={() => handleSelect(index)}
