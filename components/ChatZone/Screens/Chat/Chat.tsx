@@ -218,7 +218,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
         setQuote(getRandomQuote());
       }
     }
-  }, [selectedConversation]);
+  }, [selectedConversation, getRandomQuote, lastConversation]);
 
   return (
     <ChatContext.Provider value={{ ...chatContextValue, handleRetryPlugin }}>
