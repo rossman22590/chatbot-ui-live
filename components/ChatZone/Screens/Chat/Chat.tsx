@@ -66,6 +66,37 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
   const [showScrollDownButton, setShowScrollDownButton] =
     useState<boolean>(false);
 
+  const getRandomQuote = useCallback(() => {
+    const quotes = [
+      "Let's get started...",
+      'A good day to start learning.',
+      "Let's start learning.",
+      "Let's build something.",
+      'Try experimenting.',
+      'Try something new.',
+      'Try something different.',
+      'Make something unique.',
+      'Try something creative.',
+      'Make something innovative.',
+      'Create something original.',
+      'Create something fresh.',
+      'Try something novel.',
+      'Try something unusual.',
+      'Try something unconventional.',
+      'Life is a learning process.',
+      'Life is short, learn something new.',
+      'Learning is a treasure that will follow its owner everywhere.',
+      'Learning is not attained by chance, it must be sought for with ardor and diligence.',
+      'Learning is not a spectator sport.',
+    ];
+
+    return quotes[Math.floor(Math.random() * quotes.length)];
+  }, []);
+
+  const [quote, setQuote] = useState<string>(getRandomQuote());
+  const [lastConversation, setLastConversation] =
+    useState(selectedConversation);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -180,32 +211,14 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
     };
   }, [messagesEndRef]);
 
-  const getRandomQuote = useCallback(() => {
-    const quotes = [
-      "Let's get started...",
-      'A good day to start learning.',
-      "Let's start learning.",
-      "Let's build something.",
-      'Try experimenting.',
-      'Try something new.',
-      'Try something different.',
-      'Make something unique.',
-      'Try something creative.',
-      'Make something innovative.',
-      'Create something original.',
-      'Create something fresh.',
-      'Try something novel.',
-      'Try something unusual.',
-      'Try something unconventional.',
-      'Life is a learning process.',
-      'Life is short, learn something new.',
-      'Learning is a treasure that will follow its owner everywhere.',
-      'Learning is not attained by chance, it must be sought for with ardor and diligence.',
-      'Learning is not a spectator sport.',
-    ];
-
-    return quotes[Math.floor(Math.random() * quotes.length)];
-  }, []);
+  useEffect(() => {
+    if (lastConversation && selectedConversation) {
+      if (lastConversation.id !== selectedConversation.id) {
+        setLastConversation(selectedConversation);
+        setQuote(getRandomQuote());
+      }
+    }
+  }, [selectedConversation]);
 
   return (
     <ChatContext.Provider value={{ ...chatContextValue, handleRetryPlugin }}>
@@ -231,6 +244,9 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
               {selectedConversation?.messages.length === 0 ? (
                 <>
                   <div className="h-full w-full px-4 flex flex-col self-center items-center align-middle justify-center">
+                    <div className="text-center text-black dark:text-white mb-2 text-xl font-light">
+                      {quote}
+                    </div>
                     <div className="animate-zoom-pulse-slow">
                       <div className="flex flex-row self-center items-center align-middle justify-center">
                         <div
@@ -261,9 +277,6 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                           UI
                         </div>
                       </div>
-                    </div>
-                    <div className="text-center text-black dark:text-white mt-2 text-2xl font-light">
-                      {getRandomQuote()}
                     </div>
                   </div>
                 </>
