@@ -2,6 +2,8 @@ import { Menu, Transition } from '@headlessui/react';
 import { IconDotsVertical } from '@tabler/icons-react';
 import { Fragment, useState } from 'react';
 
+import { SecondaryButton } from '@/components/Common/Buttons/SecondaryButton';
+
 import { InstallFromUrlsModal } from './InstallFromUrlModal';
 
 export const ExtraOptionsButton = () => {
@@ -9,16 +11,11 @@ export const ExtraOptionsButton = () => {
   return (
     <div className="relative text-right">
       <Menu as="div" className="relative inline-block text-left">
-        <div>
-          <Menu.Button
-            className="flex flex-shrink cursor-pointer items-center gap-3 rounded-md border
-          border-theme-border-light dark:border-theme-border-dark p-3 text-sm
-          text-black dark:text-white transition-colors
-          duration-200 hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark"
-          >
+        <SecondaryButton>
+          <Menu.Button>
             <IconDotsVertical size={16} />
           </Menu.Button>
-        </div>
+        </SecondaryButton>
         <Transition
           as={Fragment}
           enter="transition ease-out duration-100"

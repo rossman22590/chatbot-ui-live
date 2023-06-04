@@ -29,6 +29,8 @@ import HomeContext from '@/pages/api/home/home.context';
 import { ConversationList } from './components/ConversationList';
 import { ConversationsSettings } from './components/ConversationsSettings';
 import { ConversationsFolders } from './components/Folders';
+import { PrimaryButton } from '@/components/Common/Buttons/PrimaryButton';
+import { SecondaryButton } from '@/components/Common/Buttons/SecondaryButton';
 import Search from '@/components/Common/Search';
 
 import ConversationsContext from './Conversations.context';
@@ -218,28 +220,19 @@ export const Conversations = () => {
         handleApiKeyChange,
       }}
     >
-      <div className="flex items-center">
-        <button
-          className="text-sidebar flex w-[214px] flex-shrink-0 cursor-pointer select-none items-center
-          gap-3 rounded-md border border-theme-border-light dark:border-theme-border-dark
-          p-3 text-black dark:text-white transition-colors duration-200 hover:bg-gray-500/10"
+      <div className="flex items-center gap-x-2">
+        <PrimaryButton
           onClick={() => {
             handleNewConversation();
             doSearch('');
           }}
         >
-          <IconPlus size={16} />
-          {t('New chat')}
-        </button>
+          {t('New conversation')}
+        </PrimaryButton>
 
-        <button
-          className="ml-2 flex flex-shrink-0 cursor-pointer items-center gap-3 rounded-md border
-          border-theme-border-light dark:border-theme-border-dark p-3 text-sm
-          text-black dark:text-white transition-colors duration-200 hover:bg-gray-500/10"
-          onClick={createFolder}
-        >
+        <SecondaryButton onClick={createFolder}>
           <IconFolderPlus size={16} />
-        </button>
+        </SecondaryButton>
       </div>
       <Search
         placeholder={t('Search...') || ''}

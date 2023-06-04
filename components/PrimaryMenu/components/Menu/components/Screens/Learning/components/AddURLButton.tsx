@@ -1,5 +1,7 @@
-import { IconFilePlus, IconLink } from '@tabler/icons-react';
+import { IconLink } from '@tabler/icons-react';
 import { useState } from 'react';
+
+import { PrimaryButtonAlt } from '@/components/Common/Buttons/PrimaryButton';
 
 import { AddURLModal } from './AddURLModal';
 
@@ -8,11 +10,7 @@ export const AddURLButton = () => {
 
   return (
     <>
-      <button
-        className="text-sidebar flex w-full flex-shrink-0 cursor-pointer select-none items-center gap-3
-        rounded-md border border-theme-border-light dark:border-theme-border-dark p-3
-        text-black dark:text-white transition-colors duration-200
-        hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark"
+      <PrimaryButtonAlt
         onClick={(e) => {
           e.stopPropagation();
           setShowModal(true);
@@ -20,7 +18,7 @@ export const AddURLButton = () => {
       >
         <IconLink size={16} />
         Add URL
-      </button>
+      </PrimaryButtonAlt>
 
       {showModal && <AddURLModal onClose={() => setShowModal(false)} />}
     </>

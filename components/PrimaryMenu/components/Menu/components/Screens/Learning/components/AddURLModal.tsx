@@ -15,6 +15,8 @@ import { Prompt } from '@chatbot-ui/core/types/prompt';
 
 import HomeContext from '@/pages/api/home/home.context';
 
+import { PrimaryButton } from '@/components/Common/Buttons/PrimaryButton';
+
 import LearningScreenContext from '../LearningScreen.context';
 
 export const AddURLModal = ({ onClose }: { onClose: () => void }) => {
@@ -102,20 +104,15 @@ export const AddURLModal = ({ onClose }: { onClose: () => void }) => {
             </div>
             <input
               ref={nameInputRef}
-              className="mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-[#40414F] dark:text-neutral-100"
+              className="mt-2 mb-4 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-[#40414F] dark:text-neutral-100"
               placeholder={t('comma-separated list of URLs') || ''}
               value={urls}
               onChange={(e) => parseUrls(e.target.value)}
             />
 
-            <button
-              disabled={loading}
-              type="button"
-              className="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-white dark:text-black dark:hover:bg-neutral-300"
-              onClick={handleAdd}
-            >
+            <PrimaryButton disabled={loading} onClick={handleAdd}>
               {loading ? 'Adding' : t('Add')}
-            </button>
+            </PrimaryButton>
           </div>
         </div>
       </div>

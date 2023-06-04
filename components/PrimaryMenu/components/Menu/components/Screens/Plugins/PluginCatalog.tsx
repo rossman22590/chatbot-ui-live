@@ -195,7 +195,7 @@ export const PluginCatalog = () => {
         handleSelect,
       }}
     >
-      <div className="flex items-center gap-2 w-full p-0 h-[46px]">
+      <div className="flex items-center gap-2 w-full p-0 ">
         <Search
           placeholder={t('Search...') || ''}
           searchTerm={searchQuery}

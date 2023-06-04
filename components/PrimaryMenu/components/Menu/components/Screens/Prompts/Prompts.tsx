@@ -17,6 +17,8 @@ import HomeContext from '@/pages/api/home/home.context';
 
 import { PromptFolders } from './components/PromptFolders';
 import { PromptList } from './components/PromptList';
+import { PrimaryButton } from '@/components/Common/Buttons/PrimaryButton';
+import { SecondaryButton } from '@/components/Common/Buttons/SecondaryButton';
 import Search from '@/components/Common/Search';
 
 import PromptsContext from './Prompts.context';
@@ -140,30 +142,19 @@ const Prompts = () => {
         handleUpdatePrompt,
       }}
     >
-      <div className="flex items-center">
-        <button
-          className="text-sidebar flex w-[214px] flex-shrink-0 cursor-pointer select-none items-center gap-3
-          rounded-md border border-theme-border-light dark:border-theme-border-dark p-3
-          text-black dark:text-white transition-colors duration-200
-          hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark"
+      <div className="flex items-center gap-x-2">
+        <PrimaryButton
           onClick={() => {
             handleCreatePrompt();
             doSearch('');
           }}
         >
-          <IconPlus size={16} />
           {t('New prompt')}
-        </button>
+        </PrimaryButton>
 
-        <button
-          className="ml-2 flex flex-shrink-0 cursor-pointer items-center gap-3 rounded-md border
-          border-theme-border-light dark:border-theme-border-dark p-3 text-sm
-          text-black dark:text-white transition-colors duration-200
-          hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark"
-          onClick={createFolder}
-        >
+        <SecondaryButton onClick={createFolder}>
           <IconFolderPlus size={16} />
-        </button>
+        </SecondaryButton>
       </div>
       <Search
         placeholder={t('Search...') || ''}

@@ -20,7 +20,7 @@ module.exports = {
         'theme-primary-menu-dark': '#1f2428',
         'theme-primary-menu-light': '#f4f6ff',
         'theme-select-dark': '#1f2428',
-        'theme-select-light': '#f4f6ff',
+        'theme-select-light': '#f3f6f8',
       },
       backgroundColor: {
         'theme-dark': '#343541',
@@ -37,6 +37,8 @@ module.exports = {
       borderColor: {
         'theme-border-dark': 'rgba(25, 25, 20, 1)',
         'theme-border-light': 'rgba(210, 210, 205, 1)',
+        'theme-button-border-dark': 'rgba(100, 100, 100, 1)',
+        'theme-button-border-light': 'rgba(210, 210, 205, 1)',
       },
       textColor: {
         'theme-button-icon-dark': 'rgb(180, 180, 180)',

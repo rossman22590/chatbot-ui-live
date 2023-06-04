@@ -1,6 +1,8 @@
 import { IconMinus } from '@tabler/icons-react';
 import { useState } from 'react';
 
+import { SecondaryButton } from '@/components/Common/Buttons/SecondaryButton';
+
 import { DeleteNamespaceModal } from './DeleteNamespaceModal';
 
 export const DeleteNamespaceButton = () => {
@@ -8,20 +10,18 @@ export const DeleteNamespaceButton = () => {
 
   return (
     <>
-      <button
-        className="flex flex-shrink cursor-pointer items-center gap-3 rounded-md border
-      border-theme-border-light dark:border-theme-border-dark p-3 text-sm
-      text-black dark:text-white transition-colors
-      duration-200 hover:bg-theme-hover-light dark:hover:bg-theme-hover-dark"
+      <SecondaryButton
         onClick={(e) => {
           e.stopPropagation();
           setShowModal(true);
         }}
       >
         <IconMinus size={16} />
-      </button>
+      </SecondaryButton>
 
-      {showModal && <DeleteNamespaceModal onClose={() => setShowModal(false)} />}
+      {showModal && (
+        <DeleteNamespaceModal onClose={() => setShowModal(false)} />
+      )}
     </>
   );
 };
