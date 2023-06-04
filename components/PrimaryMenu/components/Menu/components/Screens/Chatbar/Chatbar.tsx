@@ -95,20 +95,6 @@ export const Chatbar = () => {
   };
 
   const handleClearConversations = async () => {
-    defaultModelId &&
-      homeDispatch({
-        field: 'selectedConversation',
-        value: {
-          id: uuidv4(),
-          name: t('New Conversation'),
-          messages: [],
-          model: OpenAIModels[defaultModelId],
-          prompt: DEFAULT_SYSTEM_PROMPT,
-          temperature: DEFAULT_TEMPERATURE,
-          folderId: null,
-        },
-      });
-
     homeDispatch({ field: 'conversations', value: [] });
 
     const deletedFolders = folders.filter((f) => f.type === 'chat');

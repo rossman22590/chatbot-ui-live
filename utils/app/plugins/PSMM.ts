@@ -41,6 +41,7 @@ export const getApiCalls = async (
     prompt: systemPrompt,
     folderId: null,
     timestamp: new Date().toISOString(),
+    enabledPlugins: [],
   };
 
   const { response, controller } = await sendChatRequest(

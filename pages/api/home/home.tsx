@@ -72,6 +72,7 @@ import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
 import { KeyValuePair } from '@/types/data';
 import { Namespace } from '@/types/learning';
 import { OpenAIModelID, OpenAIModels, fallbackModelID } from '@/types/openai';
+import { InstalledPlugin } from '@/types/plugin';
 import { SettingChoice } from '@/types/settings';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { FolderType } from '@chatbot-ui/core/types/folder';
@@ -118,6 +119,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       defaultSystemPromptId,
       user,
       settings,
+      installedPlugins,
     },
     dispatch,
   } = contextValue;
@@ -251,6 +253,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       temperature: DEFAULT_TEMPERATURE,
       folderId: null,
       timestamp: getTimestampWithTimezoneOffset(),
+      enabledPlugins: installedPlugins.map((p) => p.manifest.id),
     };
 
     const updatedConversations = storageCreateConversation(
@@ -267,39 +270,43 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
     dispatch({ field: 'loading', value: false });
   };
 
-  const autogenerateConversation = useCallback(async () => {
-    let systemPrompt = DEFAULT_SYSTEM_PROMPT;
+  const autogenerateConversation = useCallback(
+    async (installedPlugins: InstalledPlugin[]) => {
+      let systemPrompt = DEFAULT_SYSTEM_PROMPT;
 
-    const newConversation: Conversation = {
-      id: uuidv4(),
-      name: `${t('New Conversation')}`,
-      messages: [],
-      model: {
-        id: OpenAIModels[defaultModelId].id,
-        name: OpenAIModels[defaultModelId].name,
-        maxLength: OpenAIModels[defaultModelId].maxLength,
-        tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
-        requestLimit: OpenAIModels[defaultModelId].requestLimit,
-      },
-      prompt: systemPrompt,
-      temperature: DEFAULT_TEMPERATURE,
-      folderId: null,
-      timestamp: getTimestampWithTimezoneOffset(),
-    };
+      const newConversation: Conversation = {
+        id: uuidv4(),
+        name: `${t('New Conversation')}`,
+        messages: [],
+        model: {
+          id: OpenAIModels[defaultModelId].id,
+          name: OpenAIModels[defaultModelId].name,
+          maxLength: OpenAIModels[defaultModelId].maxLength,
+          tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
+          requestLimit: OpenAIModels[defaultModelId].requestLimit,
+        },
+        prompt: systemPrompt,
+        temperature: DEFAULT_TEMPERATURE,
+        folderId: null,
+        timestamp: getTimestampWithTimezoneOffset(),
+        enabledPlugins: installedPlugins.map((p) => p.manifest.id),
+      };
 
-    const updatedConversations = storageCreateConversation(
-      database,
-      user,
-      newConversation,
-      [],
-    );
-    dispatch({ field: 'selectedConversation', value: newConversation });
-    dispatch({ field: 'conversations', value: updatedConversations });
+      const updatedConversations = storageCreateConversation(
+        database,
+        user,
+        newConversation,
+        [],
+      );
+      dispatch({ field: 'selectedConversation', value: newConversation });
+      dispatch({ field: 'conversations', value: updatedConversations });
 
-    saveSelectedConversation(user, newConversation);
+      saveSelectedConversation(user, newConversation);
 
-    dispatch({ field: 'loading', value: false });
-  }, [database, user, defaultModelId, dispatch, t]);
+      dispatch({ field: 'loading', value: false });
+    },
+    [database, user, defaultModelId, dispatch, t],
+  );
 
   const handleUpdateConversation = (
     conversation: Conversation,
@@ -434,9 +441,10 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
   // ON LOAD --------------------------------------------
 
   useEffect(() => {
+    const installedPlugins = localGetInstalledPlugins(user);
     dispatch({
       field: 'installedPlugins',
-      value: localGetInstalledPlugins(user),
+      value: installedPlugins,
     });
 
     const apiKey = localGetAPIKey(user);
@@ -515,7 +523,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
         value: cleanedSelectedConversation,
       });
     } else {
-      autogenerateConversation();
+      autogenerateConversation(installedPlugins);
     }
   }, [
     user,
