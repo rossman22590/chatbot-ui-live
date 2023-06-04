@@ -170,10 +170,11 @@ export const ChatMessage: FC<Props> = memo(
 
     return (
       <div
-        className={`group md:px-4 ${
+        className={`sm:px-4 lg:px-8
+        ${
           message.role === 'assistant'
-            ? 'border-b border-black/10 bg-gray-50 text-gray-800 dark:border-gray-900/50 dark:bg-[#444654] dark:text-gray-100'
-            : 'border-b border-black/10 bg-theme-light text-gray-800 dark:border-gray-900/50 dark:bg-theme-dark dark:text-gray-100'
+            ? 'bg-gray-200 text-gray-800 dark:bg-[#444654] dark:text-gray-100'
+            : 'bg-theme-light text-gray-800 dark:bg-theme-dark dark:text-gray-100'
         }`}
         style={{ overflowWrap: 'anywhere' }}
       >

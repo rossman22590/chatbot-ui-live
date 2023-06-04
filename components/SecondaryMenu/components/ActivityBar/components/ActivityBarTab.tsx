@@ -14,7 +14,7 @@ export const ActivityBarTab = ({
       <button
         className={`py-3 ${
           isSelected
-            ? 'text-theme-activity-bar-tab-select-light dark:text-theme-activity-bar-tab-select-dark'
+            ? 'text-theme-activity-bar-tab-selected-light dark:text-theme-activity-bar-tab-selected-dark'
             : 'text-theme-activity-bar-tab-light dark:text-theme-activity-bar-tab-dark'
         } ${
           isSelected

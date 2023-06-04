@@ -11,6 +11,10 @@ module.exports = {
       colors: {
         'theme-dark': '#343541',
         'theme-light': '#ffffff',
+        'theme-button-dark': 'rgb(180, 180, 180)',
+        'theme-button-light': 'rgb(90, 90, 90)',
+        'theme-button-hover-dark': 'rgb(245, 245, 245)',
+        'theme-button-hover-light': 'rgb(40, 40, 40)',
         'theme-activity-bar-dark': '#343541',
         'theme-activity-bar-light': '#fafafc',
         'theme-primary-menu-dark': '#1f2428',
@@ -31,8 +35,8 @@ module.exports = {
         'theme-dropdown-hover-light': 'rgb(76 77 93 / 0.10)',
       },
       borderColor: {
-        'theme-border-dark': 'rgba(80, 80, 100, 1)',
-        'theme-border-light': 'rgba(90, 90, 90, 0.3)',
+        'theme-border-dark': 'rgba(25, 25, 20, 1)',
+        'theme-border-light': 'rgba(210, 210, 205, 1)',
       },
       textColor: {
         'theme-button-icon-dark': 'rgb(180, 180, 180)',
@@ -43,8 +47,8 @@ module.exports = {
         'theme-activity-bar-tab-light': 'rgb(140 140 140 / 1)',
         'theme-activity-bar-tab-hover-dark': 'rgb(220 220 235 / 1)',
         'theme-activity-bar-tab-hover-light': 'rgb(65 65 65 / 1)',
-        'theme-activity-bar-tab-select-dark': 'rgb(230 230 245 / 1)',
-        'theme-activity-bar-tab-select-light': 'rgb(0 0 0 / 1)',
+        'theme-activity-bar-tab-selected-dark': 'rgb(230 230 245 / 1)',
+        'theme-activity-bar-tab-selected-light': 'rgb(40 40 40 / 1)',
       },
       backgroundSize: {
         auto: 'auto',
