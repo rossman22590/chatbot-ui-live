@@ -1,4 +1,11 @@
-import { IconArrowBarLeft, IconArrowBarRight } from '@tabler/icons-react';
+import {
+  IconArrowBarLeft,
+  IconArrowBarRight,
+  IconLayoutSidebarLeftCollapse,
+  IconLayoutSidebarLeftExpand,
+  IconLayoutSidebarRightCollapse,
+  IconLayoutSidebarRightExpand,
+} from '@tabler/icons-react';
 
 interface Props {
   onClick: any;
@@ -45,11 +52,15 @@ export const PrimaryMenuOpener = ({ onClick, open, visible }: any) => {
   return (
     <button
       className={`${visible ? 'block' : 'invisible'}
-        text-black hover:text-gray-400 
-        dark:text-white dark:hover:text-gray-300`}
+         hover:text-neutral-500 dark:hover:text-neutral-400
+        text-black dark:text-white`}
       onClick={onClick}
     >
-      {open ? <IconArrowBarLeft /> : <IconArrowBarRight />}
+      {open ? (
+        <IconLayoutSidebarLeftCollapse />
+      ) : (
+        <IconLayoutSidebarLeftExpand />
+      )}
     </button>
   );
 };
@@ -58,11 +69,15 @@ export const SecondaryMenuOpener = ({ onClick, open, visible }: any) => {
   return (
     <button
       className={`${visible ? 'block' : 'invisible'}
-        text-black hover:text-gray-400 
-        dark:text-white dark:hover:text-gray-300`}
+         hover:text-neutral-500 dark:hover:text-neutral-400
+        text-black dark:text-white`}
       onClick={onClick}
     >
-      {open ? <IconArrowBarRight /> : <IconArrowBarLeft />}
+      {open ? (
+        <IconLayoutSidebarRightCollapse />
+      ) : (
+        <IconLayoutSidebarRightExpand />
+      )}
     </button>
   );
 };

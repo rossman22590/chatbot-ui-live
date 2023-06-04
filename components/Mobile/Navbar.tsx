@@ -50,24 +50,28 @@ export const Navbar: FC<Props> = ({
   };
 
   return (
-    <nav className="h-[50px] flex w-full justify-between bg-[#202123] py-3 px-4">
+    <nav className="h-[50px] bg-[#efefef] dark:bg-[#202123] flex w-full justify-between py-3 px-4">
       {' '}
       <PrimaryMenuOpener
-        visible={!showSecondaryMenu}
+        visible={true}
         onClick={handleShowPrimaryMenu}
         open={showPrimaryMenu}
       />
-      <div className="flex w-full justify-between bg-[#202123] px-8">
-        <div className="left-[100px] text-black dark:text-white max-w-[280px] overflow-hidden text-ellipsis whitespace-nowrap">
+      <div className="flex w-full justify-between px-8">
+        <div
+          className="left-[100px] text-black dark:text-white max-w-[280px]
+        overflow-hidden text-ellipsis whitespace-nowrap"
+        >
           {selectedConversation.name}
         </div>
         <IconPlus
-          className="cursor-pointer hover:text-neutral-400 text-black dark:text-white "
+          className="cursor-pointer hover:text-neutral-500 dark:hover:text-neutral-400
+          text-black dark:text-white"
           onClick={onNewConversation}
         />
       </div>
       <SecondaryMenuOpener
-        visible={!showPrimaryMenu}
+        visible={true}
         onClick={handleShowSecondaryMenu}
         open={showSecondaryMenu}
       />
