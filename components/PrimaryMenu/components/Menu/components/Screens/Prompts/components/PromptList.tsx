@@ -2,13 +2,13 @@ import { FC } from 'react';
 
 import { Prompt } from '@chatbot-ui/core/types/prompt';
 
-import { PromptComponent } from './Prompt';
+import { PromptComponent } from './PromptComponent';
 
 interface Props {
   prompts: Prompt[];
 }
 
-export const Prompts: FC<Props> = ({ prompts }) => {
+export const PromptList: FC<Props> = ({ prompts }) => {
   return (
     <div className="flex w-full flex-col gap-1">
       {prompts

@@ -6,13 +6,13 @@ import HomeContext from '@/pages/api/home/home.context';
 
 import Folder from '@/components/Common/Folder';
 
-import { ConversationComponent } from './Conversation';
+import { ConversationComponent } from './ConversationComponent';
 
 interface Props {
   searchTerm: string;
 }
 
-export const ChatFolders = ({ searchTerm }: Props) => {
+export const ConversationsFolders = ({ searchTerm }: Props) => {
   const {
     state: { folders, conversations },
     handleUpdateConversation,
@@ -28,7 +28,7 @@ export const ChatFolders = ({ searchTerm }: Props) => {
     }
   };
 
-  const ChatFolders = (currentFolder: FolderInterface) => {
+  const Folders = (currentFolder: FolderInterface) => {
     return (
       conversations &&
       conversations
@@ -59,7 +59,7 @@ export const ChatFolders = ({ searchTerm }: Props) => {
             searchTerm={searchTerm}
             currentFolder={folder}
             handleDrop={handleDrop}
-            folderComponent={ChatFolders(folder)}
+            folderComponent={Folders(folder)}
           />
         ))}
     </div>

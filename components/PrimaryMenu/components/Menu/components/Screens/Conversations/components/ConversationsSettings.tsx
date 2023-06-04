@@ -9,10 +9,10 @@ import { SidebarButton } from '@/components/Common/Sidebar/SidebarButton';
 import { Import } from '@/components/Settings/Import';
 import { Key } from '@/components/Settings/Key';
 
-import ChatbarContext from '../Chatbar.context';
+import ConversationsContext from '../Conversations.context';
 import { ClearConversations } from './ClearConversations';
 
-export const ChatbarSettings = () => {
+export const ConversationsSettings = () => {
   const { t } = useTranslation('sidebar');
 
   const {
@@ -24,7 +24,7 @@ export const ChatbarSettings = () => {
     handleImportConversations,
     handleExportData,
     handleApiKeyChange,
-  } = useContext(ChatbarContext);
+  } = useContext(ConversationsContext);
 
   return (
     <div

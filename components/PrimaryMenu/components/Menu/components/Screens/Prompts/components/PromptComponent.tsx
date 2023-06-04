@@ -16,7 +16,7 @@ import { Prompt } from '@chatbot-ui/core/types/prompt';
 
 import SidebarActionButton from '@/components/Common/Buttons/SidebarActionButton';
 
-import PromptbarContext from '../PromptBar.context';
+import PromptsContext from '../Prompts.context';
 import { PromptModal } from './PromptModal';
 
 interface Props {
@@ -28,7 +28,7 @@ export const PromptComponent = ({ prompt }: Props) => {
     dispatch: promptDispatch,
     handleUpdatePrompt,
     handleDeletePrompt,
-  } = useContext(PromptbarContext);
+  } = useContext(PromptsContext);
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState(false);

@@ -20,7 +20,7 @@ import HomeContext from '@/pages/api/home/home.context';
 
 import SidebarActionButton from '@/components/Common/Buttons/SidebarActionButton';
 
-import ChatbarContext from '../Chatbar.context';
+import ConversationsContext from '../Conversations.context';
 
 interface Props {
   conversation: Conversation;
@@ -33,7 +33,7 @@ export const ConversationComponent = ({ conversation }: Props) => {
     handleUpdateConversation,
   } = useContext(HomeContext);
 
-  const { handleDeleteConversation } = useContext(ChatbarContext);
+  const { handleDeleteConversation } = useContext(ConversationsContext);
 
   const [isDeleting, setIsDeleting] = useState(false);
   const [isRenaming, setIsRenaming] = useState(false);

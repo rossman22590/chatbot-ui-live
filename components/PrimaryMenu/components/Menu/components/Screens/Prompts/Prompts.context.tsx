@@ -4,16 +4,16 @@ import { ActionType } from '@/hooks/useCreateReducer';
 
 import { Prompt } from '@chatbot-ui/core/types/prompt';
 
-import { PromptbarInitialState } from './Promptbar.state';
+import { PromptsInitialState } from './Prompts.state';
 
-export interface PromptbarContextProps {
-  state: PromptbarInitialState;
-  dispatch: Dispatch<ActionType<PromptbarInitialState>>;
+export interface PromptsContextProps {
+  state: PromptsInitialState;
+  dispatch: Dispatch<ActionType<PromptsInitialState>>;
   handleCreatePrompt: () => void;
   handleDeletePrompt: (prompt: Prompt) => void;
   handleUpdatePrompt: (prompt: Prompt) => void;
 }
 
-const PromptbarContext = createContext<PromptbarContextProps>(undefined!);
+const PromptsContext = createContext<PromptsContextProps>(undefined!);
 
-export default PromptbarContext;
+export default PromptsContext;

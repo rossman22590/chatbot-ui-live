@@ -16,18 +16,18 @@ import { Prompt } from '@chatbot-ui/core/types/prompt';
 import HomeContext from '@/pages/api/home/home.context';
 
 import { PromptFolders } from './components/PromptFolders';
-import { Prompts } from './components/Prompts';
+import { PromptList } from './components/PromptList';
 import Search from '@/components/Common/Search';
 
-import PromptbarContext from './PromptBar.context';
-import { PromptbarInitialState, initialState } from './Promptbar.state';
+import PromptsContext from './Prompts.context';
+import { PromptsInitialState, initialState } from './Prompts.state';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const Promptbar = () => {
+const Prompts = () => {
   const { t } = useTranslation('promptbar');
 
-  const promptBarContextValue = useCreateReducer<PromptbarInitialState>({
+  const promptBarContextValue = useCreateReducer<PromptsInitialState>({
     initialState,
   });
 
@@ -132,7 +132,7 @@ const Promptbar = () => {
   const createFolder = () => handleCreateFolder(t('New folder'), 'prompt');
 
   return (
-    <PromptbarContext.Provider
+    <PromptsContext.Provider
       value={{
         ...promptBarContextValue,
         handleCreatePrompt,
@@ -186,7 +186,7 @@ const Promptbar = () => {
             onDragEnter={highlightDrop}
             onDragLeave={removeHighlight}
           >
-            <Prompts
+            <PromptList
               prompts={filteredPrompts.filter((prompt) => !prompt.folderId)}
             />
           </div>
@@ -197,8 +197,8 @@ const Promptbar = () => {
           </div>
         )}
       </div>
-    </PromptbarContext.Provider>
+    </PromptsContext.Provider>
   );
 };
 
-export default Promptbar;
+export default Prompts;

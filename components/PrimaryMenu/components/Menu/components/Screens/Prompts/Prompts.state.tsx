@@ -1,11 +1,11 @@
 import { Prompt } from '@chatbot-ui/core/types/prompt';
 
-export interface PromptbarInitialState {
+export interface PromptsInitialState {
   searchTerm: string;
   filteredPrompts: Prompt[];
 }
 
-export const initialState: PromptbarInitialState = {
+export const initialState: PromptsInitialState = {
   searchTerm: '',
   filteredPrompts: [],
 };

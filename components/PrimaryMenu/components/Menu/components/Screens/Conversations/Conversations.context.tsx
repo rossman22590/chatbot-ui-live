@@ -5,13 +5,13 @@ import { ActionType } from '@/hooks/useCreateReducer';
 import { SupportedExportFormats } from '@/types/export';
 import { Conversation } from '@chatbot-ui/core/types/chat';
 
-import { ChatbarInitialState } from './Chatbar.state';
+import { ConversationsInitialState } from './Conversations.state';
 
 import { Database } from '@chatbot-ui/core';
 
-export interface ChatbarContextProps {
-  state: ChatbarInitialState;
-  dispatch: Dispatch<ActionType<ChatbarInitialState>>;
+export interface ConversationsContextProps {
+  state: ConversationsInitialState;
+  dispatch: Dispatch<ActionType<ConversationsInitialState>>;
   handleDeleteConversation: (conversation: Conversation) => void;
   handleClearConversations: () => void;
   handleExportData: (database: Database) => void;
@@ -19,6 +19,8 @@ export interface ChatbarContextProps {
   handleApiKeyChange: (apiKey: string) => void;
 }
 
-const ChatbarContext = createContext<ChatbarContextProps>(undefined!);
+const ConversationsContext = createContext<ConversationsContextProps>(
+  undefined!,
+);
 
-export default ChatbarContext;
+export default ConversationsContext;

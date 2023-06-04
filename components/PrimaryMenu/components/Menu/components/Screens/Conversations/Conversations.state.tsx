@@ -1,11 +1,11 @@
 import { Conversation } from '@chatbot-ui/core/types/chat';
 
-export interface ChatbarInitialState {
+export interface ConversationsInitialState {
   searchTerm: string;
   filteredConversations: Conversation[];
 }
 
-export const initialState: ChatbarInitialState = {
+export const initialState: ConversationsInitialState = {
   searchTerm: '',
   filteredConversations: [],
 };

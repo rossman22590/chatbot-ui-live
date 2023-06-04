@@ -1,12 +1,12 @@
 import { Conversation } from '@chatbot-ui/core/types/chat';
 
-import { ConversationComponent } from './Conversation';
+import { ConversationComponent } from './ConversationComponent';
 
 interface Props {
   conversations: Conversation[];
 }
 
-export const Conversations = ({ conversations }: Props) => {
+export const ConversationList = ({ conversations }: Props) => {
   return (
     <div className="flex w-full flex-col gap-1">
       {conversations

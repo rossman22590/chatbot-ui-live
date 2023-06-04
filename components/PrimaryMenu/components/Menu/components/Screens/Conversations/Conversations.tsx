@@ -26,23 +26,25 @@ import { Conversation } from '@chatbot-ui/core/types/chat';
 
 import HomeContext from '@/pages/api/home/home.context';
 
-import { ChatFolders } from './components/ChatFolders';
-import { ChatbarSettings } from './components/ChatbarSettings';
-import { Conversations } from './components/Conversations';
+import { ConversationList } from './components/ConversationList';
+import { ConversationsSettings } from './components/ConversationsSettings';
+import { ConversationsFolders } from './components/Folders';
 import Search from '@/components/Common/Search';
 
-import ChatbarContext from './Chatbar.context';
-import { ChatbarInitialState, initialState } from './Chatbar.state';
+import ConversationsContext from './Conversations.context';
+import { ConversationsInitialState, initialState } from './Conversations.state';
 
 import { Database } from '@chatbot-ui/core';
 import { v4 as uuidv4 } from 'uuid';
 
-export const Chatbar = () => {
-  const { t } = useTranslation('sidebar');
+export const Conversations = () => {
+  const { t } = useTranslation('conversations');
 
-  const chatBarContextValue = useCreateReducer<ChatbarInitialState>({
-    initialState,
-  });
+  const conversationsContextValue = useCreateReducer<ConversationsInitialState>(
+    {
+      initialState,
+    },
+  );
 
   const {
     state: {
@@ -62,7 +64,7 @@ export const Chatbar = () => {
   const {
     state: { searchTerm, filteredConversations },
     dispatch: chatDispatch,
-  } = chatBarContextValue;
+  } = conversationsContextValue;
 
   const handleApiKeyChange = useCallback(
     (apiKey: string) => {
@@ -206,9 +208,9 @@ export const Chatbar = () => {
   };
 
   return (
-    <ChatbarContext.Provider
+    <ConversationsContext.Provider
       value={{
-        ...chatBarContextValue,
+        ...conversationsContextValue,
         handleDeleteConversation,
         handleClearConversations,
         handleImportConversations,
@@ -248,7 +250,7 @@ export const Chatbar = () => {
       <div className="flex-grow overflow-auto">
         {filteredConversations?.length > 0 && (
           <div className="flex border-b border-theme-border-light dark:border-theme-border-dark pb-2">
-            <ChatFolders searchTerm={searchTerm} />
+            <ConversationsFolders searchTerm={searchTerm} />
           </div>
         )}
 
@@ -260,7 +262,7 @@ export const Chatbar = () => {
             onDragEnter={highlightDrop}
             onDragLeave={removeHighlight}
           >
-            <Conversations conversations={filteredConversations} />
+            <ConversationList conversations={filteredConversations} />
           </div>
         ) : (
           <div className="mt-8 select-none text-center text-black dark:text-white opacity-50">
@@ -269,7 +271,7 @@ export const Chatbar = () => {
           </div>
         )}
       </div>
-      <ChatbarSettings />
-    </ChatbarContext.Provider>
+      <ConversationsSettings />
+    </ConversationsContext.Provider>
   );
 };

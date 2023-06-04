@@ -9,10 +9,10 @@ import { useCreateReducer } from '@/hooks/useCreateReducer';
 
 import ActivityBar from './components/ActivityBar/ActivityBar';
 import Menu from './components/Menu/Menu';
-import { Chatbar } from './components/Menu/components/Screens/Chatbar/Chatbar';
+import { Conversations } from './components/Menu/components/Screens/Conversations/Conversations';
 import { LearningScreen } from './components/Menu/components/Screens/Learning/LearningScreen';
 import { PluginCatalog } from './components/Menu/components/Screens/Plugins/PluginCatalog';
-import Promptbar from './components/Menu/components/Screens/Promptbar/Promptbar';
+import Prompts from './components/Menu/components/Screens/Prompts/Prompts';
 
 import PrimaryMenuContext from './PrimaryMenu.context';
 import { PrimaryMenuInitialState, initialState } from './PrimaryMenu.state';
@@ -30,8 +30,8 @@ export const PrimaryMenu = () => {
   ];
 
   const screens = [
-    <Chatbar key={0} />,
-    <Promptbar key={1} />,
+    <Conversations key={0} />,
+    <Prompts key={1} />,
     <PluginCatalog key={2} />,
     <LearningScreen key={3} />,
   ];
