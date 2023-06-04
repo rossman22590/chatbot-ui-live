@@ -16,7 +16,7 @@ module.exports = {
         'theme-primary-menu-dark': '#1f2428',
         'theme-primary-menu-light': '#f4f6ff',
         'theme-select-dark': '#1f2428',
-        'theme-select-light': '#F9f9f9',
+        'theme-select-light': '#f4f6ff',
       },
       backgroundColor: {
         'theme-dark': '#343541',
@@ -60,7 +60,7 @@ module.exports = {
         },
         'zoom-pulse': {
           '0%': { transform: 'scale(1)' },
-          '50%': { transform: 'scale(1.15)' },
+          '50%': { transform: 'scale(1.05)' },
           '100%': { transform: 'scale(1)' },
         },
       },

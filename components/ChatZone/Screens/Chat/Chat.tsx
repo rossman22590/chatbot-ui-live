@@ -230,25 +230,40 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
             >
               {selectedConversation?.messages.length === 0 ? (
                 <>
-                  <div className="h-full w-full px-4 flex self-center items-center align-middle justify-center">
-                    <div className="text-center text-black dark:text-white">
-                      <div className="animate-zoom-pulse-slow">
+                  <div className="h-full w-full px-4 flex flex-col self-center items-center align-middle justify-center">
+                    <div className="animate-zoom-pulse-slow">
+                      <div className="flex flex-row self-center items-center align-middle justify-center">
                         <div
-                          className="pb-3 flex flex-row self-center items-end align-middle justify-center text-transparent 
+                          className="absolute h-[52px] w-[36px] z-0 right-[-20px] font-bold text-2xl
+                        text-neutral-700 dark:text-neutral-300 rounded-r-2xl shadow-xl
+                        bg-[#d8d9db] dark:bg-[#58595b]"
+                        ></div>
+                        <div
+                          className="h-[54px] z-10 flex flex-row self-center items-start align-middle justify-center
+                          w-fit bg-[#e7eaf5] dark:bg-[#1b1f23] rounded-2xl px-2 py-1 shadow-xl"
+                        >
+                          <div
+                            className="flex flex-row self-center items-end align-middle justify-center text-transparent 
                           bg-gradient-to-r from-fuchsia-700 via-violet-900 to-indigo-500
                           dark:from-fuchsia-500 dark:via-violet-600 dark:to-indigo-400
                           bg-clip-text bg-175% animate-bg-pan-fast rotate-0"
-                        >
-                          <div className="text-4xl font-light pb-[2px]">UN</div>
-                          <div className="text-6xl font-semibold">SAGED</div>
-                          <div className="text-4xl font-light pb-[2px]">
-                            &nbsp;UI
+                          >
+                            <div className="text-3xl font-light pb-[2px]">
+                              UN
+                            </div>
+                            <div className="text-5xl font-semibold">SAGED</div>
                           </div>
                         </div>
+                        <div
+                          className="absolute -rotate-90 right-[-21px] font-mono font-normal text-lg
+                        text-[#ff9532] dark:text-[#c7e33a]"
+                        >
+                          UI
+                        </div>
                       </div>
-                      <div className="text-2xl font-light">
-                        {getRandomQuote()}
-                      </div>
+                    </div>
+                    <div className="text-center text-black dark:text-white mt-2 text-2xl font-light">
+                      {getRandomQuote()}
                     </div>
                   </div>
                 </>
