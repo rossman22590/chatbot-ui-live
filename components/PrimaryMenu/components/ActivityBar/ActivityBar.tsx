@@ -1,5 +1,6 @@
 import {
   IconBrandDiscord,
+  IconBrandGithub,
   IconLogout,
   IconSettings,
 } from '@tabler/icons-react';
@@ -87,6 +88,14 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
 
       {/* Settings buttons align to bottom */}
       <div className="flex flex-col items-center space-y-6">
+        <ActivityBarButton>
+          <a
+            href="https://github.com/jorge-menjivar/unsaged-ui"
+            target="_blank"
+          >
+            <IconBrandGithub size={28} />
+          </a>
+        </ActivityBarButton>
         <ActivityBarButton>
           <a href="https://discord.gg/q9AQP2w6gK" target="_blank">
             <IconBrandDiscord size={28} />
