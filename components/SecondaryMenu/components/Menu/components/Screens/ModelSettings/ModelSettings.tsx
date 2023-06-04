@@ -1,37 +1,34 @@
-import { IconInfoCircle } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 
+import { InfoTooltip } from './components/InfoTooltip';
 import { ModelSelect } from './components/ModelSelect';
 import { SystemPromptSelect } from './components/SystemPromptSelect';
 import { TemperatureSlider } from './components/Temperature';
+import { PrimaryLabel } from '@/components/Common/Labels/PrimaryLabel';
 
 export const ModelSettings = () => {
   const { t } = useTranslation('modelSettings');
 
   return (
     <div className="pt-2 px-1 space-y-1">
-      <label className="flex items-center text-left pl-1 text-black dark:text-white">
+      <PrimaryLabel tip={t('The model used for this conversation')}>
         {t('Model')}
-        <InfoCircle />
-      </label>
+      </PrimaryLabel>
       <ModelSelect />
 
-      <label className="pt-3 flex items-center text-left pl-1 text-black dark:text-white">
+      <PrimaryLabel tip={t('The system prompt to use when sending a message')}>
         {t('System Prompt')}
-        <InfoCircle />
-      </label>
+      </PrimaryLabel>
       <SystemPromptSelect />
 
-      <label className="pt-3 flex items-center text-left pl-1 pr-1 text-black dark:text-white">
+      <PrimaryLabel
+        tip={t(
+          'Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.',
+        )}
+      >
         {t('Temperature')}
-        <InfoCircle />
-      </label>
-
+      </PrimaryLabel>
       <TemperatureSlider />
     </div>
   );
-};
-
-const InfoCircle = ({ children }: any) => {
-  return <IconInfoCircle height={18} width={18} className="ml-1" />;
 };

@@ -31,7 +31,7 @@ export const ModelSelect = () => {
       "
     >
       <select
-        className="text-left w-full bg-transparent p-1 text-sm"
+        className="text-left w-full bg-transparent text-sm"
         value={selectedConversation?.model?.id || defaultModelId}
         onChange={handleChange}
       >
