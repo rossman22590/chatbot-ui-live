@@ -265,8 +265,8 @@ export const ChatInput = ({
   return (
     <div
       className="absolute bottom-0 left-0 w-full border-transparent bg-gradient-to-b 
-      dark:border-white/20 from-transparent via-[#f4f5ff] to-[#e4e7ff]
-      dark:via-[#31323d] dark:to-[#26272f]"
+      dark:border-white/20 from-transparent via-[#f6f7ff] to-[#e9ebff]
+      dark:via-[#1e2328] dark:to-[#191d22]"
     >
       <div className="relative mb-2 mt-4 flex-row gap-4 last:mb-2 md:mx-4 md:mt-[52px] md:last:mb-6 lg:mx-auto lg:max-w-3xl">
         {messageIsStreaming && (
