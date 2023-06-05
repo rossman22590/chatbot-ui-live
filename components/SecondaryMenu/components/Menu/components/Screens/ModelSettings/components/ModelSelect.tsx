@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { OpenAIModel, OpenAIModelID, OpenAIModels } from '@/types/openai';
+import { AiModel, PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
 
 import HomeContext from '@/pages/api/home/home.context';
 
@@ -11,8 +11,8 @@ export const ModelSelect = () => {
   } = useContext(HomeContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const model_id = e.target.value as keyof typeof OpenAIModelID;
-    const model: OpenAIModel = (OpenAIModels as any)[model_id];
+    const model_id = e.target.value as string;
+    const model: AiModel = PossibleAiModels[model_id];
     selectedConversation &&
       handleUpdateConversation(selectedConversation, {
         key: 'model',
@@ -41,7 +41,7 @@ export const ModelSelect = () => {
             value={model.id}
             className="bg-theme-primary-menu-light dark:bg-theme-primary-menu-dark text-black dark:text-white"
           >
-            {model.name}
+            {model.id}
           </option>
         ))}
       </select>

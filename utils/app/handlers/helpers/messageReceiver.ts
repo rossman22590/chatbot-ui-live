@@ -49,7 +49,15 @@ export async function messageReceiver(
     const { value, done: doneReading } = await reader.read();
     done = doneReading;
     const chunkValue = decoder.decode(value);
-    text += chunkValue;
+
+    if (conversation.model.vendor === 'OpenAI') {
+      text += chunkValue;
+    } else {
+      console.log('chunkValue', chunkValue);
+      if (chunkValue) {
+        text = chunkValue;
+      }
+    }
 
     // This is a request to use a plugin
     if (text.includes('λ/') && !usingPlugin) {

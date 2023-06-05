@@ -10,7 +10,7 @@ import {
   storageUpdatePrompt,
 } from '@/utils/app/storage/prompt';
 
-import { OpenAIModels } from '@/types/openai';
+import { PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
 import { Prompt } from '@chatbot-ui/core/types/prompt';
 
 import HomeContext from '@/pages/api/home/home.context';
@@ -51,7 +51,7 @@ const Prompts = () => {
         name: `Prompt ${prompts.length + 1}`,
         description: '',
         content: '',
-        model: OpenAIModels[defaultModelId],
+        models: [],
         folderId: null,
       };
 

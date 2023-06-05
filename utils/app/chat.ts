@@ -7,8 +7,8 @@ export const sendChatRequest = async (
   const chatBody: ChatBody = {
     model: conversation.model,
     messages: conversation.messages,
-    key: apiKey,
-    prompt: conversation.prompt,
+    apiKey: apiKey,
+    systemPrompt: conversation.systemPrompt,
     temperature: conversation.temperature,
   };
   let body = JSON.stringify(chatBody);

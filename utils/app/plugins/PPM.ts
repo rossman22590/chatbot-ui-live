@@ -3,8 +3,8 @@ import { MutableRefObject } from 'react';
 import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
 
 import { InstalledPlugin, PluginCall } from '@/types/plugin';
+import { PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
-import { OpenAIModels } from '@chatbot-ui/core/types/openai';
 
 import { sendChatRequest } from '../chat';
 import { getPPMPrompt } from './PPMPrompt';
@@ -44,11 +44,11 @@ export const invokePPM = async (
 
   const customConversation: Conversation = {
     id: conversation.id,
-    model: OpenAIModels['gpt-4'],
+    model: PossibleAiModels['gpt-4'],
     name: 'Plugin Parser',
     temperature: 0.1,
     messages: messages,
-    prompt: systemPrompt,
+    systemPrompt: systemPrompt,
     folderId: null,
     timestamp: new Date().toISOString(),
     enabledPlugins: [],

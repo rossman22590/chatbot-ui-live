@@ -21,7 +21,7 @@ import {
 } from '@/utils/app/storage/selectedConversation';
 
 import { LatestExportFormat, SupportedExportFormats } from '@/types/export';
-import { OpenAIModels } from '@/types/openai';
+import { PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
 import { Conversation } from '@chatbot-ui/core/types/chat';
 
 import HomeContext from '@/pages/api/home/home.context';
@@ -147,7 +147,7 @@ export const Conversations = () => {
             id: uuidv4(),
             name: t('New Conversation'),
             messages: [],
-            model: OpenAIModels[defaultModelId],
+            model: PossibleAiModels[defaultModelId],
             prompt: DEFAULT_SYSTEM_PROMPT,
             temperature: DEFAULT_TEMPERATURE,
             folderId: null,

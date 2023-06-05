@@ -12,8 +12,8 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@chatbot-ui/core": "^1.0.6",
-    "@chatbot-ui/local-storage": "^1.0.1",
+    "@chatbot-ui/core": "^1.0.7",
+    "@chatbot-ui/local-storage": "^1.0.2",
     "@dqbd/tiktoken": "^1.0.2",
     "@headlessui/react": "^1.7.14",
     "@next-auth/supabase-adapter": "^0.2.1",

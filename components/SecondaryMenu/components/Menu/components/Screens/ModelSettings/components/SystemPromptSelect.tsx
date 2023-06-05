@@ -37,12 +37,23 @@ export const SystemPromptSelect = () => {
     id: '0',
     name: 'Built-in',
     content: DEFAULT_SYSTEM_PROMPT,
+    models: [
+      // Allowing the default system prompt to be used with all models
+      'gpt-3.5-turbo',
+      'gpt-35-az',
+      'gpt-4',
+      'gpt-4-32k',
+      'claude-v1',
+      'claude-v1-100k',
+      'claude-instant-v1',
+      'claude-instant-v1-100k',
+    ],
   };
   const injectedSystemPrompts = [builtInSystemPrompt, ...systemPrompts];
 
   const conversationPromptId =
     injectedSystemPrompts.filter(
-      (prompt) => prompt.content === selectedConversation?.prompt,
+      (prompt) => prompt.content === selectedConversation?.systemPrompt,
     )[0]?.id || builtInSystemPrompt.id;
   return (
     <div

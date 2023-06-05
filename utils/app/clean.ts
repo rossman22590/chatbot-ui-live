@@ -1,4 +1,4 @@
-import { OpenAIModelID, OpenAIModels } from '@/types/openai';
+import { PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
 import { Conversation } from '@chatbot-ui/core/types/chat';
 
 import {
@@ -22,16 +22,16 @@ export const cleanSelectedConversation = (conversation: Conversation) => {
       ...updatedConversation,
       model:
         updatedConversation.model || OPENAI_API_TYPE === 'azure'
-          ? OpenAIModels[OpenAIModelID.GPT_3_5_AZ]
-          : OpenAIModels[OpenAIModelID.GPT_3_5],
+          ? PossibleAiModels['gpt-35-az']
+          : PossibleAiModels['gpt-3-5'],
     };
   }
 
   // check for system prompt on each conversation
-  if (!updatedConversation.prompt) {
+  if (!updatedConversation.systemPrompt) {
     updatedConversation = {
       ...updatedConversation,
-      prompt: updatedConversation.prompt || DEFAULT_SYSTEM_PROMPT,
+      systemPrompt: updatedConversation.systemPrompt || DEFAULT_SYSTEM_PROMPT,
     };
   }
 
@@ -76,8 +76,8 @@ export const cleanConversationHistory = (history: any[]): Conversation[] => {
       if (!conversation.model) {
         conversation.model =
           OPENAI_API_TYPE === 'azure'
-            ? OpenAIModels[OpenAIModelID.GPT_3_5_AZ]
-            : OpenAIModels[OpenAIModelID.GPT_3_5];
+            ? PossibleAiModels['gpt-35-az']
+            : PossibleAiModels['gpt-3-5'];
       }
 
       if (!conversation.prompt) {

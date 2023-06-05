@@ -1,12 +1,11 @@
 import { getUser } from '@/utils/app/auth/helpers';
 import { getDatabase } from '@/utils/app/extensions/database';
-import { getSettings } from '@/utils/app/storage/settings';
 
 import { ErrorMessage } from '@/types/error';
 import { Namespace } from '@/types/learning';
-import { OpenAIModel, OpenAIModelID } from '@/types/openai';
 import { InstalledPlugin, QuickViewPlugin } from '@/types/plugin';
 import { Settings } from '@/types/settings';
+import { AiModel } from '@chatbot-ui/core/types/ai-models';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { FolderInterface } from '@chatbot-ui/core/types/folder';
@@ -22,7 +21,7 @@ export interface HomeInitialState {
   lightMode: 'light' | 'dark';
   messageIsStreaming: boolean;
   modelError: ErrorMessage | null;
-  models: OpenAIModel[];
+  models: AiModel[];
   folders: FolderInterface[];
   conversations: Conversation[];
   selectedConversation: Conversation | undefined;
@@ -34,7 +33,7 @@ export interface HomeInitialState {
   currentFolder: FolderInterface | undefined;
   messageError: boolean;
   searchTerm: string;
-  defaultModelId: OpenAIModelID | undefined;
+  defaultModelId: string | undefined;
   serverSideApiKeyIsSet: boolean;
   systemPrompts: SystemPrompt[];
   defaultSystemPromptId: string;

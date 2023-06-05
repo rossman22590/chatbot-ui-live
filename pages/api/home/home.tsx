@@ -67,20 +67,20 @@ import {
   storageUpdateSystemPrompt,
 } from '@/utils/app/storage/systemPrompt';
 import { storageGetSystemPrompts } from '@/utils/app/storage/systemPrompts';
+import { dockerEnvVarFix } from '@chatbot-ui/core/utils/docker';
 import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
 
 import { KeyValuePair } from '@/types/data';
 import { Namespace } from '@/types/learning';
-import { OpenAIModelID, OpenAIModels, fallbackModelID } from '@/types/openai';
 import { InstalledPlugin } from '@/types/plugin';
 import { SettingChoice } from '@/types/settings';
+import { PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { FolderType } from '@chatbot-ui/core/types/folder';
 import { Prompt } from '@chatbot-ui/core/types/prompt';
 import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import { ChatZone } from '@/components/ChatZone/ChatZone';
-import { SecondaryMenuOpener } from '@/components/Common/Sidebar/components/OpenCloseButton';
 import { Navbar } from '@/components/Mobile/Navbar';
 import { PrimaryMenu } from '@/components/PrimaryMenu/PrimaryMenu';
 import { SecondaryMenu } from '@/components/SecondaryMenu/SecondaryMenu';
@@ -92,7 +92,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
   serverSideApiKeyIsSet: boolean;
-  defaultModelId: OpenAIModelID;
+  defaultModelId: string;
 }
 
 const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
@@ -242,14 +242,8 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       id: uuidv4(),
       name: `${t('New Conversation')}`,
       messages: [],
-      model: lastConversation?.model || {
-        id: OpenAIModels[defaultModelId].id,
-        name: OpenAIModels[defaultModelId].name,
-        maxLength: OpenAIModels[defaultModelId].maxLength,
-        tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
-        requestLimit: OpenAIModels[defaultModelId].requestLimit,
-      },
-      prompt: systemPrompt,
+      model: lastConversation?.model || PossibleAiModels[defaultModelId],
+      systemPrompt: systemPrompt,
       temperature: DEFAULT_TEMPERATURE,
       folderId: null,
       timestamp: getTimestampWithTimezoneOffset(),
@@ -278,14 +272,8 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
         id: uuidv4(),
         name: `${t('New Conversation')}`,
         messages: [],
-        model: {
-          id: OpenAIModels[defaultModelId].id,
-          name: OpenAIModels[defaultModelId].name,
-          maxLength: OpenAIModels[defaultModelId].maxLength,
-          tokenLimit: OpenAIModels[defaultModelId].tokenLimit,
-          requestLimit: OpenAIModels[defaultModelId].requestLimit,
-        },
-        prompt: systemPrompt,
+        model: PossibleAiModels[defaultModelId],
+        systemPrompt: systemPrompt,
         temperature: DEFAULT_TEMPERATURE,
         folderId: null,
         timestamp: getTimestampWithTimezoneOffset(),
@@ -376,6 +364,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       id: uuidv4(),
       name: `${t('New System Prompt')}`,
       content: DEFAULT_SYSTEM_PROMPT,
+      models: [],
     };
 
     const updatedSystemPrompts = storageCreateSystemPrompt(
@@ -628,13 +617,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  const defaultModelId =
-    (process.env.DEFAULT_MODEL &&
-      Object.values(OpenAIModelID).includes(
-        process.env.DEFAULT_MODEL as OpenAIModelID,
-      ) &&
-      process.env.DEFAULT_MODEL) ||
-    fallbackModelID;
+  const defaultModelId = dockerEnvVarFix(process.env.DEFAULT_MODEL);
 
   return {
     props: {

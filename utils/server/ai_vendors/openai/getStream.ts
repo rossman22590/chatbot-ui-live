@@ -1,12 +1,13 @@
-import { OpenAIModel } from '@/types/openai';
-import { Message } from '@chatbot-ui/core/types/chat';
-
 import {
-  OPENAI_API_HOST,
+  OPENAI_API_KEY,
   OPENAI_API_TYPE,
+  OPENAI_API_URL,
   OPENAI_API_VERSION,
   OPENAI_ORGANIZATION,
-} from '../app/const';
+} from '@/utils/app/const';
+
+import { AiModel } from '@chatbot-ui/core/types/ai-models';
+import { Message } from '@chatbot-ui/core/types/chat';
 
 import {
   ParsedEvent,
@@ -14,40 +15,44 @@ import {
   createParser,
 } from 'eventsource-parser';
 
-export class OpenAIError extends Error {
-  type: string;
-  param: string;
-  code: string;
-
-  constructor(message: string, type: string, param: string, code: string) {
-    super(message);
-    this.name = 'OpenAIError';
-    this.type = type;
-    this.param = param;
-    this.code = code;
-  }
-}
-
-export const OpenAIStream = async (
-  model: OpenAIModel,
+export async function streamOpenAI(
+  model: AiModel,
   systemPrompt: string,
   temperature: number,
-  key: string,
+  apiKey: string,
   messages: Message[],
   tokenCount: number,
-) => {
-  let url = `${OPENAI_API_HOST}/v1/chat/completions`;
+) {
+  if (!apiKey) {
+    if (!OPENAI_API_KEY) {
+      return { error: 'Missing API key' };
+    } else {
+      apiKey = OPENAI_API_KEY;
+    }
+  }
+
+  let messagesToSend: any[] = [];
+
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const message = {
+      role: messages[i].role,
+      content: messages[i].content,
+    };
+    messagesToSend = [message, ...messagesToSend];
+  }
+
+  let url = `${OPENAI_API_URL}/chat/completions`;
   if (OPENAI_API_TYPE === 'azure') {
-    url = `${OPENAI_API_HOST}/openai/deployments/${model.id}/chat/completions?api-version=${OPENAI_API_VERSION}`;
+    url = `${OPENAI_API_URL}/openai/deployments/${model.id}/chat/completions?api-version=${OPENAI_API_VERSION}`;
   }
   const res = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
       ...(OPENAI_API_TYPE === 'openai' && {
-        Authorization: `Bearer ${key ? key : process.env.OPENAI_API_KEY}`,
+        Authorization: `Bearer ${apiKey}`,
       }),
       ...(OPENAI_API_TYPE === 'azure' && {
-        'api-key': `${key ? key : process.env.OPENAI_API_KEY}`,
+        'api-key': apiKey,
       }),
       ...(OPENAI_API_TYPE === 'openai' &&
         OPENAI_ORGANIZATION && {
@@ -62,7 +67,7 @@ export const OpenAIStream = async (
           role: 'system',
           content: systemPrompt,
         },
-        ...messages,
+        ...messagesToSend,
       ],
       max_tokens: model.tokenLimit - tokenCount,
       temperature: temperature,
@@ -76,12 +81,7 @@ export const OpenAIStream = async (
   if (res.status !== 200) {
     const result = await res.json();
     if (result.error) {
-      throw new OpenAIError(
-        result.error.message,
-        result.error.type,
-        result.error.param,
-        result.error.code,
-      );
+      return { error: result.error };
     } else {
       throw new Error(
         `OpenAI API returned an error: ${
@@ -120,5 +120,5 @@ export const OpenAIStream = async (
     },
   });
 
-  return stream;
-};
+  return { stream: stream };
+}
