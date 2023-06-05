@@ -168,6 +168,8 @@ export const ChatMessage: FC<Props> = memo(
       }
     }, [message.plugin, installedPlugins, plugin]);
 
+    console.log(message);
+
     return (
       <div
         className={`sm:px-4 lg:px-8
@@ -178,7 +180,7 @@ export const ChatMessage: FC<Props> = memo(
         }`}
         style={{ overflowWrap: 'anywhere' }}
       >
-        <div className="relative m-auto flex p-4 text-base md:max-w-2xl md:gap-6 md:py-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
+        <div className="group relative m-auto flex p-4 text-base md:max-w-2xl md:gap-6 md:py-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
           <div className="min-w-[40px] text-right font-bold">
             {message.role === 'assistant' && !plugin?.manifest.logo_url && (
               <IconRobot size={30} />
