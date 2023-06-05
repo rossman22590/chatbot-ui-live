@@ -168,8 +168,6 @@ export const ChatMessage: FC<Props> = memo(
       }
     }, [message.plugin, installedPlugins, plugin]);
 
-    console.log(message);
-
     return (
       <div
         className={`sm:px-4 lg:px-8

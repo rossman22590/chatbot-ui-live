@@ -1,6 +1,10 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
+
+import { getSavedSettingValue } from '@/utils/app/storage/local/settings';
 
 import { Setting, SettingsSection } from '@/types/settings';
+
+import HomeContext from '@/pages/api/home/home.context';
 
 import SettingsContext from '../Settings.context';
 
@@ -11,7 +15,27 @@ interface Props {
 }
 
 export const SettingComponent = ({ section, setting, isSelected }: Props) => {
+  const [value, setValue] = useState('');
+
+  const {
+    state: { settings, savedSettings },
+  } = useContext(HomeContext);
   const { handleSelect, handleSave } = useContext(SettingsContext);
+
+  useEffect(() => {
+    console.log('savedSettings', savedSettings);
+    if (savedSettings && settings) {
+      const savedValue = getSavedSettingValue(
+        savedSettings,
+        settings,
+        section.id,
+        setting.id,
+      );
+      if (savedValue !== undefined) {
+        setValue(savedValue);
+      }
+    }
+  }, [savedSettings, settings, section.id, setting.id]);
 
   let component = <></>;
   if (setting.type === 'string') {
@@ -19,20 +43,23 @@ export const SettingComponent = ({ section, setting, isSelected }: Props) => {
       <div className="relative h-fit flex w-full flex-col gap-1">
         <input
           type="text"
-          className={`w-full flex-1 rounded-md border border-theme-border-light dark:border-theme-border-dark
-            bg-theme-light dark:bg-theme-dark px-4 py-3 pr-10 text-[14px] leading-3 text-black dark:text-white`}
-          onChange={(event) => handleSave(section, setting, event.target.value)}
+          value={value}
+          className={`w-full flex-1 rounded-sm border border-theme-border-light dark:border-theme-border-dark
+            bg-theme-light dark:bg-theme-dark px-2 py-1 text-[14px] leading-3 text-black dark:text-white`}
+          onChange={(event) =>
+            handleSave(section, setting, event.target.value as string)
+          }
         />
       </div>
     );
-  } else if (setting.type === 'select') {
+  } else if (setting.type === 'choice') {
     component = (
       <>
         <div className="w-1/2 p-0 m-0">
           <select
             className={`p-1 text-sm w-full bg-theme-light dark:bg-theme-select-dark cursor-pointer text-neutral-700
           dark:text-neutral-200 border border-theme-border-light dark:border-theme-border-dark`}
-            value={setting.value}
+            value={value}
             onChange={(event) =>
               handleSave(section, setting, event.target.value)
             }

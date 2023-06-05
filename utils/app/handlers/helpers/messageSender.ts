@@ -13,6 +13,8 @@ export async function messageSender(
   apiKey: string,
   homeDispatch: React.Dispatch<any>,
 ) {
+  console.log('selectedConversation', selectedConversation);
+
   let newPrompt = selectedConversation.systemPrompt;
 
   // Make the chatbot aware of the installed plugins

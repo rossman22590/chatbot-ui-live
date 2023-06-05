@@ -5,7 +5,10 @@ import { useTranslation } from 'next-i18next';
 
 import { useCreateReducer } from '@/hooks/useCreateReducer';
 
-import { getSettings, updateSettingValue } from '@/utils/app/storage/settings';
+import {
+  setSavedSetting,
+  setSavedSettings,
+} from '@/utils/app/storage/local/settings';
 
 import { Setting, SettingsSection } from '@/types/settings';
 
@@ -45,8 +48,13 @@ export const Settings = () => {
     setting: Setting,
     value: any,
   ) => {
-    const newSettings = updateSettingValue(user, section.id, setting.id, value);
-    homeDispatch({ field: 'settings', value: newSettings });
+    const newSavedSettings = setSavedSetting(
+      user,
+      section.id,
+      setting.id,
+      value,
+    );
+    homeDispatch({ field: 'savedSettings', value: newSavedSettings });
   };
 
   const handleSelect = (section: SettingsSection, setting: Setting) => {

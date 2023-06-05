@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { use, useCallback, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
 import { GetServerSideProps } from 'next';
@@ -20,6 +20,8 @@ import {
   DEFAULT_TEMPERATURE,
   LEARNING_URL,
 } from '@/utils/app/const';
+import { getSettings } from '@/utils/app/settings/getSettings';
+import { setSettingChoices } from '@/utils/app/settings/settingChoices';
 import {
   storageCreateConversation,
   storageUpdateConversation,
@@ -40,6 +42,11 @@ import {
 } from '@/utils/app/storage/local/apiKey';
 import { localGetInstalledPlugins } from '@/utils/app/storage/local/plugins';
 import {
+  getSavedSettingValue,
+  getSavedSettings,
+  setSavedSetting,
+} from '@/utils/app/storage/local/settings';
+import {
   localGetShowPrimaryMenu,
   localGetShowSecondaryMenu,
 } from '@/utils/app/storage/local/uiState';
@@ -55,12 +62,6 @@ import {
   getSelectedConversation,
   saveSelectedConversation,
 } from '@/utils/app/storage/selectedConversation';
-import {
-  deleteSettings,
-  getSettings,
-  setSettingChoices,
-  updateSettingValue,
-} from '@/utils/app/storage/settings';
 import {
   storageCreateSystemPrompt,
   storageDeleteSystemPrompt,
@@ -118,6 +119,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       systemPrompts,
       defaultSystemPromptId,
       user,
+      savedSettings,
       settings,
       installedPlugins,
     },
@@ -400,7 +402,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
 
     if (defaultSystemPromptId === systemPromptId) {
       // Resetting default system prompt to built-in
-      updateSettingValue(user, 'general', 'defaultSystemPromptId', '0');
+      setSavedSetting(user, 'general', 'defaultSystemPromptId', '0');
       dispatch({ field: 'defaultSystemPromptId', value: '0' });
     }
     dispatch({ field: 'systemPrompts', value: updatedSystemPrompts });
@@ -472,22 +474,6 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       }
     });
 
-    storageGetSystemPrompts(database, user).then((systemPrompts) => {
-      const choices: SettingChoice[] = systemPrompts.map((sp) => {
-        return { name: sp.name, value: sp.id };
-      });
-      choices.push({ name: 'Built-In', value: '0', default: true });
-      const settings = setSettingChoices(
-        user,
-        'general',
-        'defaultSystemPromptId',
-        choices,
-      );
-
-      dispatch({ field: 'settings', value: settings });
-      dispatch({ field: 'systemPrompts', value: systemPrompts });
-    });
-
     storageGetConversations(database, user).then((conversationHistory) => {
       if (conversationHistory) {
         const parsedConversationHistory: Conversation[] = conversationHistory;
@@ -526,27 +512,58 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
   // SETTINGS --------------------------------------------
 
   useEffect(() => {
-    if (!settings) {
-      dispatch({
-        field: 'settings',
-        value: getSettings(user),
+    const settings = getSettings(installedPlugins);
+    dispatch({ field: 'settings', value: settings });
+
+    storageGetSystemPrompts(database, user).then((systemPrompts) => {
+      const choices: SettingChoice[] = systemPrompts.map((sp) => {
+        return { name: sp.name, value: sp.id };
       });
-    }
-  }, [dispatch, settings, user]);
+      choices.push({ name: 'Built-In', value: '0', default: true });
+      const newSettings = setSettingChoices(
+        settings,
+        'general',
+        'defaultSystemPromptId',
+        choices,
+      );
+
+      dispatch({ field: 'settings', value: newSettings });
+      dispatch({ field: 'systemPrompts', value: systemPrompts });
+    });
+  }, [installedPlugins, dispatch, database, user]);
 
   useEffect(() => {
-    if (settings) {
+    if (!savedSettings) {
+      dispatch({
+        field: 'savedSettings',
+        value: getSavedSettings(user),
+      });
+    }
+  }, [dispatch, savedSettings, user]);
+
+  useEffect(() => {
+    if (savedSettings && settings) {
       dispatch({
         field: 'lightMode',
-        value: settings['personalization'].settings['theme'].value,
+        value: getSavedSettingValue(
+          savedSettings,
+          settings,
+          'personalization',
+          'theme',
+        ),
       });
 
       dispatch({
         field: 'defaultSystemPromptId',
-        value: settings['general'].settings['defaultSystemPromptId'].value,
+        value: getSavedSettingValue(
+          savedSettings,
+          settings,
+          'general',
+          'defaultSystemPromptId',
+        ),
       });
     }
-  }, [settings, dispatch]);
+  }, [savedSettings, settings, dispatch]);
 
   // NAMESPACES --------------------------------------------
   const handleFetchNamespaces = useCallback(async () => {

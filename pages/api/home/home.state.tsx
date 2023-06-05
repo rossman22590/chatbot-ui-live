@@ -4,7 +4,7 @@ import { getDatabase } from '@/utils/app/extensions/database';
 import { ErrorMessage } from '@/types/error';
 import { Namespace } from '@/types/learning';
 import { InstalledPlugin, QuickViewPlugin } from '@/types/plugin';
-import { Settings } from '@/types/settings';
+import { SavedSetting, SettingsSection } from '@/types/settings';
 import { AiModel } from '@chatbot-ui/core/types/ai-models';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
@@ -41,7 +41,8 @@ export interface HomeInitialState {
   selectedPlugin: QuickViewPlugin | null;
   installedPlugins: InstalledPlugin[];
   display: 'chat' | 'settings' | 'plugins';
-  settings: Settings | null;
+  savedSettings: SavedSetting[] | null;
+  settings: SettingsSection[] | null;
   namespaces: Namespace[];
   selectedNamespace: Namespace | null;
 }
@@ -73,6 +74,7 @@ export const initialState: HomeInitialState = {
   selectedPlugin: null,
   installedPlugins: [],
   display: 'chat',
+  savedSettings: null,
   settings: null,
   namespaces: [],
   selectedNamespace: null,

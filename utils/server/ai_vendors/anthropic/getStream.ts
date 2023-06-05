@@ -39,7 +39,7 @@ export async function streamAnthropic(
 
   prompt += '\n\nAssistant:';
 
-  console.log('prompt', prompt);
+  // console.log('prompt', prompt);
 
   let url = `${ANTHROPIC_API_URL}/complete`;
 

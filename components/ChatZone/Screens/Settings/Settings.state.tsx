@@ -1,5 +1,3 @@
-import { getSettings } from '@/utils/app/storage/settings';
-
 import { Setting, SettingsSection } from '@/types/settings';
 
 export interface SettingsInitialState {
