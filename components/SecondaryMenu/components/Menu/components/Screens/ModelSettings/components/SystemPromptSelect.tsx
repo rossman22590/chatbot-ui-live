@@ -58,7 +58,7 @@ export const SystemPromptSelect = () => {
   return (
     <div
       className="
-      w-full rounded-sm border border-theme-border-light dark:border-theme-border-dark
+      w-full rounded-sm
       bg-transparent text-white
       bg-gradient-to-r from-fuchsia-600 via-violet-900 to-indigo-500
       dark:from-fuchsia-500 dark:via-violet-600 dark:to-indigo-400
