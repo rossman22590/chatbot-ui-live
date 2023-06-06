@@ -9,7 +9,7 @@ Never respond in the format of a conversation. For example do not do the followi
 '''
 User: What is the weather in SF?
 
-Result: The weather in SF is 70 degrees and it is sunny.
+Result: The weather in SF is 70 degrees and it is sunny. [link to Info]
 '''
 
 Simply respond with the result. For example:
