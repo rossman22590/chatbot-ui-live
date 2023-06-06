@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import HomeContext from '@/pages/api/home/home.context';
 
-import { Chip } from './Chip';
+import { Chip } from '@/components/Common/Chips/Chip';
 
 // Return a list of models as chips without any scrolling
 export const ChipList = ({
