@@ -96,6 +96,10 @@ export async function streamOpenAI(
       const onParse = (event: ParsedEvent | ReconnectInterval) => {
         if (event.type === 'event') {
           const data = event.data;
+          if (data === '[DONE]') {
+            controller.close();
+            return;
+          }
 
           try {
             const json = JSON.parse(data);
@@ -104,7 +108,6 @@ export async function streamOpenAI(
               return;
             }
             const text = json.choices[0].delta.content;
-            console.log('completion', text);
             const queue = encoder.encode(text);
             controller.enqueue(queue);
           } catch (e) {

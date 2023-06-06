@@ -39,8 +39,6 @@ export async function streamAnthropic(
 
   prompt += '\n\nAssistant:';
 
-  // console.log('prompt', prompt);
-
   let url = `${ANTHROPIC_API_URL}/complete`;
 
   const res = await fetch(url, {
@@ -75,11 +73,17 @@ export async function streamAnthropic(
     }
   }
 
+  let sentText = '';
+
   const stream = new ReadableStream({
     async start(controller) {
       const onParse = (event: ParsedEvent | ReconnectInterval) => {
         if (event.type === 'event') {
           const data = event.data;
+          if (data === '[DONE]') {
+            controller.close();
+            return;
+          }
 
           try {
             const json = JSON.parse(data);
@@ -87,9 +91,12 @@ export async function streamAnthropic(
               controller.close();
               return;
             }
-            const text = json.completion;
-            console.log('completion', text);
-            const queue = encoder.encode(text);
+            const textReceived: string = json.completion;
+
+            const textToSend = textReceived.substring(sentText.length);
+            sentText = textReceived;
+
+            const queue = encoder.encode(textToSend);
             controller.enqueue(queue);
           } catch (e) {
             controller.error(e);
