@@ -71,7 +71,7 @@ export const SystemSettings: SettingsSection[] = [
         storage: 'local',
       },
       {
-        id: 'gpt-3.5_default_system_prompt',
+        id: 'gpt-3.5-turbo_default_system_prompt',
         name: 'GPT-3.5 Default System Prompt',
         description: 'The default system prompt to use for GPT-3.5.',
         type: 'choice',

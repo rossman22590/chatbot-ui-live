@@ -36,13 +36,12 @@ export interface HomeInitialState {
   defaultModelId: string | undefined;
   serverSideApiKeyIsSet: boolean;
   systemPrompts: SystemPrompt[];
-  defaultSystemPromptId: string;
   user: User;
   selectedPlugin: QuickViewPlugin | null;
   installedPlugins: InstalledPlugin[];
   display: 'chat' | 'settings' | 'plugins';
-  savedSettings: SavedSetting[] | null;
-  settings: SettingsSection[] | null;
+  savedSettings: SavedSetting[];
+  settings: SettingsSection[];
   namespaces: Namespace[];
   selectedNamespace: Namespace | null;
 }
@@ -69,13 +68,12 @@ export const initialState: HomeInitialState = {
   defaultModelId: undefined,
   serverSideApiKeyIsSet: false,
   systemPrompts: [],
-  defaultSystemPromptId: '0',
   user: await getUser(),
   selectedPlugin: null,
   installedPlugins: [],
   display: 'chat',
-  savedSettings: null,
-  settings: null,
+  savedSettings: [],
+  settings: [],
   namespaces: [],
   selectedNamespace: null,
 };

@@ -21,9 +21,6 @@ export interface HomeContextProps {
     conversation: Conversation,
     data: KeyValuePair,
   ) => void;
-  handleCreateSystemPrompt: () => void;
-  handleUpdateSystemPrompt: (systemPrompt: SystemPrompt) => void;
-  handleDeleteSystemPrompt: (systemPromptId: string) => void;
   handleFetchNamespaces: () => void;
 }
 

@@ -15,7 +15,7 @@ export const InfoTooltip = ({ children }: any) => {
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <Tooltip.Content
-            className="z-30 max-w-sm data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade
+            className="z-50 max-w-sm data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade
             data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade 
             data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade 
             data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade 

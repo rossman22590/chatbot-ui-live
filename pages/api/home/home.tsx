@@ -117,7 +117,6 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       selectedPlugin,
       prompts,
       systemPrompts,
-      defaultSystemPromptId,
       user,
       savedSettings,
       settings,
@@ -229,71 +228,97 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
   // CONVERSATION OPERATIONS  --------------------------------------------
 
   const handleNewConversation = async () => {
-    const lastConversation = conversations[conversations.length - 1];
+    if (savedSettings && settings) {
+      const lastConversation = conversations[conversations.length - 1];
 
-    const defaultSystemPrompt = systemPrompts.find(
-      (p) => p.id === defaultSystemPromptId,
-    );
+      const model = lastConversation?.model || PossibleAiModels[defaultModelId];
+      const sectionId = model.vendor.toLowerCase();
+      const settingId = `${model.id}_default_system_prompt`;
+      const systemPromptId = getSavedSettingValue(
+        savedSettings,
+        settings,
+        sectionId,
+        settingId,
+      );
 
-    let systemPrompt = DEFAULT_SYSTEM_PROMPT;
-    if (defaultSystemPrompt) {
-      systemPrompt = defaultSystemPrompt.content;
+      const systemPrompt = systemPrompts.find((p) => p.id === systemPromptId);
+
+      if (systemPrompt) {
+        const newConversation: Conversation = {
+          id: uuidv4(),
+          name: `${t('New Conversation')}`,
+          messages: [],
+          model: model,
+          systemPrompt: systemPrompt,
+          temperature: DEFAULT_TEMPERATURE,
+          folderId: null,
+          timestamp: getTimestampWithTimezoneOffset(),
+          enabledPlugins: installedPlugins.map((p) => p.manifest.id),
+        };
+
+        const updatedConversations = storageCreateConversation(
+          database,
+          user,
+          newConversation,
+          conversations,
+        );
+        dispatch({ field: 'selectedConversation', value: newConversation });
+        dispatch({ field: 'conversations', value: updatedConversations });
+
+        saveSelectedConversation(user, newConversation);
+
+        dispatch({ field: 'loading', value: false });
+      } else {
+        console.error('System prompt not found');
+      }
     }
-
-    const newConversation: Conversation = {
-      id: uuidv4(),
-      name: `${t('New Conversation')}`,
-      messages: [],
-      model: lastConversation?.model || PossibleAiModels[defaultModelId],
-      systemPrompt: systemPrompt,
-      temperature: DEFAULT_TEMPERATURE,
-      folderId: null,
-      timestamp: getTimestampWithTimezoneOffset(),
-      enabledPlugins: installedPlugins.map((p) => p.manifest.id),
-    };
-
-    const updatedConversations = storageCreateConversation(
-      database,
-      user,
-      newConversation,
-      conversations,
-    );
-    dispatch({ field: 'selectedConversation', value: newConversation });
-    dispatch({ field: 'conversations', value: updatedConversations });
-
-    saveSelectedConversation(user, newConversation);
-
-    dispatch({ field: 'loading', value: false });
   };
 
   const autogenerateConversation = useCallback(
     async (installedPlugins: InstalledPlugin[]) => {
-      let systemPrompt = DEFAULT_SYSTEM_PROMPT;
+      if (savedSettings && settings) {
+        const lastConversation = conversations[conversations.length - 1];
 
-      const newConversation: Conversation = {
-        id: uuidv4(),
-        name: `${t('New Conversation')}`,
-        messages: [],
-        model: PossibleAiModels[defaultModelId],
-        systemPrompt: systemPrompt,
-        temperature: DEFAULT_TEMPERATURE,
-        folderId: null,
-        timestamp: getTimestampWithTimezoneOffset(),
-        enabledPlugins: installedPlugins.map((p) => p.manifest.id),
-      };
+        const model =
+          lastConversation?.model || PossibleAiModels[defaultModelId];
+        const sectionId = model.vendor.toLowerCase();
+        const settingId = `${model.id}_default_system_prompt`;
+        const systemPromptId = getSavedSettingValue(
+          savedSettings,
+          settings,
+          sectionId,
+          settingId,
+        );
 
-      const updatedConversations = storageCreateConversation(
-        database,
-        user,
-        newConversation,
-        [],
-      );
-      dispatch({ field: 'selectedConversation', value: newConversation });
-      dispatch({ field: 'conversations', value: updatedConversations });
+        const systemPrompt = systemPrompts.find((p) => p.id === systemPromptId);
 
-      saveSelectedConversation(user, newConversation);
+        if (systemPrompt) {
+          const newConversation: Conversation = {
+            id: uuidv4(),
+            name: `${t('New Conversation')}`,
+            messages: [],
+            model: PossibleAiModels[defaultModelId],
+            systemPrompt: systemPrompt,
+            temperature: DEFAULT_TEMPERATURE,
+            folderId: null,
+            timestamp: getTimestampWithTimezoneOffset(),
+            enabledPlugins: installedPlugins.map((p) => p.manifest.id),
+          };
 
-      dispatch({ field: 'loading', value: false });
+          const updatedConversations = storageCreateConversation(
+            database,
+            user,
+            newConversation,
+            [],
+          );
+          dispatch({ field: 'selectedConversation', value: newConversation });
+          dispatch({ field: 'conversations', value: updatedConversations });
+
+          saveSelectedConversation(user, newConversation);
+
+          dispatch({ field: 'loading', value: false });
+        }
+      }
     },
     [database, user, defaultModelId, dispatch, t],
   );
@@ -357,57 +382,6 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
     dispatch({ field: 'selectedConversation', value: update.single });
     dispatch({ field: 'conversations', value: update.all });
     saveSelectedConversation(user, update.single);
-  };
-
-  // SYSTEM PROMPT OPERATIONS  --------------------------------------------
-
-  const handleCreateSystemPrompt = async () => {
-    const newSystemPrompt: SystemPrompt = {
-      id: uuidv4(),
-      name: `${t('New System Prompt')}`,
-      content: DEFAULT_SYSTEM_PROMPT,
-      models: [],
-    };
-
-    const updatedSystemPrompts = storageCreateSystemPrompt(
-      database,
-      user,
-      newSystemPrompt,
-      systemPrompts,
-    );
-
-    dispatch({ field: 'systemPrompts', value: updatedSystemPrompts });
-  };
-
-  const handleUpdateSystemPrompt = (updatedSystemPrompt: SystemPrompt) => {
-    let update: {
-      single: SystemPrompt;
-      all: SystemPrompt[];
-    };
-
-    update = storageUpdateSystemPrompt(
-      database,
-      user,
-      updatedSystemPrompt,
-      systemPrompts,
-    );
-
-    dispatch({ field: 'systemPrompts', value: update.all });
-  };
-
-  const handleDeleteSystemPrompt = (systemPromptId: string) => {
-    const updatedSystemPrompts = systemPrompts.filter(
-      (s) => s.id !== systemPromptId,
-    );
-
-    if (defaultSystemPromptId === systemPromptId) {
-      // Resetting default system prompt to built-in
-      setSavedSetting(user, 'general', 'defaultSystemPromptId', '0');
-      dispatch({ field: 'defaultSystemPromptId', value: '0' });
-    }
-    dispatch({ field: 'systemPrompts', value: updatedSystemPrompts });
-
-    storageDeleteSystemPrompt(database, user, systemPromptId, systemPrompts);
   };
 
   // EFFECTS  --------------------------------------------
@@ -552,16 +526,6 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
           'theme',
         ),
       });
-
-      dispatch({
-        field: 'defaultSystemPromptId',
-        value: getSavedSettingValue(
-          savedSettings,
-          settings,
-          'general',
-          'defaultSystemPromptId',
-        ),
-      });
     }
   }, [savedSettings, settings, dispatch]);
 
@@ -595,9 +559,6 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
         handleUpdateFolder,
         handleSelectConversation,
         handleUpdateConversation,
-        handleCreateSystemPrompt,
-        handleUpdateSystemPrompt,
-        handleDeleteSystemPrompt,
         handleFetchNamespaces,
       }}
     >
