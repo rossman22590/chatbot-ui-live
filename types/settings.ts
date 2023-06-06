@@ -42,7 +42,7 @@ export const SystemSettings: SettingsSection[] = [
       {
         id: 'theme',
         name: 'Theme',
-        description: 'Choose your theme',
+        description: 'Choose your theme.',
         type: 'choice',
         choices: [
           {
@@ -59,7 +59,6 @@ export const SystemSettings: SettingsSection[] = [
       },
     ],
   },
-
   {
     id: 'openai',
     name: 'OpenAI',
@@ -67,20 +66,93 @@ export const SystemSettings: SettingsSection[] = [
       {
         id: 'api_key',
         name: 'API Key',
-        description: 'The API key to use for OpenAI',
+        description: 'The API key to use for OpenAI models.',
         type: 'string',
+        storage: 'local',
+      },
+      {
+        id: 'gpt-3.5_default_system_prompt',
+        name: 'GPT-3.5 Default System Prompt',
+        description: 'The default system prompt to use for GPT-3.5.',
+        type: 'choice',
+        choices: [
+          {
+            name: 'Default',
+            value: 'default',
+          },
+        ],
+        storage: 'local',
+      },
+      {
+        id: 'gpt-4_default_system_prompt',
+        name: 'GPT-4 Default System Prompt',
+        description: 'The default system prompt to use for GPT-4.',
+        type: 'choice',
+        choices: [
+          {
+            name: 'Default',
+            value: 'default',
+          },
+        ],
         storage: 'local',
       },
     ],
   },
   {
-    id: 'general',
-    name: 'General',
+    id: 'anthropic',
+    name: 'Anthropic',
     settings: [
       {
-        id: 'defaultSystemPromptId',
-        name: 'Default System Prompt',
-        description: 'Choose your default system prompt',
+        id: 'api_key',
+        name: 'API Key',
+        description: 'The API key to use for Anthropic models.',
+        type: 'string',
+        storage: 'local',
+      },
+      {
+        id: 'claude-v1_default_system_prompt',
+        name: 'Claude V1 Default System Prompt',
+        description: 'The default system prompt to use for Claude V1.',
+        type: 'choice',
+        choices: [
+          {
+            name: 'Default',
+            value: 'default',
+          },
+        ],
+        storage: 'local',
+      },
+      {
+        id: 'claude-v1-100k_default_system_prompt',
+        name: 'Claude V1 100k Default System Prompt',
+        description: 'The default system prompt to use for Claude V1 100k.',
+        type: 'choice',
+        choices: [
+          {
+            name: 'Default',
+            value: 'default',
+          },
+        ],
+        storage: 'local',
+      },
+      {
+        id: 'claude-instant-v1_default_system_prompt',
+        name: 'Claude Instant V1 Default System Prompt',
+        description: 'The default system prompt to use for Claude Instant V1.',
+        type: 'choice',
+        choices: [
+          {
+            name: 'Default',
+            value: 'default',
+          },
+        ],
+        storage: 'local',
+      },
+      {
+        id: 'claude-instant-v1-100k_default_system_prompt',
+        name: 'Claude Instant V1 100k Default System Prompt',
+        description:
+          'The default system prompt to use for Claude Instant V1 100k.',
         type: 'choice',
         choices: [
           {

@@ -80,7 +80,7 @@ export const Settings = () => {
         handleSave,
       }}
     >
-      <div className="relative flex-1 overflow-hidden bg-theme-light dark:bg-theme-dark">
+      <div className="relative flex-1 overflow-scroll bg-theme-light dark:bg-theme-dark">
         <div className="max-h-full overflow-x-hidden"></div>
         <div
           className={`group md:px-4 bg-theme-light text-gray-800
