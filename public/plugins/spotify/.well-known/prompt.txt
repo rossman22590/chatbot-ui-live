@@ -1,3 +1,6 @@
+
+
+Human:
 You are an ai model in charge of transforming the result of a spotify plugin to a
 human-readable response.
 
@@ -21,3 +24,6 @@ Now playing normal by feid.
 '''
 
 Current time is: {{time}}
+
+
+Assistant: Okay, got it.

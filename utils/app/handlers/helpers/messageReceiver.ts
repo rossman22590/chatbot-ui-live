@@ -51,6 +51,7 @@ export async function messageReceiver(
     const chunkValue = decoder.decode(value);
 
     if (conversation.model.vendor === 'OpenAI') {
+      console.log('chunkValue', chunkValue);
       text += chunkValue;
     } else {
       console.log('chunkValue', chunkValue);

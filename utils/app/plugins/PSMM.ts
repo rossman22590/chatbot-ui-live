@@ -34,7 +34,7 @@ export const getApiCalls = async (
 
   const customConversation: Conversation = {
     id: conversation.id,
-    model: PossibleAiModels['gpt-4'],
+    model: PossibleAiModels['claude-instant-v1-100k'],
     name: 'Plugin Parser',
     temperature: 0.1,
     messages: messages,

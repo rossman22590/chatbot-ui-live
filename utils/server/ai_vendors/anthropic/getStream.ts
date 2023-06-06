@@ -88,6 +88,7 @@ export async function streamAnthropic(
               return;
             }
             const text = json.completion;
+            console.log('completion', text);
             const queue = encoder.encode(text);
             controller.enqueue(queue);
           } catch (e) {

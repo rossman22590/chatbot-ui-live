@@ -18,6 +18,8 @@ export async function messageSender(
   let newPrompt = selectedConversation.systemPrompt;
 
   // Make the chatbot aware of the installed plugins
+
+  console.log('installedPlugins', installedPlugins);
   if (installedPlugins.length > 0) {
     newPrompt = injectKnowledgeOfPluginSystem(
       selectedConversation.systemPrompt,
@@ -27,7 +29,7 @@ export async function messageSender(
 
   const pluginInjectedConversation = {
     ...updatedConversation,
-    prompt: newPrompt,
+    systemPrompt: newPrompt,
   };
 
   const { response, controller } = await sendChatRequest(

@@ -19,6 +19,8 @@ export const getPSMMPrompt = (
   }
 
   let prompt = `
+
+Human:
 You are an AI model called Plugin System Model.
 
 Your job is to use plugins installed in behalf of the user.
@@ -103,7 +105,8 @@ ${JSON.stringify(summarizedPlugins, null, 2)}
 
 Current time is: ${new Date().toISOString()}
 
-`;
+
+Assistant:Okay, I understand.`;
 
   return prompt;
 };
