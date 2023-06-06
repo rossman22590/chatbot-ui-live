@@ -1,6 +1,6 @@
 import {
-  IconBulbFilled,
   IconCheck,
+  IconDeviceLaptop,
   IconTrash,
   IconX,
 } from '@tabler/icons-react';
@@ -12,7 +12,6 @@ import {
   useState,
 } from 'react';
 
-import { Prompt } from '@chatbot-ui/core/types/prompt';
 import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import SidebarActionButton from '@/components/Common/Buttons/SidebarActionButton';
@@ -26,7 +25,6 @@ interface Props {
 
 export const SystemPromptComponent = ({ systemPrompt }: Props) => {
   const {
-    handleCreateSystemPrompt,
     handleUpdateSystemPrompt,
     handleDeleteSystemPrompt,
     dispatch: promptDispatch,
@@ -63,9 +61,12 @@ export const SystemPromptComponent = ({ systemPrompt }: Props) => {
     setIsDeleting(true);
   };
 
-  const handleDragStart = (e: DragEvent<HTMLButtonElement>, prompt: Prompt) => {
+  const handleDragStart = (
+    e: DragEvent<HTMLButtonElement>,
+    systemPrompt: SystemPrompt,
+  ) => {
     if (e.dataTransfer) {
-      e.dataTransfer.setData('prompt', JSON.stringify(prompt));
+      e.dataTransfer.setData('system_prompt', JSON.stringify(systemPrompt));
     }
   };
 
@@ -87,13 +88,14 @@ export const SystemPromptComponent = ({ systemPrompt }: Props) => {
           e.stopPropagation();
           setShowModal(true);
         }}
+        onDragStart={(e) => handleDragStart(e, systemPrompt)}
         onMouseLeave={() => {
           setIsDeleting(false);
           setIsRenaming(false);
           setRenameValue('');
         }}
       >
-        <IconBulbFilled size={18} />
+        <IconDeviceLaptop size={18} />
 
         <div
           className="relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap

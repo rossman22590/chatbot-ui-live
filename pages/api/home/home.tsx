@@ -77,7 +77,7 @@ import { InstalledPlugin } from '@/types/plugin';
 import { SettingChoice } from '@/types/settings';
 import { PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
-import { FolderType } from '@chatbot-ui/core/types/folder';
+import { FolderInterface } from '@chatbot-ui/core/types/folder';
 import { Prompt } from '@chatbot-ui/core/types/prompt';
 import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
@@ -166,7 +166,10 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
 
   // FOLDER OPERATIONS  --------------------------------------------
 
-  const handleCreateFolder = async (name: string, type: FolderType) => {
+  const handleCreateFolder = async (
+    name: string,
+    type: FolderInterface['type'],
+  ) => {
     const updatedFolders = storageCreateFolder(
       database,
       user,

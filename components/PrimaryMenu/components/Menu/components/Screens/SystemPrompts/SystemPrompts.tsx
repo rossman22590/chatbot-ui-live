@@ -18,6 +18,7 @@ import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import HomeContext from '@/pages/api/home/home.context';
 
+import { SystemPromptFolders } from './components/Folders';
 import { SystemPromptList } from './components/SystemPromptList';
 import { PrimaryButton } from '@/components/Common/Buttons/PrimaryButton';
 import { SecondaryButton } from '@/components/Common/Buttons/SecondaryButton';
@@ -53,6 +54,7 @@ const SystemPrompts = () => {
       id: uuidv4(),
       name: `${t('New System Prompt')}`,
       content: '',
+      folderId: null,
       models: [],
     };
 
@@ -107,6 +109,23 @@ const SystemPrompts = () => {
     }
   };
 
+  const handleDrop = (e: any) => {
+    if (e.dataTransfer) {
+      const systemPrompt = JSON.parse(e.dataTransfer.getData('system_prompt'));
+
+      console.log('systemPrompt', systemPrompt);
+
+      const updatedSystemPrompt = {
+        ...systemPrompt,
+        folderId: e.target.dataset.folderId,
+      };
+
+      handleUpdateSystemPrompt(updatedSystemPrompt);
+
+      e.target.style.background = 'none';
+    }
+  };
+
   useEffect(() => {
     if (searchTerm) {
       promptDispatch({
@@ -141,7 +160,8 @@ const SystemPrompts = () => {
   const doSearch = (term: string) =>
     promptDispatch({ field: 'searchTerm', value: term });
 
-  const createFolder = () => handleCreateFolder(t('New folder'), 'prompt');
+  const createFolder = () =>
+    handleCreateFolder(t('New folder'), 'system_prompt');
 
   return (
     <SystemPromptsContext.Provider
@@ -161,6 +181,9 @@ const SystemPrompts = () => {
         >
           {t('New system prompt')}
         </PrimaryButton>
+        <SecondaryButton onClick={createFolder}>
+          <IconFolderPlus size={16} />
+        </SecondaryButton>
       </div>
       <Search
         placeholder={t('Search...') || ''}
@@ -173,12 +196,24 @@ const SystemPrompts = () => {
           <div
             className="flex border-b pb-2
           border-theme-button-border-light dark:border-theme-button-border-dark"
-          ></div>
+          >
+            <SystemPromptFolders />
+          </div>
         )}
 
         {filteredSystemPrompts?.length > 0 ? (
-          <div className="pt-2">
-            <SystemPromptList systemPrompts={filteredSystemPrompts} />
+          <div
+            className="pt-2"
+            onDrop={handleDrop}
+            onDragOver={allowDrop}
+            onDragEnter={highlightDrop}
+            onDragLeave={removeHighlight}
+          >
+            <SystemPromptList
+              systemPrompts={filteredSystemPrompts.filter(
+                (systemPrompt) => !systemPrompt.folderId,
+              )}
+            />
           </div>
         ) : (
           <div className="mt-8 select-none text-center text-black dark:text-white opacity-50">
