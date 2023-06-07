@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 
 import { useCreateReducer } from '@/hooks/useCreateReducer';
 
-import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
+import { DEFAULT_TEMPERATURE } from '@/utils/app/const';
 import { exportData, importData } from '@/utils/app/importExport';
 import { storageDeleteConversation } from '@/utils/app/storage/conversation';
 import { storageDeleteConversations } from '@/utils/app/storage/conversations';
@@ -140,20 +140,6 @@ export const Conversations = () => {
         updatedConversations[updatedConversations.length - 1],
       );
     } else {
-      defaultModelId &&
-        homeDispatch({
-          field: 'selectedConversation',
-          value: {
-            id: uuidv4(),
-            name: t('New Conversation'),
-            messages: [],
-            model: PossibleAiModels[defaultModelId],
-            prompt: DEFAULT_SYSTEM_PROMPT,
-            temperature: DEFAULT_TEMPERATURE,
-            folderId: null,
-          },
-        });
-
       deleteSelectedConversation(user);
     }
   };

@@ -5,6 +5,7 @@ import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
 import { InstalledPlugin, PluginCall } from '@/types/plugin';
 import { PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
+import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import { sendChatRequest } from '../chat';
 import { getPSMMPrompt } from './PSMMPrompt';
@@ -21,7 +22,15 @@ export const getApiCalls = async (
   apiKey: string,
   homeDispatch: React.Dispatch<any>,
 ) => {
-  const systemPrompt = getPSMMPrompt(installedPlugins, null);
+  const systemPromptContent = getPSMMPrompt(installedPlugins, null);
+
+  const systemPrompt: SystemPrompt = {
+    id: '0',
+    name: 'custom',
+    content: systemPromptContent,
+    models: [],
+    folderId: null,
+  };
 
   const messages: Message[] = [
     {

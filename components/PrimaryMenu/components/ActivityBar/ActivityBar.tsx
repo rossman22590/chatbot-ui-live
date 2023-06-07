@@ -102,7 +102,7 @@ const ActivityBar = ({ icons }: { icons: JSX.Element[] }) => {
           </a>
         </ActivityBarButton>
         {AUTH_ENABLED && (
-          <ActivityBarButton>
+          <ActivityBarButton handleClick={handleSignOut}>
             <IconLogout size={28} />
           </ActivityBarButton>
         )}

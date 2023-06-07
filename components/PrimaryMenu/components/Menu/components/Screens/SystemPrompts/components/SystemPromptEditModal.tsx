@@ -26,7 +26,6 @@ export const SystemPromptEditModal: FC<Props> = ({ systemPrompt, onClose }) => {
   const { handleUpdateSystemPrompt } = useContext(SystemPromptsContext);
   const { t } = useTranslation('systemPrompt');
 
-  const [id, setId] = useState(systemPrompt.id);
   const [name, setName] = useState(systemPrompt.name);
   const [content, setContent] = useState(systemPrompt.content);
   const [models, setModels] = useState(systemPrompt.models);
@@ -37,9 +36,10 @@ export const SystemPromptEditModal: FC<Props> = ({ systemPrompt, onClose }) => {
   const handleEnter = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       const updatedPrompt: SystemPrompt = {
-        id: id,
+        id: systemPrompt.id,
         name: name,
-        content: content.trim(),
+        content: content,
+        folderId: systemPrompt.folderId,
         models: models,
       };
       if (updatedPrompt.content !== '') {
@@ -148,9 +148,10 @@ export const SystemPromptEditModal: FC<Props> = ({ systemPrompt, onClose }) => {
               <PrimaryButton
                 onClick={() => {
                   const updatedPrompt: SystemPrompt = {
-                    id: id,
+                    id: systemPrompt.id,
                     name: name,
-                    content: content.trim(),
+                    content: content,
+                    folderId: systemPrompt.folderId,
                     models: models,
                   };
                   handleUpdateSystemPrompt(updatedPrompt);

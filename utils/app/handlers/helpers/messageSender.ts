@@ -13,21 +13,26 @@ export async function messageSender(
   apiKey: string,
   homeDispatch: React.Dispatch<any>,
 ) {
-  let newPrompt = selectedConversation.systemPrompt;
+  let customPrompt = selectedConversation.systemPrompt;
 
   // Make the chatbot aware of the installed plugins
 
   console.log('installedPlugins', installedPlugins);
   if (installedPlugins.length > 0) {
-    newPrompt = injectKnowledgeOfPluginSystem(
-      selectedConversation.systemPrompt,
+    const promptText = injectKnowledgeOfPluginSystem(
+      selectedConversation.systemPrompt.content,
       installedPlugins,
     );
+
+    customPrompt = {
+      ...customPrompt,
+      content: promptText,
+    };
   }
 
   const pluginInjectedConversation = {
     ...updatedConversation,
-    systemPrompt: newPrompt,
+    systemPrompt: customPrompt,
   };
 
   const { response, controller } = await sendChatRequest(

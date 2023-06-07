@@ -1,11 +1,7 @@
 import { PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
 import { Conversation } from '@chatbot-ui/core/types/chat';
 
-import {
-  DEFAULT_SYSTEM_PROMPT,
-  DEFAULT_TEMPERATURE,
-  OPENAI_API_TYPE,
-} from './const';
+import { DEFAULT_TEMPERATURE, OPENAI_API_TYPE } from './const';
 
 export const cleanSelectedConversation = (conversation: Conversation) => {
   // added model for each conversation (3/20/23)
@@ -15,25 +11,6 @@ export const cleanSelectedConversation = (conversation: Conversation) => {
   // added messages (4/16/23)
 
   let updatedConversation = conversation;
-
-  // check for model on each conversation
-  if (!updatedConversation.model) {
-    updatedConversation = {
-      ...updatedConversation,
-      model:
-        updatedConversation.model || OPENAI_API_TYPE === 'azure'
-          ? PossibleAiModels['gpt-35-az']
-          : PossibleAiModels['gpt-3-5'],
-    };
-  }
-
-  // check for system prompt on each conversation
-  if (!updatedConversation.systemPrompt) {
-    updatedConversation = {
-      ...updatedConversation,
-      systemPrompt: updatedConversation.systemPrompt || DEFAULT_SYSTEM_PROMPT,
-    };
-  }
 
   if (!updatedConversation.temperature) {
     updatedConversation = {
@@ -78,10 +55,6 @@ export const cleanConversationHistory = (history: any[]): Conversation[] => {
           OPENAI_API_TYPE === 'azure'
             ? PossibleAiModels['gpt-35-az']
             : PossibleAiModels['gpt-3-5'];
-      }
-
-      if (!conversation.prompt) {
-        conversation.prompt = DEFAULT_SYSTEM_PROMPT;
       }
 
       if (!conversation.temperature) {

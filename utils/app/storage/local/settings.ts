@@ -102,7 +102,7 @@ export const setSavedSetting = (
   user: User,
   sectionId: string,
   settingId: string,
-  value: string,
+  value: any,
 ) => {
   const savedSettings = getSavedSettings(user);
 

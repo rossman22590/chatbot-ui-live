@@ -5,6 +5,7 @@ import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
 import { InstalledPlugin, PluginCall } from '@/types/plugin';
 import { PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
+import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import { sendChatRequest } from '../chat';
 import { getPPMPrompt } from './PPMPrompt';
@@ -23,7 +24,15 @@ export const invokePPM = async (
   message?: Message,
 ) => {
   // Get the prompt for the Plugin Parser Model
-  const systemPrompt = getPPMPrompt(plugin, null);
+  const systemPromptContent = getPPMPrompt(plugin, null);
+
+  const systemPrompt: SystemPrompt = {
+    id: '0',
+    name: 'custom',
+    content: systemPromptContent,
+    models: [],
+    folderId: null,
+  };
 
   const completeLog = `
   User:

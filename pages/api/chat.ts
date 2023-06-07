@@ -13,7 +13,7 @@ const handler = async (req: Request): Promise<Response> => {
 
   const { error: tokenCountError, count } = await getTokenCount(
     model,
-    systemPrompt,
+    systemPrompt.content,
     messages,
   );
 
@@ -27,7 +27,7 @@ const handler = async (req: Request): Promise<Response> => {
 
   const { error: streamError, stream } = await getStream(
     model,
-    systemPrompt,
+    systemPrompt.content,
     temperature,
     apiKey,
     messages,

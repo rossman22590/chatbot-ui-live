@@ -85,9 +85,13 @@ const SystemPrompts = () => {
   };
 
   const handleDeleteSystemPrompt = (systemPromptId: string) => {
+    console.log('systemPromptId', systemPromptId);
+
     const updatedSystemPrompts = systemPrompts.filter(
       (s) => s.id !== systemPromptId,
     );
+
+    storageDeleteSystemPrompt(database, user, systemPromptId, systemPrompts);
 
     for (const model of models) {
       const sectionId = model.vendor.toLowerCase();
@@ -101,11 +105,9 @@ const SystemPrompts = () => {
 
       if (modelDefaultSystemPromptId === systemPromptId) {
         // Resetting default system prompt to built-in
-        setSavedSetting(user, sectionId, sectionId, '0');
+        setSavedSetting(user, sectionId, sectionId, undefined);
       }
       homeDispatch({ field: 'systemPrompts', value: updatedSystemPrompts });
-
-      storageDeleteSystemPrompt(database, user, systemPromptId, systemPrompts);
     }
   };
 
