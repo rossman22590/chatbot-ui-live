@@ -105,8 +105,9 @@ const SystemPrompts = () => {
 
       if (modelDefaultSystemPromptId === systemPromptId) {
         // Resetting default system prompt to built-in
-        setSavedSetting(user, sectionId, sectionId, undefined);
+        setSavedSetting(user, sectionId, sectionId, null);
       }
+      console.log('new system prompts', updatedSystemPrompts);
       homeDispatch({ field: 'systemPrompts', value: updatedSystemPrompts });
     }
   };

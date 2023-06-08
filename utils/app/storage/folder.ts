@@ -1,5 +1,5 @@
 import { User } from '@chatbot-ui/core/types/auth';
-import { FolderInterface, FolderType } from '@chatbot-ui/core/types/folder';
+import { FolderInterface } from '@chatbot-ui/core/types/folder';
 
 import { Database } from '@chatbot-ui/core';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,7 +8,7 @@ export const storageCreateFolder = (
   database: Database,
   user: User,
   name: string,
-  folderType: FolderType,
+  folderType: FolderInterface['type'],
   allFolders: FolderInterface[],
 ) => {
   const newFolder: FolderInterface = {

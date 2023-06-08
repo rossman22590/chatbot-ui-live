@@ -63,11 +63,7 @@ import {
   getSelectedConversation,
   saveSelectedConversation,
 } from '@/utils/app/storage/selectedConversation';
-import {
-  storageCreateSystemPrompt,
-  storageDeleteSystemPrompt,
-  storageUpdateSystemPrompt,
-} from '@/utils/app/storage/systemPrompt';
+import { storageCreateSystemPrompt } from '@/utils/app/storage/systemPrompt';
 import { storageGetSystemPrompts } from '@/utils/app/storage/systemPrompts';
 import { dockerEnvVarFix } from '@chatbot-ui/core/utils/docker';
 import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
@@ -232,7 +228,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
   // CONVERSATION OPERATIONS  --------------------------------------------
 
   const handleNewConversation = async () => {
-    if (savedSettings && settings && systemPrompts) {
+    if (savedSettings && settings) {
       const lastConversation = conversations[conversations.length - 1];
 
       const model = lastConversation?.model || PossibleAiModels[defaultModelId];
@@ -245,46 +241,58 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
         settingId,
       );
 
-      let systemPrompt;
-      if (!systemPromptId) {
-        const systemPromptId = uuidv4();
+      const systemPrompt = systemPrompts.find((p) => p.id === systemPromptId);
 
-        if (model.vendor === 'Anthropic') {
-          systemPrompt = {
-            id: systemPromptId,
-            name: `${t('New System Prompt')}`,
-            content: DEFAULT_ANTHROPIC_SYSTEM_PROMPT,
-            folderId: null,
-            models: [
-              'claude-v1',
-              'claude-v1-100k',
-              'claude-instant-v1',
-              'claude-instant-v1-100k',
-            ],
-          };
-        } else {
-          systemPrompt = {
-            id: systemPromptId,
-            name: `${t('New System Prompt')}`,
-            content: DEFAULT_OPENAI_SYSTEM_PROMPT,
-            folderId: null,
-            models: ['gpt-3.5-turbo', 'gpt-35-az', 'gpt-4', 'gpt-4-32k'],
-          };
-        }
-        storageCreateSystemPrompt(database, user, systemPrompt, systemPrompts);
+      const newConversation: Conversation = {
+        id: uuidv4(),
+        name: `${t('New Conversation')}`,
+        messages: [],
+        model: model,
+        systemPrompt: systemPrompt || null,
+        temperature: DEFAULT_TEMPERATURE,
+        folderId: null,
+        timestamp: getTimestampWithTimezoneOffset(),
+        enabledPlugins: installedPlugins.map((p) => p.manifest.id),
+      };
 
-        await setSavedSetting(user, sectionId, settingId, systemPromptId);
-      } else {
-        systemPrompt = systemPrompts.find((p) => p.id === systemPromptId);
-      }
-      console.log('systemPrompt', systemPrompt);
-      if (systemPrompt) {
+      const updatedConversations = storageCreateConversation(
+        database,
+        user,
+        newConversation,
+        conversations,
+      );
+      dispatch({ field: 'selectedConversation', value: newConversation });
+      dispatch({ field: 'conversations', value: updatedConversations });
+
+      saveSelectedConversation(user, newConversation);
+
+      dispatch({ field: 'loading', value: false });
+    }
+  };
+
+  const autogenerateConversation = useCallback(
+    async (installedPlugins: InstalledPlugin[]) => {
+      if (savedSettings && settings) {
+        const lastConversation = conversations[conversations.length - 1];
+
+        const model = PossibleAiModels[defaultModelId];
+        const sectionId = model.vendor.toLowerCase();
+        const settingId = `${model.id}_default_system_prompt`;
+        const systemPromptId = getSavedSettingValue(
+          savedSettings,
+          settings,
+          sectionId,
+          settingId,
+        );
+
+        const systemPrompt = systemPrompts.find((p) => p.id === systemPromptId);
+
         const newConversation: Conversation = {
           id: uuidv4(),
           name: `${t('New Conversation')}`,
           messages: [],
           model: model,
-          systemPrompt: systemPrompt,
+          systemPrompt: systemPrompt || null,
           temperature: DEFAULT_TEMPERATURE,
           folderId: null,
           timestamp: getTimestampWithTimezoneOffset(),
@@ -303,95 +311,123 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
         saveSelectedConversation(user, newConversation);
 
         dispatch({ field: 'loading', value: false });
-      } else {
-        console.error('System prompt not found');
-      }
-    }
-  };
-
-  const autogenerateConversation = useCallback(
-    async (installedPlugins: InstalledPlugin[]) => {
-      if (savedSettings && settings && conversations && systemPrompts) {
-        const model = PossibleAiModels[defaultModelId];
-        const sectionId = model.vendor.toLowerCase();
-        const settingId = `${model.id}_default_system_prompt`;
-        const systemPromptId = getSavedSettingValue(
-          savedSettings,
-          settings,
-          sectionId,
-          settingId,
-        );
-
-        let systemPrompt;
-        if (!systemPromptId) {
-          const systemPromptId = uuidv4();
-
-          if (model.vendor === 'Anthropic') {
-            systemPrompt = {
-              id: systemPromptId,
-              name: `${t('New System Prompt')}`,
-              content: DEFAULT_ANTHROPIC_SYSTEM_PROMPT,
-              folderId: null,
-              models: [
-                'claude-v1, claude-v1-100k, claude-instant-v1, claude-instant-v1-100k',
-              ],
-            };
-          } else {
-            systemPrompt = {
-              id: systemPromptId,
-              name: `${t('New System Prompt')}`,
-              content: DEFAULT_OPENAI_SYSTEM_PROMPT,
-              folderId: null,
-              models: ['gpt-3.5-turbo', 'gpt-35-az', 'gpt-4', 'gpt-4-32k'],
-            };
-          }
-          storageCreateSystemPrompt(
-            database,
-            user,
-            systemPrompt,
-            systemPrompts,
-          );
-
-          const newSettings = setSavedSetting(
-            user,
-            sectionId,
-            settingId,
-            systemPromptId,
-          );
-          dispatch({ field: 'savedSettings', value: newSettings });
-        } else {
-          systemPrompt = systemPrompts.find((p) => p.id === systemPromptId);
-        }
-        if (systemPrompt) {
-          const newConversation: Conversation = {
-            id: uuidv4(),
-            name: `${t('New Conversation')}`,
-            messages: [],
-            model: PossibleAiModels[defaultModelId],
-            systemPrompt: systemPrompt,
-            temperature: DEFAULT_TEMPERATURE,
-            folderId: null,
-            timestamp: getTimestampWithTimezoneOffset(),
-            enabledPlugins: installedPlugins.map((p) => p.manifest.id),
-          };
-
-          const updatedConversations = storageCreateConversation(
-            database,
-            user,
-            newConversation,
-            [],
-          );
-          dispatch({ field: 'selectedConversation', value: newConversation });
-          dispatch({ field: 'conversations', value: updatedConversations });
-
-          saveSelectedConversation(user, newConversation);
-
-          dispatch({ field: 'loading', value: false });
-        }
       }
     },
     [database, user, defaultModelId, dispatch, t],
   );
+
+  const autogenerateDefaultSystemPrompt = () => {
+    if (selectedConversation) {
+      console.log('conversation', selectedConversation);
+      if (!selectedConversation.systemPrompt) {
+        if (savedSettings && settings && conversations && systemPrompts) {
+          const model = selectedConversation.model;
+          const sectionId = model.vendor.toLowerCase();
+          const settingId = `${model.id}_default_system_prompt`;
+          const systemPromptId = getSavedSettingValue(
+            savedSettings,
+            settings,
+            sectionId,
+            settingId,
+          );
+
+          console.log('systemPromptId', systemPromptId);
+
+          let systemPrompt;
+          if (!systemPromptId) {
+            const systemPromptId = uuidv4();
+
+            if (model.vendor === 'Anthropic') {
+              systemPrompt = {
+                id: systemPromptId,
+                name: `${t('Anthropic Default System Prompt')}`,
+                content: DEFAULT_ANTHROPIC_SYSTEM_PROMPT,
+                folderId: null,
+                models: [
+                  'claude-v1',
+                  'claude-v1-100k',
+                  'claude-instant-v1',
+                  'claude-instant-v1-100k',
+                ],
+              };
+            } else {
+              systemPrompt = {
+                id: systemPromptId,
+                name: `${t('OpenAI Default System Prompt')}`,
+                content: DEFAULT_OPENAI_SYSTEM_PROMPT,
+                folderId: null,
+                models: ['gpt-3.5-turbo', 'gpt-35-az', 'gpt-4', 'gpt-4-32k'],
+              };
+            }
+
+            const newSystemPrompts = storageCreateSystemPrompt(
+              database,
+              user,
+              systemPrompt,
+              systemPrompts,
+            );
+
+            const newSettings = setSavedSetting(
+              user,
+              sectionId,
+              settingId,
+              systemPromptId,
+            );
+            dispatch({ field: 'savedSettings', value: newSettings });
+            dispatch({ field: 'systemPrompts', value: newSystemPrompts });
+            console.log('new system prompt', systemPrompt);
+            const updatedConversation = {
+              ...selectedConversation,
+              systemPrompt: systemPrompt,
+            };
+            storageUpdateConversation(
+              database,
+              user,
+              updatedConversation,
+              conversations,
+            );
+            dispatch({
+              field: 'selectedConversation',
+              value: updatedConversation,
+            });
+          } else {
+            if (systemPromptId) {
+              const systemPrompt = systemPrompts.find(
+                (p) => p.id === systemPromptId,
+              );
+
+              const updatedConversation = {
+                ...selectedConversation,
+                systemPrompt: systemPrompt || null,
+              };
+
+              const { single, all } = storageUpdateConversation(
+                database,
+                user,
+                updatedConversation,
+                conversations,
+              );
+
+              dispatch({
+                field: 'selectedConversation',
+                value: single,
+              });
+              dispatch({ field: 'conversations', value: all });
+
+              saveSelectedConversation(user, single);
+
+              dispatch({ field: 'loading', value: false });
+            }
+          }
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log('autogenerateDefaultSystemPrompt');
+    autogenerateDefaultSystemPrompt();
+  }, [selectedConversation]);
 
   const handleUpdateConversation = (
     conversation: Conversation,
