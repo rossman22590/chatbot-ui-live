@@ -85,8 +85,6 @@ const SystemPrompts = () => {
   };
 
   const handleDeleteSystemPrompt = (systemPromptId: string) => {
-    console.log('systemPromptId', systemPromptId);
-
     const updatedSystemPrompts = systemPrompts.filter(
       (s) => s.id !== systemPromptId,
     );
@@ -107,7 +105,6 @@ const SystemPrompts = () => {
         // Resetting default system prompt to built-in
         setSavedSetting(user, sectionId, sectionId, null);
       }
-      console.log('new system prompts', updatedSystemPrompts);
       homeDispatch({ field: 'systemPrompts', value: updatedSystemPrompts });
     }
   };
@@ -115,8 +112,6 @@ const SystemPrompts = () => {
   const handleDrop = (e: any) => {
     if (e.dataTransfer) {
       const systemPrompt = JSON.parse(e.dataTransfer.getData('system_prompt'));
-
-      console.log('systemPrompt', systemPrompt);
 
       const updatedSystemPrompt = {
         ...systemPrompt,

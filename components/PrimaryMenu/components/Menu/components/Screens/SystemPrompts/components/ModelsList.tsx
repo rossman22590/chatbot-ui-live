@@ -16,8 +16,6 @@ export const ChipList = ({
     state: { models },
   } = useContext(HomeContext);
 
-  console.log('selectedModels', selectedModels);
-
   return (
     <div className="flex flex-wrap space-x-2">
       {models.map((model) => (

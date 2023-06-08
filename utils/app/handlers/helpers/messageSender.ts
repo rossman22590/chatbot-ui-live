@@ -17,7 +17,6 @@ export async function messageSender(
 
   // Make the chatbot aware of the installed plugins
 
-  console.log('installedPlugins', installedPlugins);
   if (installedPlugins.length > 0) {
     const promptText = injectKnowledgeOfPluginSystem(
       selectedConversation.systemPrompt!.content,

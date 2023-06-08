@@ -48,7 +48,6 @@ export const getDefaultValue = (
   sectionId: string,
   settingId: string,
 ) => {
-  console.log('settings', settings);
   if (!settings) {
     return;
   }

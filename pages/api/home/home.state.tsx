@@ -44,6 +44,7 @@ export interface HomeInitialState {
   settings: SettingsSection[];
   namespaces: Namespace[];
   selectedNamespace: Namespace | null;
+  fetchComplete: boolean;
 }
 
 export const initialState: HomeInitialState = {
@@ -76,4 +77,5 @@ export const initialState: HomeInitialState = {
   settings: [],
   namespaces: [],
   selectedNamespace: null,
+  fetchComplete: false,
 };

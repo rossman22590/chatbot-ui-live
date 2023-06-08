@@ -23,7 +23,6 @@ export const SettingComponent = ({ section, setting, isSelected }: Props) => {
   const { handleSelect, handleSave } = useContext(SettingsContext);
 
   useEffect(() => {
-    console.log('savedSettings', savedSettings);
     if (savedSettings && settings) {
       const savedValue = getSavedSettingValue(
         savedSettings,

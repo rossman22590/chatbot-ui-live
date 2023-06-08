@@ -1,5 +1,5 @@
 import { IconDeviceLaptop } from '@tabler/icons-react';
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useCallback, useContext, useEffect, useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
@@ -98,7 +98,6 @@ export const SystemPromptSelect = () => {
             models: ['gpt-3.5-turbo', 'gpt-35-az', 'gpt-4', 'gpt-4-32k'],
           };
         }
-        console.log('creating system prompt', systemPrompt);
         const updatedSystemPrompts = storageCreateSystemPrompt(
           database,
           user,
@@ -111,32 +110,25 @@ export const SystemPromptSelect = () => {
       }
     }
   };
+  // useEffect(() => {
+  //   // getDefaultSystemPrompt();
+  // }, [availableSystemPrompts]);
 
-  const getAvailableSystemPrompts = () => {
+  const getAvailableSystemPrompts = useCallback(() => {
     const model = selectedConversation!.model;
-
-    console.log('model', model);
 
     const availablePrompts = systemPrompts.filter((prompt) =>
       prompt.models.includes(model.id),
     );
 
-    console.log('systemPrompts', systemPrompts);
-
-    console.log('availablePrompts', availablePrompts);
-
     setAvailableSystemPrompts(availablePrompts);
-  };
-
-  useEffect(() => {
-    // getDefaultSystemPrompt();
-  }, [availableSystemPrompts]);
+  }, [selectedConversation, systemPrompts]);
 
   useEffect(() => {
     if (systemPrompts) {
       getAvailableSystemPrompts();
     }
-  }, [selectedConversation, systemPrompts]);
+  }, [selectedConversation, systemPrompts, getAvailableSystemPrompts]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const systemPrompt = systemPrompts.filter(

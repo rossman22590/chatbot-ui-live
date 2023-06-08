@@ -50,7 +50,6 @@ export const SystemPromptEditModal: FC<Props> = ({ systemPrompt, onClose }) => {
   };
 
   const handleSelectModel = (modelId: string) => {
-    console.log('selected model', modelId);
     if (models.includes(modelId)) {
       // Remove model from list
       setModels(models.filter((model) => model !== modelId));
