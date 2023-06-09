@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useCreateReducer } from '@/hooks/useCreateReducer';
 
+import { storageUpdateConversations } from '@/utils/app/storage/conversations';
 import {
   getSavedSettingValue,
   setSavedSetting,
@@ -39,7 +40,16 @@ const SystemPrompts = () => {
   );
 
   const {
-    state: { systemPrompts, database, user, savedSettings, settings, models },
+    state: {
+      systemPrompts,
+      database,
+      user,
+      savedSettings,
+      settings,
+      models,
+      conversations,
+      selectedConversation,
+    },
     dispatch: homeDispatch,
     handleCreateFolder,
   } = useContext(HomeContext);
@@ -103,10 +113,36 @@ const SystemPrompts = () => {
 
       if (modelDefaultSystemPromptId === systemPromptId) {
         // Resetting default system prompt to built-in
-        setSavedSetting(user, sectionId, sectionId, null);
+        setSavedSetting(user, sectionId, settingId, null);
       }
       homeDispatch({ field: 'systemPrompts', value: updatedSystemPrompts });
     }
+
+    const updatedConversations = [];
+    for (const conversation of conversations) {
+      if (conversation.systemPrompt?.id === systemPromptId) {
+        const updatedConversation = {
+          ...conversation,
+          systemPrompt: null,
+        };
+        updatedConversations.push(updatedConversation);
+      } else {
+        updatedConversations.push(conversation);
+      }
+    }
+
+    if (selectedConversation?.systemPrompt?.id === systemPromptId) {
+      const updatedSelectedConversation = {
+        ...selectedConversation,
+        systemPrompt: null,
+      };
+      homeDispatch({
+        field: 'selectedConversation',
+        value: updatedSelectedConversation,
+      });
+    }
+
+    storageUpdateConversations(database, user, updatedConversations);
   };
 
   const handleDrop = (e: any) => {

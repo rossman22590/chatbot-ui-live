@@ -3,22 +3,11 @@ import { FC, useCallback, useContext, useEffect, useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
-import {
-  DEFAULT_ANTHROPIC_SYSTEM_PROMPT,
-  DEFAULT_OPENAI_SYSTEM_PROMPT,
-} from '@/utils/app/const';
-import {
-  getSavedSettingValue,
-  setSavedSetting,
-} from '@/utils/app/storage/local/settings';
-import { storageCreateSystemPrompt } from '@/utils/app/storage/systemPrompt';
+import { getSavedSettingValue } from '@/utils/app/storage/local/settings';
 
-import { AiModel, PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
 import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import HomeContext from '@/pages/api/home/home.context';
-
-import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
   systemPrompts: SystemPrompt[];
@@ -30,89 +19,32 @@ export const SystemPromptSelect = () => {
   const [availableSystemPrompts, setAvailableSystemPrompts] = useState<
     SystemPrompt[]
   >([]);
-  const [defaultSystemPrompt, setDefaultSystemPrompt] =
-    useState<SystemPrompt | null>(null);
+  const [defaultSystemPromptId, setDefaultSystemPromptId] = useState<
+    string | null
+  >(null);
 
   const {
-    state: {
-      models,
-      database,
-      user,
-      selectedConversation,
-      savedSettings,
-      settings,
-      systemPrompts,
-    },
-    dispatch: homeDispatch,
+    state: { selectedConversation, savedSettings, settings, systemPrompts },
     handleUpdateConversation,
   } = useContext(HomeContext);
 
-  const getDefaultSystemPrompt = () => {
-    let sysPrompt;
+  const getDefaultSystemPrompt = useCallback(() => {
+    const model = selectedConversation!.model;
+    const sectionId = model.vendor.toLocaleLowerCase();
+    const settingId = `${model.id}_default_system_prompt`;
 
-    if (availableSystemPrompts && defaultSystemPrompt) {
-      sysPrompt = availableSystemPrompts.filter(
-        (prompt) => prompt.id === defaultSystemPrompt.id,
-      )[0];
-    }
+    let systemPromptId = getSavedSettingValue(
+      savedSettings,
+      settings,
+      sectionId,
+      settingId,
+    );
+    setDefaultSystemPromptId(systemPromptId);
+  }, [savedSettings, settings, selectedConversation]);
 
-    if (!sysPrompt) {
-      const model = selectedConversation!.model;
-      const sectionId = model.vendor.toLocaleLowerCase();
-      const settingId = `${model.id}_default_system_prompt`;
-
-      let systemPromptId = getSavedSettingValue(
-        savedSettings,
-        settings,
-        sectionId,
-        settingId,
-      );
-
-      if (systemPromptId) {
-        const systemPrompt = systemPrompts.filter(
-          (prompt) => prompt.id === systemPromptId,
-        )[0];
-        setDefaultSystemPrompt(systemPrompt);
-      } else {
-        let systemPrompt;
-        systemPromptId = uuidv4();
-        if (model.vendor === 'Anthropic') {
-          systemPrompt = {
-            id: systemPromptId,
-            name: `${t('New System Prompt')}`,
-            content: DEFAULT_ANTHROPIC_SYSTEM_PROMPT,
-            folderId: null,
-            models: [
-              'claude-v1',
-              'claude-v1-100k',
-              'claude-instant-v1',
-              'claude-instant-v1-100k',
-            ],
-          };
-        } else {
-          systemPrompt = {
-            id: systemPromptId,
-            name: `${t('New System Prompt')}`,
-            content: DEFAULT_OPENAI_SYSTEM_PROMPT,
-            folderId: null,
-            models: ['gpt-3.5-turbo', 'gpt-35-az', 'gpt-4', 'gpt-4-32k'],
-          };
-        }
-        const updatedSystemPrompts = storageCreateSystemPrompt(
-          database,
-          user,
-          systemPrompt,
-          systemPrompts,
-        );
-        setSavedSetting(user, sectionId, settingId, systemPromptId);
-        setDefaultSystemPrompt(systemPrompt);
-        // homeDispatch({ field: 'systemPrompts', value: updatedSystemPrompts });
-      }
-    }
-  };
-  // useEffect(() => {
-  //   // getDefaultSystemPrompt();
-  // }, [availableSystemPrompts]);
+  useEffect(() => {
+    getDefaultSystemPrompt();
+  }, [availableSystemPrompts, getDefaultSystemPrompt]);
 
   const getAvailableSystemPrompts = useCallback(() => {
     const model = selectedConversation!.model;
@@ -133,7 +65,9 @@ export const SystemPromptSelect = () => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const systemPrompt = systemPrompts.filter(
       (prompt) => prompt.id === e.target.value,
-    )[0].content;
+    )[0];
+
+    console.log('systemPrompt', systemPrompt);
 
     selectedConversation &&
       handleUpdateConversation(selectedConversation, {
@@ -154,7 +88,7 @@ export const SystemPromptSelect = () => {
     >
       <select
         className="text-left w-full bg-transparent p-1 text-sm"
-        value={selectedConversation?.systemPrompt?.name}
+        value={selectedConversation?.systemPrompt?.id}
         onChange={handleChange}
       >
         {availableSystemPrompts.map((prompt) => (
@@ -163,7 +97,7 @@ export const SystemPromptSelect = () => {
             value={prompt.id}
             className="bg-theme-primary-menu-light dark:bg-theme-primary-menu-dark text-black dark:text-white"
           >
-            {prompt.id === defaultSystemPrompt?.id
+            {prompt.id === defaultSystemPromptId
               ? `${t('Default')} (${prompt.name})`
               : prompt.name}
           </option>

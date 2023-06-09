@@ -1,3 +1,6 @@
+import { useCallback } from 'react';
+
+import { AiModel } from '@/../unsaged-ui-core/types/ai-models';
 import { SavedSetting, SettingsSection } from '@/types/settings';
 import { User } from '@chatbot-ui/core/types/auth';
 
@@ -15,23 +18,6 @@ export const getSavedSettings = (user: User): SavedSetting[] => {
   }
   return [];
 };
-
-// export const getSavedSettings = (user: User): Settings => {
-//   const itemName = `${STORAGE_KEY}-${user.email}`;
-//   const settingsSectionsRaw = localStorage.getItem(itemName);
-//   let savedSettings = systemSettings;
-//   if (settingsSectionsRaw) {
-//     try {
-//       const tmp = JSON.parse(settingsSectionsRaw) as Settings;
-//       if (tmp) {
-//         savedSettings = tmp;
-//       }
-//     } catch (e) {
-//       console.error(e);
-//     }
-//   }
-//   return savedSettings;
-// };
 
 export const setSavedSettings = (user: User, savedSettings: SavedSetting[]) => {
   const itemName = `${STORAGE_KEY}-${user.email}`;
@@ -113,28 +99,15 @@ export const setSavedSetting = (
 
   if (!setting) {
     savedSettings.push({
-      sectionId,
-      settingId,
-      value,
+      sectionId: sectionId,
+      settingId: sectionId,
+      value: value,
     });
-    setSavedSettings(user, savedSettings);
-    return savedSettings;
   } else {
-    const newSavedSettings = savedSettings.map((savedSetting) => {
-      if (
-        savedSetting.sectionId === sectionId &&
-        savedSetting.settingId === settingId
-      ) {
-        return {
-          ...savedSetting,
-          value: value,
-        };
-      }
-      return savedSetting;
-    });
-    setSavedSettings(user, newSavedSettings);
-    return newSavedSettings;
+    setting.value = value;
   }
+  setSavedSettings(user, savedSettings);
+  return savedSettings;
 };
 
 // export const addSettingChoice = (
