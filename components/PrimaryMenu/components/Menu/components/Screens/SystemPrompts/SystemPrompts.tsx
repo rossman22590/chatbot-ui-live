@@ -175,7 +175,10 @@ const SystemPrompts = () => {
         }),
       });
     } else {
-      promptDispatch({ field: 'filteredSystemPrompts', value: systemPrompts });
+      promptDispatch({
+        field: 'filteredSystemPrompts',
+        value: systemPrompts,
+      });
     }
   }, [searchTerm, systemPrompts, promptDispatch]);
 

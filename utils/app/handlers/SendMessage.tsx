@@ -20,6 +20,7 @@ export const sendHandlerFunction = async (
   message: Message,
   installedPlugins: InstalledPlugin[],
   stopConversationRef: MutableRefObject<boolean>,
+  builtInSystemPrompts: any[],
   selectedConversation: Conversation | undefined,
   conversations: Conversation[],
   database: Database,
@@ -76,6 +77,7 @@ export const sendHandlerFunction = async (
       );
     } else {
       const { data, controller } = await messageSender(
+        builtInSystemPrompts,
         updatedConversation,
         installedPlugins,
         selectedConversation,

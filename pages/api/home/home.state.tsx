@@ -36,6 +36,7 @@ export interface HomeInitialState {
   defaultModelId: string | undefined;
   serverSideApiKeyIsSet: boolean;
   systemPrompts: SystemPrompt[];
+  builtInSystemPrompts: SystemPrompt[];
   user: User;
   selectedPlugin: QuickViewPlugin | null;
   installedPlugins: InstalledPlugin[];
@@ -69,6 +70,7 @@ export const initialState: HomeInitialState = {
   defaultModelId: undefined,
   serverSideApiKeyIsSet: false,
   systemPrompts: [],
+  builtInSystemPrompts: [],
   user: await getUser(),
   selectedPlugin: null,
   installedPlugins: [],

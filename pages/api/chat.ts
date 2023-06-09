@@ -11,6 +11,8 @@ const handler = async (req: Request): Promise<Response> => {
   const { model, messages, apiKey, systemPrompt, temperature } =
     (await req.json()) as ChatBody;
 
+  console.log('systemPrompt', systemPrompt);
+
   const { error: tokenCountError, count } = await getTokenCount(
     model,
     systemPrompt.content,

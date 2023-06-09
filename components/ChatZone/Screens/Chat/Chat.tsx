@@ -45,24 +45,21 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
     state: {
       selectedConversation,
       conversations,
-      models,
       database,
       apiKey,
       serverSideApiKeyIsSet,
       modelError,
       loading,
-      systemPrompts,
+      builtInSystemPrompts,
       user,
       installedPlugins,
       selectedNamespace,
     },
-    handleUpdateConversation,
     dispatch: homeDispatch,
   } = useContext(HomeContext);
 
   const [currentMessage, setCurrentMessage] = useState<Message>();
   const [autoScrollEnabled, setAutoScrollEnabled] = useState<boolean>(true);
-  const [showSettings, setShowSettings] = useState<boolean>(false);
   const [showScrollDownButton, setShowScrollDownButton] =
     useState<boolean>(false);
 
@@ -292,6 +289,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                           editedMessage,
                           index,
                           stopConversationRef,
+                          builtInSystemPrompts,
                           conversation,
                           conversations,
                           database,
@@ -323,6 +321,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                   message,
                   installedPlugins,
                   stopConversationRef,
+                  builtInSystemPrompts,
                   conversation,
                   conversations,
                   database,
@@ -337,6 +336,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                     user,
                     installedPlugins,
                     stopConversationRef,
+                    builtInSystemPrompts,
                     conversation,
                     conversations,
                     database,

@@ -3,6 +3,7 @@ import { MutableRefObject } from 'react';
 import { InstalledPlugin } from '@/types/plugin';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation } from '@chatbot-ui/core/types/chat';
+import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import { storageDeleteMessages } from '../storage/messages';
 import { messageReceiver } from './helpers/messageReceiver';
@@ -14,6 +15,7 @@ export const regenerateMessageHandler = async (
   user: User,
   installedPlugins: InstalledPlugin[],
   stopConversationRef: MutableRefObject<boolean>,
+  builtInSystemPrompts: SystemPrompt[],
   selectedConversation: Conversation | undefined,
   conversations: Conversation[],
   database: Database,
@@ -51,6 +53,7 @@ export const regenerateMessageHandler = async (
     homeDispatch({ field: 'messageIsStreaming', value: true });
 
     const { data, controller } = await messageSender(
+      builtInSystemPrompts,
       updatedConversation,
       installedPlugins,
       selectedConversation,

@@ -9,12 +9,18 @@ import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import HomeContext from '@/pages/api/home/home.context';
 
-interface Props {
-  systemPrompts: SystemPrompt[];
-}
-
 export const SystemPromptSelect = () => {
   const { t } = useTranslation('systemPrompt');
+  const {
+    state: {
+      selectedConversation,
+      savedSettings,
+      settings,
+      systemPrompts,
+      builtInSystemPrompts,
+    },
+    handleUpdateConversation,
+  } = useContext(HomeContext);
 
   const [availableSystemPrompts, setAvailableSystemPrompts] = useState<
     SystemPrompt[]
@@ -22,11 +28,17 @@ export const SystemPromptSelect = () => {
   const [defaultSystemPromptId, setDefaultSystemPromptId] = useState<
     string | null
   >(null);
+  const [currentSystemPromptId, setCurrentSystemPromptId] = useState<string>(
+    selectedConversation!.model.vendor,
+  );
 
-  const {
-    state: { selectedConversation, savedSettings, settings, systemPrompts },
-    handleUpdateConversation,
-  } = useContext(HomeContext);
+  useEffect(() => {
+    if (selectedConversation && selectedConversation.systemPrompt) {
+      setCurrentSystemPromptId(selectedConversation.systemPrompt.id);
+    } else {
+      setCurrentSystemPromptId(defaultSystemPromptId!);
+    }
+  }, [selectedConversation, defaultSystemPromptId]);
 
   const getDefaultSystemPrompt = useCallback(() => {
     const model = selectedConversation!.model;
@@ -39,12 +51,19 @@ export const SystemPromptSelect = () => {
       sectionId,
       settingId,
     );
+
+    if (!systemPromptId && builtInSystemPrompts.length > 0) {
+      systemPromptId = builtInSystemPrompts.filter(
+        (prompt) => prompt.name === `${model.vendor} Built-In`,
+      )[0].id;
+    }
+
     setDefaultSystemPromptId(systemPromptId);
-  }, [savedSettings, settings, selectedConversation]);
+  }, [savedSettings, settings, selectedConversation, builtInSystemPrompts]);
 
   useEffect(() => {
     getDefaultSystemPrompt();
-  }, [availableSystemPrompts, getDefaultSystemPrompt]);
+  }, [availableSystemPrompts, getDefaultSystemPrompt, builtInSystemPrompts]);
 
   const getAvailableSystemPrompts = useCallback(() => {
     const model = selectedConversation!.model;
@@ -53,19 +72,31 @@ export const SystemPromptSelect = () => {
       prompt.models.includes(model.id),
     );
 
+    const defaultSystemPrompt = builtInSystemPrompts.filter(
+      (prompt) => prompt.name === `${model.vendor} Built-In`,
+    )[0];
+
+    if (defaultSystemPrompt) {
+      availablePrompts.push(defaultSystemPrompt);
+    }
+
     setAvailableSystemPrompts(availablePrompts);
-  }, [selectedConversation, systemPrompts]);
+  }, [selectedConversation, systemPrompts, builtInSystemPrompts]);
 
   useEffect(() => {
     if (systemPrompts) {
       getAvailableSystemPrompts();
     }
-  }, [selectedConversation, systemPrompts, getAvailableSystemPrompts]);
+  }, [
+    selectedConversation,
+    systemPrompts,
+    getAvailableSystemPrompts,
+    builtInSystemPrompts,
+  ]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const systemPrompt = systemPrompts.filter(
-      (prompt) => prompt.id === e.target.value,
-    )[0];
+    const systemPrompt =
+      systemPrompts.filter((prompt) => prompt.id === e.target.value)[0] || null;
 
     console.log('systemPrompt', systemPrompt);
 
@@ -88,7 +119,7 @@ export const SystemPromptSelect = () => {
     >
       <select
         className="text-left w-full bg-transparent p-1 text-sm"
-        value={selectedConversation?.systemPrompt?.id}
+        value={currentSystemPromptId}
         onChange={handleChange}
       >
         {availableSystemPrompts.map((prompt) => (

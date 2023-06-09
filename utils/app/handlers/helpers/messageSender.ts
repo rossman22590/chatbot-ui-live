@@ -2,21 +2,29 @@ import toast from 'react-hot-toast';
 
 import { InstalledPlugin } from '@/types/plugin';
 import { Conversation } from '@chatbot-ui/core/types/chat';
+import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import { sendChatRequest } from '../../chat';
 import { injectKnowledgeOfPluginSystem } from '../../plugins/awarenessInjectorPrompt';
 
 export async function messageSender(
+  builtInSystemPrompts: SystemPrompt[],
   updatedConversation: Conversation,
   installedPlugins: InstalledPlugin[],
   selectedConversation: Conversation,
   apiKey: string,
   homeDispatch: React.Dispatch<any>,
 ) {
-  let customPrompt = selectedConversation.systemPrompt!;
+  let customPrompt = selectedConversation.systemPrompt;
+
+  if (!customPrompt) {
+    customPrompt = builtInSystemPrompts.filter(
+      (prompt) =>
+        prompt.name === `${selectedConversation.model.vendor} Built-In`,
+    )[0];
+  }
 
   // Make the chatbot aware of the installed plugins
-
   if (installedPlugins.length > 0) {
     const promptText = injectKnowledgeOfPluginSystem(
       selectedConversation.systemPrompt!.content,
@@ -33,6 +41,8 @@ export async function messageSender(
     ...updatedConversation,
     systemPrompt: customPrompt,
   };
+
+  console.log('pluginInjectedConversation', pluginInjectedConversation);
 
   const { response, controller } = await sendChatRequest(
     pluginInjectedConversation,

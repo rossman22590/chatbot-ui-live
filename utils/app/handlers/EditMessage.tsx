@@ -5,6 +5,7 @@ import { storageUpdateMessage } from '@/utils/app/storage/message';
 import { InstalledPlugin } from '@/types/plugin';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
+import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import { storageUpdateConversation } from '../storage/conversation';
 import { storageDeleteMessages } from '../storage/messages';
@@ -19,6 +20,7 @@ export const editMessageHandler = async (
   message: Message,
   index: number,
   stopConversationRef: MutableRefObject<boolean>,
+  builtInSystemPrompts: SystemPrompt[],
   selectedConversation: Conversation | undefined,
   conversations: Conversation[],
   database: Database,
@@ -73,6 +75,7 @@ export const editMessageHandler = async (
     homeDispatch({ field: 'messageIsStreaming', value: true });
 
     const { data, controller } = await messageSender(
+      builtInSystemPrompts,
       updatedConversation,
       installedPlugins,
       selectedConversation,
