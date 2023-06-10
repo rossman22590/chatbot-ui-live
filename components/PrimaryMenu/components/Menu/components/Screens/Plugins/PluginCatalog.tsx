@@ -98,7 +98,7 @@ export const PluginCatalog = () => {
 
       let outputModels: InstalledPluginOutput[] = [];
       for (const model in manifest.output) {
-        const outputPrompt = await getPluginPrompt(manifest.input[model].url);
+        const outputPrompt = await getPluginPrompt(manifest.output[model].url);
 
         if (!outputPrompt) {
           console.error('Output prompt not found');
