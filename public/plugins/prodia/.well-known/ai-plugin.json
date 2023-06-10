@@ -1,0 +1,44 @@
+{
+  "id": "org.mytsi.prodia",
+  "homepage": "/plugins/prodia/README.md",
+  "schema_version": "v1",
+  "name_for_model": "Prodia, the stable diffusion plugin",
+  "name_for_human": "Prodia",
+  "description_for_model": "Plugin allows a user to generate images using a stable diffusion model. The user just needs to specify which model to use. The model can also accept a number of steps and a seed. This plugin needs the user input to be unaltered. Pass exactly what the user asks for.",
+  "description_for_human": "Generate images using a stable diffusion model.",
+  "auth": {
+    "type": "user_http",
+    "authorization_type": "bearer"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "/plugins/prodia/.well-known/openapi.yaml",
+    "has_user_authentication": false
+  },
+  "input": {
+    "claude-instant-v1": {
+      "url": "/plugins/prodia/.well-known/prompts/input/anthropic.txt"
+    },
+    "gpt-4": {
+      "url": "/plugins/prodia/.well-known/prompts/input/openai.txt"
+    },
+    "gpt-3.5-turbo": {
+      "url": "/plugins/prodia/.well-known/prompts/input/openai.txt"
+    }
+  },
+  "output": {
+    "claude-instant-v1": {
+      "url": "/plugins/prodia/.well-known/prompts/output/anthropic.txt"
+    },
+    "gpt-4": {
+      "url": "/plugins/prodia/.well-known/prompts/output/openai.txt"
+    },
+    "gpt-3.5-turbo": {
+      "url": "/plugins/prodia/.well-known/prompts/output/openai.txt"
+    }
+  },
+  "author": "Tech in School Initiative",
+  "logo_url": "/plugins/prodia/.well-known/logo.png",
+  "contact_email": "rcohen@mytsi.org",
+  "tags": "image, generation, stable, diffusion, avatar"
+}

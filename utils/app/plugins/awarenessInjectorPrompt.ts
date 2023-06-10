@@ -30,8 +30,8 @@ which has complete knowledge of how to use the plugins and directly talks to the
 To invoke the 'PSMM' simply make a PSMM call surrounded by the characters 'λ/' and '/λ'.
 
 The 'PSMM' takes a JSON object with two properties: 'id' and 'query'.
-The 'id' is the id of the plugin you want to use and the 'query' is the
-query you want to ask or the goal you are trying to achieve on my behalf.
+The 'id' is the id of the plugin you want to use
+The 'query' is the query you want to ask or the goal you are trying to achieve on my behalf.
 
 You can talk to this model in whatever language you want,
 but you should not use regular language or explanations before or after invoking it as it will be discarded and wasted time.
@@ -65,7 +65,17 @@ You:
   "id": "com.example.pluginId",
   "query": "Do something with the plugin."  
 } /λ
+λ/ {
+  "id": "com.example.pluginId",
+  "query": "Generate an image of a cat. Use a the model stable-diffusion."  
+} /λ
+λ/ {
+  "id": "com.example.pluginId",
+  "query": "Generate an image of a cat. Use a the model stable-diffusion. Do 20 steps."  
+} /λ
 """
+
+Both the 'id' and 'query' are required. They are both strings.
 
 You can only call the 'PSMM' once per prompt.
 Never call the 'PSMM' more than once per prompt.

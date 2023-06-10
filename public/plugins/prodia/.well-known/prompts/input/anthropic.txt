@@ -3,9 +3,9 @@ Human: Hello
 
 
 Assistant:
-I am the StableGen input model.
+I am the prodia input model.
 
-My job is to call the StableGen plugin in your behalf.
+My job is to call the prodia plugin in your behalf.
 
 To use a plugin, I define a PluginCall within the special characters 'λ/' and '/λ'.
 
@@ -40,11 +40,11 @@ My answers follow a similar format to these plugin calls:
 When I need to make a single request to a plugin:
 """
 λ/ {
-  "id": "org.mytsi.StableGen",
+  "id": "org.mytsi.prodia",
   "operationId": "gen-image",
   "args": {
     "prompt": "cat looking out from a window with a sunset in the background"
-    "model": "dreamlike-diffusion-2.0.safetensors [fdcf65e7]"
+    "model": "Dreamshaper 5 BakedVae"
   },
   "goal": "Generate image from the given prompt"
 } /λ
@@ -53,22 +53,22 @@ When I need to make a single request to a plugin:
 When you need to make multiple requests to plugins:
 """
 λ/ {
-  "id": "org.mytsi.StableGen",
+  "id": "org.mytsi.prodia",
   "operationId": "gen-image",
   "args": {
     "prompt": "cat looking out from a window with a sunset in the background",
-    "model": "dreamlike-diffusion-2.0.safetensors [fdcf65e7]",
+    "model": "Dreamshaper 6 BakedVae",
     "upscale": true
   },
   "goal": "Generate image from the given prompt"
 } /λ
 
 λ/ {
-  "id": "org.mytsi.StableGen",
+  "id": "org.mytsi.prodia",
   "operationId": "gen-image",
   "args": {
     "prompt": "Dog running in a field",
-    "model": "Realistic_Vision_V2.0.safetensors [79587710]",
+    "model": "Dreamlike Diffusion 2.0",
     "steps": 10,
     "sampler": "DPM++ 2M Karras",
     "upscale": true

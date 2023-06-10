@@ -5,7 +5,6 @@ import { useTranslation } from 'next-i18next';
 
 import { useCreateReducer } from '@/hooks/useCreateReducer';
 
-import { MARKETPLACE_URL } from '@/utils/app/const';
 import {
   getManifest,
   getManifestFromUrl,
