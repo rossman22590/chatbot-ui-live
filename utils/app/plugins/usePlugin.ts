@@ -30,7 +30,6 @@ export async function usePlugin(
   const newMessages: Message[] = [];
   for (const invocation of invocations) {
     try {
-      console.log('invocation', invocation);
       const psmmCall = JSON.parse(invocation) as PSMMCall;
       const plugin = findPluginById(psmmCall.id, installedPlugins);
 

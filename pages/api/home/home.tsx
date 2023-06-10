@@ -248,7 +248,7 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
 
       dispatch({ field: 'conversations', value: oldConversations });
     },
-    [database, user, systemPrompts],
+    [database, user, systemPrompts, dispatch],
   );
 
   useEffect(() => {

@@ -1,6 +1,3 @@
-import { useCallback } from 'react';
-
-import { AiModel } from '@/../unsaged-ui-core/types/ai-models';
 import { SavedSetting, SettingsSection } from '@/types/settings';
 import { User } from '@chatbot-ui/core/types/auth';
 

@@ -28,7 +28,6 @@ export const invokePPM = async (
   let rawPrompt;
 
   for (const outputModel of plugin.output_models) {
-    console.log('outputModel', outputModel);
     model = models.find((m) => m.id === outputModel.model);
 
     if (model) {
@@ -61,8 +60,6 @@ export const invokePPM = async (
 
   ${JSON.stringify(operationResult)}
   `;
-
-  console.log('completeLog', completeLog);
 
   const messages: Message[] = [
     {

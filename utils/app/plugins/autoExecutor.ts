@@ -20,7 +20,6 @@ export async function executeApiCall(
 ) {
   const { error, data } = await callApi(call, call.plugin, authToken);
 
-  console.log('plugin', plugin);
   if (data) {
     if (plugin.output_models && plugin.output_models.length > 0) {
       // Invoking the Plugin Parser Model to get the human readable response
