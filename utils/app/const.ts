@@ -6,7 +6,7 @@ export const DEFAULT_OPENAI_SYSTEM_PROMPT =
 
 export const DEFAULT_ANTHROPIC_SYSTEM_PROMPT =
   dockerEnvVarFix(process.env.NEXT_PUBLIC_DEFAULT_ANTHROPIC_SYSTEM_PROMPT) ||
-  '\n\nHuman: You are Claude, a large language model trained by Anthropic. Follow the my instructions carefully. Respond using markdown.\n\nAssistant:Okay.';
+  '\n\nHuman: You are Claude, a large language model trained by Anthropic. Follow the my instructions carefully. Respond using markdown.\n\nAssistant: Okay.';
 
 export const OPENAI_API_URL =
   dockerEnvVarFix(process.env.OPENAI_API_URL) || 'https://api.openai.com/v1';
