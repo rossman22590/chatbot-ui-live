@@ -89,8 +89,6 @@ export async function streamAnthropic(
             const json = JSON.parse(data);
             const textReceived: string = json.completion;
 
-            console.log('textReceived', textReceived);
-
             const textToSend = textReceived.substring(sentText.length);
             sentText = textReceived;
 

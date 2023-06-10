@@ -90,7 +90,5 @@ Continue using the 'PSMM' as normal and I will continue to hide the calls from y
 ${model.vendor === 'Anthropic' ? 'Assistant: Great. I understand!' : ''}
 `;
 
-  console.log('prompt', prompt);
-
   return prompt;
 };
