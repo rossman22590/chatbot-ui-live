@@ -9,7 +9,6 @@ import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
 import { sendChatRequest } from '../chat';
 import { getPSMMPrompt } from './PSMMPrompt';
-import { findPluginById } from './finder';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -23,6 +22,10 @@ export const getApiCalls = async (
   apiKey: string,
   homeDispatch: React.Dispatch<any>,
 ) => {
+  // make a copy of the conversation
+  const conversationString = JSON.stringify(conversation);
+  const conversationCopy: Conversation = JSON.parse(conversationString);
+
   let model;
   let rawPrompt;
 
@@ -60,7 +63,7 @@ export const getApiCalls = async (
   ];
 
   const customConversation: Conversation = {
-    id: conversation.id,
+    id: conversationCopy.id,
     model: model,
     name: 'Plugin Parser',
     temperature: 0.1,
@@ -89,13 +92,14 @@ export const getApiCalls = async (
   const reader = data.getReader();
   const decoder = new TextDecoder();
   const assistantMessageId = uuidv4();
-  conversation.messages.push({
+  conversationCopy.messages.push({
     id: assistantMessageId,
     role: 'assistant',
     content: '',
     timestamp: getTimestampWithTimezoneOffset(),
+    plugin: plugin.manifest.id,
   });
-  const length = conversation.messages.length;
+  const length = conversationCopy.messages.length;
 
   let text = '';
   let done = false;
@@ -112,28 +116,20 @@ export const getApiCalls = async (
 
     // This is a request to use a plugin
     if (text.includes('λ/')) {
-      conversation.messages[length - 1].content = 'Using plugin...';
+      conversationCopy.messages[length - 1].content = 'Using plugin...';
       homeDispatch({
         field: 'selectedConversation',
-        value: conversation,
-      });
-    } else if (text.includes('λ-')) {
-      conversation.messages[length - 1].content = 'Using plugin...';
-      homeDispatch({
-        field: 'selectedConversation',
-        value: conversation,
+        value: conversationCopy,
       });
     } else {
-      conversation.messages[length - 1].content = text;
+      conversationCopy.messages[length - 1].content = text;
 
       homeDispatch({
         field: 'selectedConversation',
-        value: conversation,
+        value: conversationCopy,
       });
     }
   }
-
-  conversation.messages.pop();
 
   const callTexts = text.match(/(?<=λ\/)[^\/λ]*(?=\/λ)/g);
 

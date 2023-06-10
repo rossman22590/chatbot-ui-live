@@ -18,6 +18,7 @@ export interface PluginManifest {
   name_for_human: string;
   description_for_model: string;
   description_for_human: string;
+  invocation_name: string;
   auth: PluginAuthentication;
   api: PluginApiInfo;
   logo_url: string;
