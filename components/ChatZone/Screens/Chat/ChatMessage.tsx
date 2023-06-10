@@ -336,7 +336,6 @@ export const ChatMessage: FC<Props> = memo(
                       );
                     },
                     img({ src, alt, width, height }) {
-                      console.log(src, alt, width, height);
                       if (!width && !height) {
                         width = '1024px';
                         height = '1024px';

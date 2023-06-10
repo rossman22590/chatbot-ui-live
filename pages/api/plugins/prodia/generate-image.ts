@@ -8,7 +8,6 @@ async function createImageGenerationJob(
   apiKey: string,
   jobRequest: any,
 ): Promise<any> {
-  console.log('Generation job request:', jobRequest);
   const imageGenerationJob = await ProdiaAI.createJob(jobRequest);
   return imageGenerationJob;
 }
@@ -54,11 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   ProdiaAI.key(key);
 
-  console.log('Request body:', req.body);
-
   const body = JSON.parse(req.body);
-
-  console.log('Body:', body);
 
   let parsedModel: string;
 
