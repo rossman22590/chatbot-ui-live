@@ -98,8 +98,6 @@ export const SystemPromptSelect = () => {
     const systemPrompt =
       systemPrompts.filter((prompt) => prompt.id === e.target.value)[0] || null;
 
-    console.log('systemPrompt', systemPrompt);
-
     selectedConversation &&
       handleUpdateConversation(selectedConversation, {
         key: 'systemPrompt',

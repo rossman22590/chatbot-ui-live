@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast';
 
 import { InstalledPlugin } from '@/types/plugin';
+import { AiModel } from '@chatbot-ui/core/types/ai-models';
 import { Conversation } from '@chatbot-ui/core/types/chat';
 import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
@@ -27,7 +28,8 @@ export async function messageSender(
   // Make the chatbot aware of the installed plugins
   if (installedPlugins.length > 0) {
     const promptText = injectKnowledgeOfPluginSystem(
-      selectedConversation.systemPrompt!.content,
+      selectedConversation.model,
+      customPrompt.content,
       installedPlugins,
     );
 
@@ -41,8 +43,6 @@ export async function messageSender(
     ...updatedConversation,
     systemPrompt: customPrompt,
   };
-
-  console.log('pluginInjectedConversation', pluginInjectedConversation);
 
   const { response, controller } = await sendChatRequest(
     pluginInjectedConversation,

@@ -1,6 +1,7 @@
 import { MutableRefObject } from 'react';
 
 import { InstalledPlugin } from '@/types/plugin';
+import { AiModel } from '@chatbot-ui/core/types/ai-models';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation } from '@chatbot-ui/core/types/chat';
 import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
@@ -13,6 +14,7 @@ import { Database } from '@chatbot-ui/core';
 
 export const regenerateMessageHandler = async (
   user: User,
+  models: AiModel[],
   installedPlugins: InstalledPlugin[],
   stopConversationRef: MutableRefObject<boolean>,
   builtInSystemPrompts: SystemPrompt[],
@@ -68,6 +70,7 @@ export const regenerateMessageHandler = async (
 
     await messageReceiver(
       user,
+      models,
       database,
       data,
       controller,

@@ -3,6 +3,7 @@ import { MutableRefObject } from 'react';
 import { storageUpdateMessage } from '@/utils/app/storage/message';
 
 import { InstalledPlugin } from '@/types/plugin';
+import { AiModel } from '@chatbot-ui/core/types/ai-models';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
@@ -16,6 +17,7 @@ import { Database } from '@chatbot-ui/core';
 
 export const editMessageHandler = async (
   user: User,
+  models: AiModel[],
   installedPlugins: InstalledPlugin[],
   message: Message,
   index: number,
@@ -109,6 +111,7 @@ export const editMessageHandler = async (
 
     await messageReceiver(
       user,
+      models,
       database,
       data,
       controller,

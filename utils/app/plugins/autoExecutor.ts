@@ -1,12 +1,16 @@
 import { InstalledPlugin, PSMMMessage, PluginCall } from '@/types/plugin';
+import { AiModel } from '@chatbot-ui/core/types/ai-models';
 import { Conversation } from '@chatbot-ui/core/types/chat';
 
 import { invokePPM } from './PPM';
+import { addDirectResponse } from './directResponse';
 import { callApi } from './execute';
 import { findPluginById } from './finder';
 import { addPluginSignInBox } from './pluginSignIn';
 
 export async function executeApiCall(
+  models: AiModel[],
+  plugin: InstalledPlugin,
   call: PluginCall,
   conversation: Conversation,
   stopConversationRef: any,
@@ -16,17 +20,23 @@ export async function executeApiCall(
 ) {
   const { error, data } = await callApi(call, call.plugin, authToken);
 
+  console.log('plugin', plugin);
   if (data) {
-    // Invoking the Plugin Parser Model to get the human readable response
-    return await invokePPM(
-      call,
-      data,
-      conversation,
-      call.plugin,
-      stopConversationRef,
-      apiKey,
-      homeDispatch,
-    );
+    if (plugin.output_models && plugin.output_models.length > 0) {
+      // Invoking the Plugin Parser Model to get the human readable response
+      return await invokePPM(
+        models,
+        call,
+        data,
+        conversation,
+        call.plugin,
+        stopConversationRef,
+        apiKey,
+        homeDispatch,
+      );
+    } else {
+      return await addDirectResponse(data, call, conversation, homeDispatch);
+    }
   } else if (error === 'no-auth') {
     return await addPluginSignInBox(call, conversation, homeDispatch);
   }

@@ -4,6 +4,7 @@ import { storageCreateMessage } from '@/utils/app/storage/message';
 
 import { Namespace } from '@/types/learning';
 import { InstalledPlugin } from '@/types/plugin';
+import { AiModel } from '@chatbot-ui/core/types/ai-models';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 
@@ -16,6 +17,7 @@ import { Database } from '@chatbot-ui/core';
 
 export const sendHandlerFunction = async (
   user: User,
+  models: AiModel[],
   selectedNamespace: Namespace | null,
   message: Message,
   installedPlugins: InstalledPlugin[],
@@ -90,9 +92,9 @@ export const sendHandlerFunction = async (
         return;
       }
 
-      // Sending the message to OpenAI otherwise
       await messageReceiver(
         user,
+        models,
         database,
         data,
         controller,

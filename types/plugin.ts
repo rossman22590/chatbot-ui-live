@@ -1,3 +1,15 @@
+export interface PluginInput {
+  [model: string]: {
+    url: string;
+  };
+}
+
+export interface PluginOutput {
+  [model: string]: {
+    url: string;
+  };
+}
+
 export interface PluginManifest {
   id: string;
   homepage: string;
@@ -12,7 +24,10 @@ export interface PluginManifest {
   author: string;
   contact_email: string;
   tags: string;
-  prompt_url: string;
+  input_prompt_url: string;
+  output_prompt_url: string | null;
+  input: PluginInput;
+  output: PluginOutput;
 }
 
 export interface PluginApiInfo {
@@ -38,10 +53,14 @@ export interface ServerSidePlugin {
   paths: Map<string, string>;
 }
 
+export interface PSMMCall {
+  id: string;
+  query: string;
+}
 export interface PluginCall {
   plugin: InstalledPlugin;
   operationId: string;
-  args: Map<string, string>;
+  args: any;
   goal: string;
 }
 
@@ -101,13 +120,6 @@ export interface PluginPath {
   };
 }
 
-export interface PluginExample {
-  [path: string]: {
-    input: string;
-    output: string;
-  };
-}
-
 export interface PluginSetting {
   [key: string]: {
     name: string;
@@ -122,11 +134,21 @@ export interface PluginOpenApi {
   paths: PluginPath;
   components: any;
   settings: PluginSetting;
-  examples: PluginExample;
+}
+
+export interface InstalledPluginInput {
+  model: string;
+  prompt: string;
+}
+
+export interface InstalledPluginOutput {
+  model: string;
+  prompt: string;
 }
 
 export interface InstalledPlugin {
   manifest: PluginManifest;
   api: PluginOpenApi;
-  prompt: string;
+  input_models: InstalledPluginInput[];
+  output_models: InstalledPluginOutput[];
 }

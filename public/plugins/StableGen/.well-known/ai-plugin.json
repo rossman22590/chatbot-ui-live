@@ -15,7 +15,28 @@
     "url": "/plugins/StableGen/.well-known/openapi.yaml",
     "has_user_authentication": false
   },
-  "prompt_url": "/plugins/StableGen/.well-known/prompt.txt",
+  "input": {
+    "claude-instant-v1": {
+      "url": "/plugins/StableGen/.well-known/prompts/input/anthropic.txt"
+    },
+    "gpt-4": {
+      "url": "/plugins/StableGen/.well-known/prompts/input/openai.txt"
+    },
+    "gpt-3.5-turbo": {
+      "url": "/plugins/StableGen/.well-known/prompts/input/openai.txt"
+    }
+  },
+  "output": {
+    "claude-instant-v1": {
+      "url": "/plugins/StableGen/.well-known/prompts/output/anthropic.txt"
+    },
+    "gpt-4": {
+      "url": "/plugins/StableGen/.well-known/prompts/output/openai.txt"
+    },
+    "gpt-3.5-turbo": {
+      "url": "/plugins/StableGen/.well-known/prompts/output/openai.txt"
+    }
+  },
   "author": "Tech in School Initiative",
   "logo_url": "/plugins/StableGen/.well-known/logo.png",
   "contact_email": "rcohen@mytsi.org",

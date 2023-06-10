@@ -3,6 +3,7 @@ import { MutableRefObject } from 'react';
 import { storageUpdateMessage } from '@/utils/app/storage/message';
 
 import { InstalledPlugin, PluginCall } from '@/types/plugin';
+import { AiModel } from '@chatbot-ui/core/types/ai-models';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 
@@ -15,6 +16,7 @@ import { Database } from '@chatbot-ui/core';
 
 export const retryPluginHandlerFunction = async (
   user: User,
+  models: AiModel[],
   message: Message,
   enabledPlugins: InstalledPlugin[],
   stopConversationRef: MutableRefObject<boolean>,
@@ -36,6 +38,7 @@ export const retryPluginHandlerFunction = async (
       if (data) {
         // Invoking the Plugin Parser Model to get the human readable response
         const newMessage = await invokePPM(
+          models,
           call,
           data,
           selectedConversation,

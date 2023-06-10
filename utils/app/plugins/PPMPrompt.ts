@@ -3,6 +3,7 @@ import { InstalledPlugin } from '@/types/plugin';
 // Get the system prompt for the Plugin Parsing Model
 export const getPPMPrompt = (
   plugin: InstalledPlugin,
+  rawPrompt: string,
   userLocation: string | null,
 ) => {
   const summary = {
@@ -13,17 +14,12 @@ export const getPPMPrompt = (
     schemas: plugin.api.components.schemas,
   };
 
-  const examples = {
-    id: plugin.manifest.id,
-    examples: plugin.api.examples,
-  };
+  rawPrompt = rawPrompt.replaceAll(
+    '{{summary}}',
+    JSON.stringify(summary, null, 2),
+  );
+  rawPrompt = rawPrompt.replaceAll('{{location}}', userLocation || '');
+  rawPrompt = rawPrompt.replaceAll('{{time}}', new Date().toLocaleTimeString());
 
-  let prompt = plugin.prompt;
-
-  prompt = prompt.replaceAll('{{summary}}', JSON.stringify(summary, null, 2));
-  prompt = prompt.replaceAll('{{examples}}', JSON.stringify(examples, null, 2));
-  prompt = prompt.replaceAll('{{location}}', userLocation || '');
-  prompt = prompt.replaceAll('{{time}}', new Date().toLocaleTimeString());
-
-  return prompt;
+  return rawPrompt;
 };

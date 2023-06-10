@@ -3,7 +3,7 @@ import { MutableRefObject } from 'react';
 import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
 
 import { InstalledPlugin, PluginCall } from '@/types/plugin';
-import { PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
+import { AiModel, PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
@@ -14,6 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 // Invoke the Plugin Parser Model
 export const invokePPM = async (
+  models: AiModel[],
   call: PluginCall,
   operationResult: any,
   conversation: Conversation,
@@ -23,8 +24,29 @@ export const invokePPM = async (
   homeDispatch: React.Dispatch<any>,
   message?: Message,
 ) => {
+  let model;
+  let rawPrompt;
+
+  for (const outputModel of plugin.output_models) {
+    console.log('outputModel', outputModel);
+    model = models.find((m) => m.id === outputModel.model);
+
+    if (model) {
+      rawPrompt = outputModel.prompt;
+      break;
+    }
+  }
+
+  if (!rawPrompt || !model) {
+    console.error(
+      'No models can create output for plugin:',
+      plugin.manifest.id,
+    );
+    return;
+  }
+
   // Get the prompt for the Plugin Parser Model
-  const systemPromptContent = getPPMPrompt(plugin, null);
+  const systemPromptContent = getPPMPrompt(plugin, rawPrompt, null);
 
   const systemPrompt: SystemPrompt = {
     id: '0',
@@ -35,12 +57,12 @@ export const invokePPM = async (
   };
 
   const completeLog = `
-  User:
   ${call.goal}
 
-  Result:
   ${JSON.stringify(operationResult)}
   `;
+
+  console.log('completeLog', completeLog);
 
   const messages: Message[] = [
     {
@@ -53,7 +75,7 @@ export const invokePPM = async (
 
   const customConversation: Conversation = {
     id: conversation.id,
-    model: PossibleAiModels['gpt-4'],
+    model: model,
     name: 'Plugin Parser',
     temperature: 0.1,
     messages: messages,

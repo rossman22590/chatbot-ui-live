@@ -77,11 +77,3 @@ settings:
     name: CSE ID
     description: Google CSE ID
     type: text
-
-examples:
-  /search:
-    post:
-      - input: What's the weather in San Francisco today?
-        output: It's 65 degrees and sunny in San Francisco today. [[1]](https://www.google.com/search?q=weather+san+francisco)
-      - input: How's the weather in San Francisco for tomorrow?
-        output: It's going to be 70 degrees and sunny in San Francisco tomorrow. [[1]](https://www.google.com/search?q=weather+san+francisco)

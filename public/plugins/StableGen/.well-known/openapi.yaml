@@ -17,7 +17,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/GenImage'
+              $ref: '#/components/schemas/GenImageParameters'
         required: true
       responses:
         '200':
@@ -35,8 +35,8 @@ paths:
 
 components:
   schemas:
-    GenImage:
-      title: GenImage
+    GenImageParameters:
+      title: GenImageParameters
       required:
         - prompt
       type: object
@@ -93,11 +93,3 @@ components:
           minimum: 1
           maximum: 50
           default: 10
-
-examples:
-  /search:
-    post:
-      - input: Generate an image of a cat looking out a window with a sunset in the background. Use openjourney as the model.
-        output: Here is the image I was able to generate\n\n![image](https://images.prodia.xyz/54ba9d50-cca1-40b3-ac5a-c08a025a6486.png)
-      - input: Generate an image of a dog running in a field. Use portrait as aspect ratio and use timeless as the model.
-        output: Here is the image\n\n![image](https://images.prodia.xyz/54ba9d50-cca1-40b3-ac5a-c08a025a6486.png)

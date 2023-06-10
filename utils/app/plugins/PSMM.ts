@@ -3,7 +3,7 @@ import { MutableRefObject } from 'react';
 import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
 
 import { InstalledPlugin, PluginCall } from '@/types/plugin';
-import { PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
+import { AiModel, PossibleAiModels } from '@chatbot-ui/core/types/ai-models';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 import { SystemPrompt } from '@chatbot-ui/core/types/system-prompt';
 
@@ -15,14 +15,32 @@ import { v4 as uuidv4 } from 'uuid';
 
 // Invoke the Plugin System Manager Model
 export const getApiCalls = async (
+  models: AiModel[],
   prompt: string,
-  installedPlugins: InstalledPlugin[],
+  plugin: InstalledPlugin,
   conversation: Conversation,
   stopConversationRef: MutableRefObject<boolean>,
   apiKey: string,
   homeDispatch: React.Dispatch<any>,
 ) => {
-  const systemPromptContent = getPSMMPrompt(installedPlugins, null);
+  let model;
+  let rawPrompt;
+
+  for (const inputModel of plugin.input_models) {
+    model = models.find((m) => m.id === inputModel.model);
+
+    if (model) {
+      rawPrompt = inputModel.prompt;
+      break;
+    }
+  }
+
+  if (!rawPrompt || !model) {
+    console.error('No models can create input for plugin:', plugin.manifest.id);
+    return [];
+  }
+
+  const systemPromptContent = getPSMMPrompt(plugin, rawPrompt, null);
 
   const systemPrompt: SystemPrompt = {
     id: '0',
@@ -43,7 +61,7 @@ export const getApiCalls = async (
 
   const customConversation: Conversation = {
     id: conversation.id,
-    model: PossibleAiModels['claude-instant-v1-100k'],
+    model: model,
     name: 'Plugin Parser',
     temperature: 0.1,
     messages: messages,
@@ -130,8 +148,6 @@ export const getApiCalls = async (
         args: Map<string, string>;
         goal: string;
       };
-
-      const plugin = findPluginById(rawCall.id, installedPlugins);
 
       if (!plugin) {
         console.error('Plugin not found:', rawCall.id);

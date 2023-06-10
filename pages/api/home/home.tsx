@@ -448,7 +448,6 @@ const Home = ({ serverSideApiKeyIsSet, defaultModelId }: Props) => {
       );
     }
 
-    console.log('update', update);
     dispatch({ field: 'selectedConversation', value: update.single });
     dispatch({ field: 'conversations', value: update.all });
     saveSelectedConversation(user, update.single);

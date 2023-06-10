@@ -3,6 +3,7 @@ import { MutableRefObject } from 'react';
 import { getTimestampWithTimezoneOffset } from '@chatbot-ui/core/utils/time';
 
 import { InstalledPlugin } from '@/types/plugin';
+import { AiModel } from '@chatbot-ui/core/types/ai-models';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 
@@ -15,6 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export async function messageReceiver(
   user: User,
+  models: AiModel[],
   database: Database,
   data: ReadableStream,
   controller: AbortController,
@@ -97,8 +99,9 @@ export async function messageReceiver(
     saveSelectedConversation(user, single);
   } else {
     await usePlugin(
-      database,
       user,
+      models,
+      database,
       text,
       installedPlugins,
       conversation,

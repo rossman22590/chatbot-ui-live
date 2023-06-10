@@ -17,7 +17,12 @@ import {
   localDeleteInstalledPlugin,
 } from '@/utils/app/storage/local/plugins';
 
-import { InstalledPlugin, QuickViewPlugin } from '@/types/plugin';
+import {
+  InstalledPlugin,
+  InstalledPluginInput,
+  InstalledPluginOutput,
+  QuickViewPlugin,
+} from '@/types/plugin';
 
 import HomeContext from '@/pages/api/home/home.context';
 
@@ -76,17 +81,41 @@ export const PluginCatalog = () => {
         return;
       }
 
-      const prompt = await getPluginPrompt(manifest.prompt_url);
+      let inputModels: InstalledPluginInput[] = [];
+      for (const model in manifest.input) {
+        const inputPrompt = await getPluginPrompt(manifest.input[model].url);
 
-      if (!prompt) {
-        console.error('Plugin prompt not found');
-        return;
+        if (!inputPrompt) {
+          console.error('Input prompt not found');
+          return;
+        }
+
+        inputModels.push({
+          model: model,
+          prompt: inputPrompt,
+        });
+      }
+
+      let outputModels: InstalledPluginOutput[] = [];
+      for (const model in manifest.output) {
+        const outputPrompt = await getPluginPrompt(manifest.input[model].url);
+
+        if (!outputPrompt) {
+          console.error('Output prompt not found');
+          return;
+        }
+
+        outputModels.push({
+          model: model,
+          prompt: outputPrompt,
+        });
       }
 
       const installedPlugin: InstalledPlugin = {
         manifest: manifest,
         api: pluginAPI,
-        prompt: prompt,
+        input_models: inputModels,
+        output_models: outputModels,
       };
 
       const updatedPlugins = localAddInstalledPlugin(user, installedPlugin);
@@ -110,17 +139,41 @@ export const PluginCatalog = () => {
       return;
     }
 
-    const prompt = await getPluginPrompt(manifest.prompt_url);
+    let inputModels: InstalledPluginInput[] = [];
+    for (const model in manifest.input) {
+      const inputPrompt = await getPluginPrompt(manifest.input[model].url);
 
-    if (!prompt) {
-      console.error('Plugin prompt not found');
-      return;
+      if (!inputPrompt) {
+        console.error('Input prompt not found');
+        return;
+      }
+
+      inputModels.push({
+        model: model,
+        prompt: inputPrompt,
+      });
+    }
+
+    let outputModels: InstalledPluginOutput[] = [];
+    for (const model in manifest.output) {
+      const outputPrompt = await getPluginPrompt(manifest.input[model].url);
+
+      if (!outputPrompt) {
+        console.error('Output prompt not found');
+        return;
+      }
+
+      outputModels.push({
+        model: model,
+        prompt: outputPrompt,
+      });
     }
 
     const installedPlugin: InstalledPlugin = {
       manifest: manifest,
       api: pluginAPI,
-      prompt: prompt,
+      input_models: inputModels,
+      output_models: outputModels,
     };
 
     const updatedPlugins = localAddInstalledPlugin(user, installedPlugin);

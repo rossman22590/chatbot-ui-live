@@ -12,7 +12,6 @@ export async function getStream(
   messages: Message[],
   tokenCount: number,
 ) {
-  console.log('systemPrompt', systemPrompt);
   if (model.vendor === 'OpenAI') {
     return streamOpenAI(
       model,

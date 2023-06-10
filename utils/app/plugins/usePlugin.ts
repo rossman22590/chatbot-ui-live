@@ -1,6 +1,7 @@
 import { MutableRefObject } from 'react';
 
-import { InstalledPlugin } from '@/types/plugin';
+import { InstalledPlugin, PSMMCall } from '@/types/plugin';
+import { AiModel } from '@chatbot-ui/core/types/ai-models';
 import { User } from '@chatbot-ui/core/types/auth';
 import { Conversation, Message } from '@chatbot-ui/core/types/chat';
 
@@ -8,12 +9,14 @@ import { storageCreateMessages } from '../storage/messages';
 import { saveSelectedConversation } from '../storage/selectedConversation';
 import { getApiCalls } from './PSMM';
 import { executeApiCall } from './autoExecutor';
+import { findPluginById } from './finder';
 
 import { Database } from '@chatbot-ui/core';
 
 export async function usePlugin(
-  database: Database,
   user: User,
+  models: AiModel[],
+  database: Database,
   text: string,
   installedPlugins: InstalledPlugin[],
   conversation: Conversation,
@@ -26,27 +29,42 @@ export async function usePlugin(
 
   const newMessages: Message[] = [];
   for (const invocation of invocations) {
-    const apiCalls = await getApiCalls(
-      invocation,
-      installedPlugins,
-      conversation,
-      stopConversationRef,
-      apiKey,
-      homeDispatch,
-    );
+    try {
+      console.log('invocation', invocation);
+      const psmmCall = JSON.parse(invocation) as PSMMCall;
+      const plugin = findPluginById(psmmCall.id, installedPlugins);
 
-    for (const apiCall of apiCalls) {
-      const newMessage = await executeApiCall(
-        apiCall,
+      if (!plugin) {
+        console.error('Plugin not found:', psmmCall.id);
+        continue;
+      }
+      const apiCalls = await getApiCalls(
+        models,
+        psmmCall.query,
+        plugin,
         conversation,
         stopConversationRef,
         apiKey,
         homeDispatch,
       );
 
-      if (newMessage) {
-        newMessages.push(newMessage);
+      for (const apiCall of apiCalls) {
+        const newMessage = await executeApiCall(
+          models,
+          plugin,
+          apiCall,
+          conversation,
+          stopConversationRef,
+          apiKey,
+          homeDispatch,
+        );
+
+        if (newMessage) {
+          newMessages.push(newMessage);
+        }
       }
+    } catch (err) {
+      console.error(err);
     }
   }
 

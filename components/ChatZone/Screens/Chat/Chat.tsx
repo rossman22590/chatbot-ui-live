@@ -54,6 +54,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
       user,
       installedPlugins,
       selectedNamespace,
+      models,
     },
     dispatch: homeDispatch,
   } = useContext(HomeContext);
@@ -128,6 +129,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
   const handleRetryPlugin = (message: Message) => {
     retryPluginHandlerFunction(
       user,
+      models,
       message,
       installedPlugins,
       stopConversationRef,
@@ -285,6 +287,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                         // discard edited message and the ones that come after then resend
                         handleEdit(
                           user,
+                          models,
                           installedPlugins,
                           editedMessage,
                           index,
@@ -317,6 +320,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                 setCurrentMessage(message);
                 handleSend(
                   user,
+                  models,
                   selectedNamespace,
                   message,
                   installedPlugins,
@@ -334,6 +338,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                 if (currentMessage) {
                   handleRegenerate(
                     user,
+                    models,
                     installedPlugins,
                     stopConversationRef,
                     builtInSystemPrompts,

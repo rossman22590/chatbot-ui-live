@@ -15,7 +15,28 @@
     "url": "/plugins/google/.well-known/openapi.yaml",
     "has_user_authentication": false
   },
-  "prompt_url": "/plugins/google/.well-known/prompt.txt",
+  "input": {
+    "claude-instant-v1": {
+      "url": "/plugins/google/.well-known/prompts/input/anthropic.txt"
+    },
+    "gpt-4": {
+      "url": "/plugins/google/.well-known/prompts/input/openai.txt"
+    },
+    "gpt-3.5-turbo": {
+      "url": "/plugins/google/.well-known/prompts/input/openai.txt"
+    }
+  },
+  "output": {
+    "claude-instant-v1": {
+      "url": "/plugins/google/.well-known/prompts/output/anthropic.txt"
+    },
+    "gpt-4": {
+      "url": "/plugins/google/.well-known/prompts/output/openai.txt"
+    },
+    "gpt-3.5-turbo": {
+      "url": "/plugins/google/.well-known/prompts/output/openai.txt"
+    }
+  },
   "author": "Jorge Menjivar",
   "logo_url": "/plugins/google/.well-known/logo.png",
   "contact_email": "jorgemenjivar1997@gmail.com",
