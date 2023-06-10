@@ -69,8 +69,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const defaultSettings = {
-    steps: body.steps || 50,
-    cfg_scale: body.cfg_scale || 20,
+    steps: body.steps || 20,
+    cfg_scale: body.cfg_scale || 1,
     upscale: body.upscale || true,
     sampler: body.sampler || 'DDIM',
     aspect_ratio: body.aspect_ratio || 'square',
@@ -109,7 +109,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       throw new Error('Image generation job failed');
     }
 
-    res.status(200).json({ imageUrl: imageGenerationJob.imageUrl });
+    res
+      .status(200)
+      .send(`![${body.prompt || 'puppy'}](${imageGenerationJob.imageUrl})`);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Failed to generate image' });

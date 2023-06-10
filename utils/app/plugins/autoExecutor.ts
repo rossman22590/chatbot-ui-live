@@ -22,11 +22,13 @@ export async function executeApiCall(
 
   if (data) {
     if (plugin.output_models && plugin.output_models.length > 0) {
+      const parsedData = JSON.parse(data);
+
       // Invoking the Plugin Parser Model to get the human readable response
       return await invokePPM(
         models,
         call,
-        data,
+        parsedData,
         conversation,
         call.plugin,
         stopConversationRef,

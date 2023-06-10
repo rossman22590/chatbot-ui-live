@@ -11,6 +11,7 @@ export const addDirectResponse = async (
   conversation: Conversation,
   homeDispatch: React.Dispatch<any>,
 ) => {
+  console.log('response', response);
   const assistantMessageId = uuidv4();
   conversation.messages.push({
     id: assistantMessageId,

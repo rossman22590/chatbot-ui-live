@@ -26,17 +26,6 @@
       "url": "/plugins/prodia/.well-known/prompts/input/openai.txt"
     }
   },
-  "output": {
-    "claude-instant-v1": {
-      "url": "/plugins/prodia/.well-known/prompts/output/anthropic.txt"
-    },
-    "gpt-4": {
-      "url": "/plugins/prodia/.well-known/prompts/output/openai.txt"
-    },
-    "gpt-3.5-turbo": {
-      "url": "/plugins/prodia/.well-known/prompts/output/openai.txt"
-    }
-  },
   "author": "Tech in School Initiative",
   "logo_url": "/plugins/prodia/.well-known/logo.png",
   "contact_email": "rcohen@mytsi.org",

@@ -53,7 +53,7 @@ export async function callApi(
   });
 
   try {
-    const body = await response.json();
+    const body = await response.text();
     return { data: body };
   } catch (err) {
     console.error('Error parsing response', err);
