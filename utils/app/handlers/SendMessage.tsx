@@ -73,6 +73,7 @@ export const sendHandlerFunction = async (
     const messageText = message.content;
     // If the input message starts with a backward slash, it is a command
     if (messageText.startsWith('\\')) {
+      homeDispatch({ field: 'loading', value: false });
       const command = messageText.split(' ')[0].substring(1);
       const commandLength = command.length + 1;
       const plugin = installedPlugins.find(
