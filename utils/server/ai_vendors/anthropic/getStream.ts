@@ -87,11 +87,9 @@ export async function streamAnthropic(
 
           try {
             const json = JSON.parse(data);
-            if (json.stop_reason != null) {
-              controller.close();
-              return;
-            }
             const textReceived: string = json.completion;
+
+            console.log('textReceived', textReceived);
 
             const textToSend = textReceived.substring(sentText.length);
             sentText = textReceived;
