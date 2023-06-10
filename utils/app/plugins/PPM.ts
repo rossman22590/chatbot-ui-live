@@ -116,7 +116,7 @@ export const invokePPM = async (
     index = conversation.messages.findIndex((m) => m.id === message.id);
   }
 
-  let text = `### ${plugin.manifest.name_for_human}:\n`;
+  let text = '';
   let done = false;
   while (!done) {
     if (stopConversationRef.current === true) {

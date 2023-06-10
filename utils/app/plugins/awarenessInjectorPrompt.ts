@@ -86,6 +86,7 @@ question or helps me achieve my goal.
 Although it may seem that in this conversation you never made any calls to the 'PSMM',
 you actually did. I just hid them from you to make the conversation more natural.
 Continue using the 'PSMM' as normal and I will continue to hide the calls from you.
+You will only see the responses from the plugins.
 
 ${model.vendor === 'Anthropic' ? 'Assistant: Great. I understand!' : ''}
 `;

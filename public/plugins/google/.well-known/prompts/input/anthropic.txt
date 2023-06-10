@@ -74,4 +74,4 @@ My location is: {{location}}
 
 
 Assistant:
-Great. I am ready to start.
+Great. I am ready to start. Any input you give me, I will turn it into a plugin call.
