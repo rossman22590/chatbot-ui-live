@@ -26,6 +26,8 @@ import {
 import HomeContext from '@/pages/api/home/home.context';
 
 import { ExtraOptionsButton } from './components/ExtraOptionsButton';
+import { InstallFromUrlButton } from './components/InstallFromUrlButton';
+import { InstallFromUrlsModal } from './components/InstallFromUrlModal';
 import { PluginList } from './components/PluginList';
 import Search from '@/components/Common/Search';
 
@@ -253,7 +255,7 @@ export const PluginCatalog = () => {
           searchTerm={searchQuery}
           onSearch={doSearch}
         />
-        <ExtraOptionsButton />
+        <InstallFromUrlButton />
       </div>
 
       <div className="flex-grow overflow-auto">
