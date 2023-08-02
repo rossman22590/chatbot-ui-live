@@ -8,12 +8,12 @@ async function createImageGenerationJob(
   apiKey: string,
   jobRequest: any,
 ): Promise<any> {
-  const imageGenerationJob = await ProdiaAI.createJob(jobRequest);
+  const imageGenerationJob = await Prodia.createJob(jobRequest);
   return imageGenerationJob;
 }
 
 async function fetchJobStatus(apiKey: string, jobId: string): Promise<any> {
-  const imageGenerationJob = await ProdiaAI.getJob(jobId);
+  const imageGenerationJob = await Prodia.getJob(jobId);
   return imageGenerationJob;
 }
 
@@ -44,14 +44,14 @@ const modelMap = {
 };
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const key = dockerEnvVarFix(process.env.PRODIA_KEY);
+  const key = dockerEnvVarFix(process.env._KEY);
   if (!key) {
     return res.status(500).json({
       message: 'Missing API key',
     });
   }
 
-  ProdiaAI.key(key);
+  Prodia.key(key);
 
   const body = JSON.parse(req.body);
 
