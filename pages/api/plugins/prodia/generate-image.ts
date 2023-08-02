@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { dockerEnvVarFix } from '@chatbot-ui/core/utils/docker';
 
-import ProdiaAI from 'pixio-prodia';
+import { Prodia } from "pixio-prodia";
 
 async function createImageGenerationJob(
   apiKey: string,
