@@ -18,6 +18,13 @@ export const PossibleAiModels: PossibleAiModelsInterface = {
     requestLimit: 3000,
     vendor: 'OpenAI',
   },
+  'gpt-3.5-turbo-16k': {
+    id: 'gpt-3.5-turbo 16k',
+    maxLength: 12000,
+    tokenLimit: 15000,
+    requestLimit: 3000,
+    vendor: 'OpenAI',
+  },
   'gpt-35-az': {
     id: 'gpt-35-az',
     maxLength: 12000,
